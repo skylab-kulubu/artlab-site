@@ -2,6 +2,10 @@ import type { ComponentType } from "react";
 
 export type ArtProps = { className?: string };
 
+export type HeroMode = "parcacik" | "klasik";
+
+export type FigureProps = { mode: HeroMode };
+
 export type Mascot = {
   Logo: ComponentType<ArtProps>;
 };
@@ -9,8 +13,8 @@ export type Mascot = {
 export type Theme = {
   id: string;
   mascot?: Mascot;
-  figure: boolean;
+  Figure?: ComponentType<FigureProps>;
   motifs: boolean;
-  heroMode: "parcacik" | "klasik";
+  heroMode: HeroMode;
   morphs: ("koza" | "kelebek")[];
 };

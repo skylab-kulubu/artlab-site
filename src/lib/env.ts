@@ -67,13 +67,12 @@ function mix(a: string, b: string, t: number) {
 }
 
 export type Sky = EnvPalette & {
-  sunX: number;
-  sunY: number;
   night: boolean;
+  arc: number;
+  lift: number;
   starOpacity: number;
 };
 
-// sunX/sunY are in the hero's 1440-wide scene space.
 export function skyAt(hour: number): Sky {
   let i = stops.findIndex(([h], k) => k < stops.length - 1 && hour >= h && hour <= stops[k + 1][0]);
   if (i < 0) i = 0;
@@ -96,10 +95,22 @@ export function skyAt(hour: number): Sky {
   return {
     ...palette,
     night,
-    sunX: night ? 300 : Math.round(330 + arc * 810),
-    sunY: night ? 230 : Math.round(540 - Math.sin(Math.PI * arc) * 330),
+    arc,
+    lift: Math.sin(Math.PI * arc),
     starOpacity: Math.max(0, Math.min(1, stars)),
   };
+}
+
+const varNames: Record<keyof EnvPalette, string> = {
+  sky1: "--sky-1", sky2: "--sky-2", sky3: "--sky-3", sky4: "--sky-4", sky5: "--sky-5", sky6: "--sky-6",
+  sun: "--sun", beam: "--beam", far: "--far", farD: "--far-d", mid: "--mid", near: "--near",
+  win: "--win", mark: "--mark", bird: "--bird", hud: "--hud",
+};
+
+export function skyVars(sky: Sky) {
+  const vars: Record<string, string> = { "--stars": sky.starOpacity.toFixed(2) };
+  for (const key of Object.keys(varNames) as (keyof EnvPalette)[]) vars[varNames[key]] = sky[key];
+  return vars;
 }
 
 export function venueHour(now: Date) {
@@ -116,7 +127,7 @@ export function venueHour(now: Date) {
 
 export function formatHour(hour: number) {
   const h = Math.floor(hour) % 24;
-  const m = Math.round((hour - Math.floor(hour)) * 60);
+  const m = Math.floor((hour - Math.floor(hour)) * 60);
   return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 }
 

@@ -11,7 +11,15 @@ export type Edition = {
   slogan?: string;
   startsAt?: string;
   endsAt?: string;
-  venue: { name: string; campus: string; mapUrl?: string; transport: string[] };
+  venue: {
+    name: string;
+    campus: string;
+    area: string;
+    lat: number;
+    lng: number;
+    mapUrl?: string;
+    transport: string[];
+  };
   registrationUrl?: string;
   certificateUrl?: string;
   workshopRoom?: string;

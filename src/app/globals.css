@@ -5,6 +5,7 @@
   --surface: #141a23;
   --surface-2: #0e1218;
   --line: #2a3544;
+  --line-2: #1c2430;
   --path: #3a4656;
   --ink: #e9edf2;
   --ink-2: #8a95a5;
@@ -20,6 +21,7 @@
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
   --color-line: var(--line);
+  --color-line-2: var(--line-2);
   --color-path: var(--path);
   --color-ink: var(--ink);
   --color-ink-2: var(--ink-2);
@@ -31,6 +33,31 @@
 
   --font-display: var(--font-unbounded);
   --font-sans: var(--font-manrope);
+
+  --animate-blink: blink 3.4s infinite;
+  --animate-drift: drift 90s linear infinite alternate;
+  --animate-glide: glide 24s ease-in-out infinite;
+  --animate-twinkle: twinkle 3.6s ease-in-out infinite;
+  --animate-breathe: breathe 5s ease-in-out infinite;
+
+  @keyframes blink {
+    0%, 90%, 100% { opacity: 1; }
+    94% { opacity: 0.15; }
+  }
+  @keyframes drift {
+    from { transform: translateX(-40px); }
+    to { transform: translateX(40px); }
+  }
+  @keyframes glide {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(70px, -16px); }
+  }
+  @keyframes twinkle {
+    50% { opacity: 0.45; }
+  }
+  @keyframes breathe {
+    50% { transform: translateY(-2px); }
+  }
 }
 
 @layer base {
@@ -82,6 +109,119 @@
 
 @utility tabular {
   font-variant-numeric: tabular-nums;
+}
+
+/* Registered so the hero sky morphs when the client swaps the build-time hour for the visitor's. */
+@property --sky-1 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --sky-2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --sky-3 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --sky-4 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --sky-5 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --sky-6 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --sun {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --beam {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --far {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --far-d {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --mid {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --near {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --win {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --mark {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --bird {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --hud {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --stars {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+.hero-sky {
+  transition-property: --sky-1, --sky-2, --sky-3, --sky-4, --sky-5, --sky-6, --sun, --beam, --far, --far-d, --mid, --near, --win, --mark, --bird, --hud, --stars;
+  transition-duration: 1.6s;
+  transition-timing-function: ease-out;
+}
+
+.hero-sky[data-paused] * {
+  animation-play-state: paused;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,8 +1,8 @@
 import { theme2026 } from "./2026";
 import { notr } from "./notr";
-import type { Theme } from "./types";
+import type { FigureProps, Theme } from "./types";
 
-export type { Theme };
+export type { FigureProps, Theme };
 
 const themes: Record<string, Theme> = { [notr.id]: notr, [theme2026.id]: theme2026 };
 

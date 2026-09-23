@@ -9,6 +9,9 @@ export const edition: Edition = {
   venue: {
     name: "Tarihi Hamam",
     campus: "YTÜ Davutpaşa",
+    area: "Davutpaşa",
+    lat: 41.026,
+    lng: 28.89,
     transport: [
       "M1A metrosuyla Davutpaşa-YTÜ durağında in, kampüs ringiyle Tarihi Hamam'a ulaş.",
       "41AT otobüs hattı da kampüse gidiyor.",
