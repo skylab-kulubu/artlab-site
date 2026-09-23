@@ -16,6 +16,7 @@ export async function getContent() {
     foyer,
     pastEditions: [...pastEditions].sort((a, b) => a.year - b.year),
     archiveGap,
+    fetchedAt: Date.now(),
   };
 }
 

@@ -1,8 +1,9 @@
-import type { Theme } from "./types";
+import type { Theme } from "../types";
+import { Logo } from "./Logo";
 
 export const theme2026: Theme = {
   id: "2026",
-  mascot: true,
+  mascot: { Logo },
   figure: true,
   motifs: true,
   heroMode: "parcacik",
