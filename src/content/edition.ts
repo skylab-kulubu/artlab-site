@@ -17,7 +17,7 @@ export const edition: Edition = {
   workshopRoom: "[salon adı]",
   speakersTotal: 10,
   contact: {
-    instagram: "https://www.instagram.com/yildizskylab/",
+    instagram: "https://www.instagram.com/ytuskylab",
   },
 };
 

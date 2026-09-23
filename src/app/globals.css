@@ -5,6 +5,7 @@
   --surface: #141a23;
   --surface-2: #0e1218;
   --line: #2a3544;
+  --path: #3a4656;
   --ink: #e9edf2;
   --ink-2: #8a95a5;
   --ink-3: #5e6978;
@@ -19,6 +20,7 @@
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
   --color-line: var(--line);
+  --color-path: var(--path);
   --color-ink: var(--ink);
   --color-ink-2: var(--ink-2);
   --color-ink-3: var(--ink-3);
