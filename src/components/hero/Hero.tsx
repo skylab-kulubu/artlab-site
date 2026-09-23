@@ -8,6 +8,7 @@ import { desktop, mobile } from "./layouts";
 import { MiniMap } from "./MiniMap";
 import { PhaseButton } from "./PhaseButton";
 import { PhasePanel, PhaseStrip } from "./PhasePanel";
+import "./hero.css";
 
 function CalendarIcon() {
   return (

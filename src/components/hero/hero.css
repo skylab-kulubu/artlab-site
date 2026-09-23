@@ -1,0 +1,235 @@
+/* Registered so the hero sky morphs when the client swaps the build-time hour for the visitor's. */
+@property --sky-1 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --sky-2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --sky-3 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --sky-4 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --sky-5 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --sky-6 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --sun {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --beam {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --far {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --far-d {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --mid {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --near {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --win {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --mark {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --bird {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --hud {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --stars {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+.hero-sky {
+  transition-property: --sky-1, --sky-2, --sky-3, --sky-4, --sky-5, --sky-6, --sun, --beam, --far, --far-d, --mid, --near, --win, --mark, --bird, --hud, --stars;
+  transition-duration: 1.6s;
+  transition-timing-function: ease-out;
+}
+
+.hero-sky[data-paused] * {
+  animation-play-state: paused;
+}
+
+/*
+ * Every loop is offset by --clock, the second of the day set before first
+ * paint, so a reload or a revalidated page picks the motion up where the wall
+ * clock says it should be instead of restarting it. --d spreads elements of
+ * the same kind across their cycle.
+ */
+.sky-loop {
+  animation-delay: calc(var(--d, 0s) - var(--clock, 0s));
+  animation-iteration-count: infinite;
+}
+
+.sky-cloud {
+  animation-name: sky-cross;
+  animation-timing-function: linear;
+}
+
+.sky-flock {
+  animation-name: sky-flight;
+  animation-timing-function: linear;
+  opacity: calc(1 - var(--stars));
+}
+
+.sky-wing {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: sky-flap 0.9s ease-in-out infinite alternate;
+  animation-delay: var(--d, 0s);
+}
+
+.sky-star {
+  animation-name: sky-twinkle;
+  animation-timing-function: ease-in-out;
+}
+
+.sky-lamp {
+  animation-name: sky-lamp;
+  animation-timing-function: steps(1, end);
+}
+
+.sky-meteor {
+  animation-name: sky-meteor;
+  animation-timing-function: ease-in;
+}
+
+.sky-train {
+  animation-name: sky-train;
+  animation-timing-function: linear;
+}
+
+.sky-sway {
+  animation-name: sky-sway;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+}
+
+.sky-beam {
+  animation-name: sky-beam;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+}
+
+@keyframes sky-cross {
+  from { transform: translateX(var(--from)); }
+  to { transform: translateX(var(--to)); }
+}
+
+@keyframes sky-flight {
+  0% { transform: translate(var(--from), 0); }
+  45% { transform: translate(calc((var(--from) + var(--to)) / 2), -14px); }
+  90%, 100% { transform: translate(var(--to), 6px); }
+}
+
+@keyframes sky-flap {
+  to { transform: scaleY(0.35); }
+}
+
+@keyframes sky-twinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+@keyframes sky-lamp {
+  0%, 62% { opacity: var(--on); }
+  63%, 100% { opacity: 0; }
+}
+
+@keyframes sky-meteor {
+  0%, 94% { transform: translate(0, 0); opacity: 0; }
+  95% { opacity: 1; }
+  100% { transform: translate(-260px, 120px); opacity: 0; }
+}
+
+@keyframes sky-train {
+  0% { transform: translateX(var(--from)); }
+  55%, 100% { transform: translateX(var(--to)); }
+}
+
+@keyframes sky-sway {
+  from { transform: rotate(-4deg); }
+  to { transform: rotate(4deg); }
+}
+
+@keyframes sky-beam {
+  from { opacity: 1; }
+  to { opacity: 0.55; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sky-loop,
+  .sky-wing {
+    animation: none;
+  }
+
+  .sky-lamp {
+    opacity: var(--on);
+  }
+
+  .sky-meteor,
+  .sky-train {
+    visibility: hidden;
+  }
+}

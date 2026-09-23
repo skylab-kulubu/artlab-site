@@ -16,6 +16,9 @@ const manrope = Manrope({
   variable: "--font-manrope",
 });
 
+// Runs before first paint so the hero's ambient loops start at the wall clock's phase.
+const clockScript = `document.documentElement.style.setProperty("--clock",(Date.now()/1e3%86400).toFixed(2)+"s")`;
+
 export const metadata: Metadata = {
   title: "ARTLAB 2026 · Yapay Zeka Zirvesi",
   description: "YTÜ SKY LAB tarafından düzenlenen ARTLAB Yapay Zeka Zirvesi.",
@@ -23,7 +26,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="tr" className={`${unbounded.variable} ${manrope.variable}`}>
+    <html lang="tr" className={`${unbounded.variable} ${manrope.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: clockScript }} />
+      </head>
       <body className="min-h-dvh">{children}</body>
     </html>
   );

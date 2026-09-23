@@ -7,8 +7,10 @@ export type SceneLayout = {
   horizon: number;
   city: { widths: number[]; minH: number; maxH: number; window: number; seed: number };
   stars: { count: number; maxY: number; seed: number };
-  clouds: { x: number; y: number; w: number; h: number; band: Band; opacity?: number }[];
-  birds: [x: number, y: number, span: number][];
+  clouds: { x: number; y: number; w: number; h: number; band: Band; opacity?: number; duration: number }[];
+  flocks: { y: number; span: number; duration: number; phase: number }[];
+  train?: { y: number; length: number; duration: number };
+  meteor?: { x: number; y: number; duration: number };
   beams: { points: string; opacity: number }[];
   hamam: { x: number; base: number; scale: number };
   tower: { x: number; top: number; h: number; scale: number };
@@ -32,16 +34,18 @@ export const desktop: SceneLayout = {
   city: { widths: [18, 24, 30, 36, 44], minH: 28, maxH: 167, window: 3, seed: 2026 },
   stars: { count: 48, maxY: 370, seed: 8 },
   clouds: [
-    { x: 860, y: 196, w: 380, h: 8, band: "--sky-4" },
-    { x: 940, y: 214, w: 220, h: 6, band: "--sky-4" },
-    { x: 120, y: 280, w: 300, h: 8, band: "--sky-5", opacity: 0.5 },
-    { x: 560, y: 372, w: 420, h: 7, band: "--sky-6", opacity: 0.45 },
+    { x: 860, y: 196, w: 380, h: 8, band: "--sky-4", duration: 260 },
+    { x: 940, y: 214, w: 220, h: 6, band: "--sky-4", duration: 260 },
+    { x: 120, y: 280, w: 300, h: 8, band: "--sky-5", opacity: 0.5, duration: 340 },
+    { x: 560, y: 372, w: 420, h: 7, band: "--sky-6", opacity: 0.45, duration: 420 },
+    { x: 1240, y: 150, w: 160, h: 5, band: "--sky-4", opacity: 0.7, duration: 220 },
   ],
-  birds: [
-    [560, 300, 14],
-    [590, 318, 10],
-    [620, 292, 12],
+  flocks: [
+    { y: 300, span: 14, duration: 95, phase: 0.45 },
+    { y: 250, span: 10, duration: 130, phase: 0.1 },
   ],
+  train: { y: 526, length: 96, duration: 70 },
+  meteor: { x: 1180, y: 60, duration: 47 },
   beams: [
     { points: "262,0 300,0 312,500 290,500", opacity: 0.07 },
     { points: "330,0 356,0 330,500 318,500", opacity: 0.05 },
@@ -85,10 +89,11 @@ export const mobile: SceneLayout = {
   city: { widths: [12, 16, 25, 30], minH: 14, maxH: 86, window: 2, seed: 390 },
   stars: { count: 30, maxY: 300, seed: 3 },
   clouds: [
-    { x: 190, y: 170, w: 170, h: 6, band: "--sky-4" },
-    { x: 30, y: 250, w: 140, h: 6, band: "--sky-5", opacity: 0.5 },
+    { x: 190, y: 170, w: 170, h: 6, band: "--sky-4", duration: 120 },
+    { x: 30, y: 250, w: 140, h: 6, band: "--sky-5", opacity: 0.5, duration: 160 },
   ],
-  birds: [],
+  flocks: [{ y: 230, span: 9, duration: 60, phase: 0.3 }],
+  meteor: { x: 360, y: 40, duration: 53 },
   beams: [{ points: "84,0 106,0 104,396 90,396", opacity: 0.07 }],
   hamam: { x: 65, base: 404, scale: 0.5 },
   tower: { x: 331.5, top: 316, h: 80, scale: 0.8 },
