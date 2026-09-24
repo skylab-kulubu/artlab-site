@@ -18,6 +18,7 @@ export const edition: Edition = {
     ],
   },
   workshopRoom: "[salon adı]",
+  programNote: "Seminerler Tarihi Hamam'da, workshoplar [salon adı]'nda.",
   speakersTotal: 10,
   contact: {
     instagram: "https://www.instagram.com/ytuskylab",

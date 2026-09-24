@@ -1,6 +1,7 @@
 import { getContent } from "@/content";
 import { Header } from "@/components/header/Header";
 import { Hero } from "@/components/hero/Hero";
+import { Program } from "@/components/sections/Program";
 import { Raffle } from "@/components/sections/Raffle";
 import { Why } from "@/components/sections/Why";
 import { ActiveSectionProvider } from "@/components/nav/ActiveSection";
@@ -17,7 +18,7 @@ export default async function Home() {
   const theme = getTheme();
   const sections = visibleSections(content);
   const shown = new Set(sections.map((s) => s.id));
-  const built = new Set(["baslangic", "neden", "cekilis"]);
+  const built = new Set(["baslangic", "neden", "cekilis", "program"]);
 
   return (
     <ActiveSectionProvider sections={sections}>
@@ -27,6 +28,7 @@ export default async function Home() {
         <Hero content={content} theme={theme} />
         <Why content={content} theme={theme} />
         {shown.has("cekilis") && <Raffle content={content} theme={theme} />}
+        <Program content={content} theme={theme} />
         {sections
           .filter((s) => !built.has(s.id))
           .map((s) => (

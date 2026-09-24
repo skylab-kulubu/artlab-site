@@ -10,6 +10,7 @@ export type FigureProps = { mode: HeroMode };
 export type Mascot = {
   Logo: ComponentType<ArtProps>;
   poses: Partial<Record<SectionId, ComponentType<ArtProps>>>;
+  Soon: ComponentType<ArtProps>;
 };
 
 export type Theme = {

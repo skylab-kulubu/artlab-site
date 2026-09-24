@@ -7,13 +7,14 @@ const FILL = "var(--color-bg)";
 type Props = {
   look?: [number, number];
   hands?: [number, number] | false;
+  width?: number;
   className?: string;
   children?: ReactNode;
 };
 
-export function PeekHead({ look = [0, 0], hands = [6, 94], className, children }: Props) {
+export function PeekHead({ look = [0, 0], hands = [6, 94], width = 130, className, children }: Props) {
   return (
-    <svg width="130" height="64" viewBox="0 0 130 64" aria-hidden="true" className={className}>
+    <svg width={width} height="64" viewBox={`0 0 ${width} 64`} aria-hidden="true" className={className}>
       <line x1="70.9" y1="22.6" x2="77.2" y2="10.1" stroke={AMBER} strokeWidth="1.6" />
       <circle cx="77.2" cy="10.1" r="2.6" fill={CYAN} />
       <circle cx="60" cy="46" r="26" fill={FILL} stroke={AMBER} strokeWidth="2" />
