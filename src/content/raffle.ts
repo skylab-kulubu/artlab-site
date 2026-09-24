@@ -2,6 +2,7 @@ import type { Raffle } from "@/lib/types";
 
 export const raffle: Raffle = {
   enabled: true,
+  closesAt: "2026-11-24T23:59:00+03:00",
   baseConditions: ["Etkinliğe kayıtlı olman gerekiyor."],
   prizes: [
     {

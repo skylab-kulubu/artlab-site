@@ -16,3 +16,11 @@ export function formatDateRange(startsAt: string, endsAt: string) {
   const last = day.format(b);
   return first === last ? `${first} ${month.format(b)}` : `${first}–${last} ${month.format(b)}`;
 }
+
+const isoDate = new Intl.DateTimeFormat("en-CA", { timeZone: TZ });
+
+export function dayNumber(firstDay: string, iso: string) {
+  const a = Date.parse(isoDate.format(new Date(firstDay)));
+  const b = Date.parse(isoDate.format(new Date(iso)));
+  return Math.round((b - a) / 86_400_000) + 1;
+}
