@@ -1,21 +1,22 @@
 import type { ReactNode } from "react";
-import { PathStop, type StopState } from "./PathStop";
+import type { SectionId } from "@/lib/sections";
+import { PathStop } from "./PathStop";
 
 type Props = {
+  section: SectionId;
   title: string;
   lead?: ReactNode;
   illustration?: ReactNode;
   aside?: ReactNode;
-  stop?: StopState;
 };
 
-export function SectionHeader({ title, lead, illustration, aside, stop = "upcoming" }: Props) {
+export function SectionHeader({ section, title, lead, illustration, aside }: Props) {
   return (
     <div className="flex flex-col">
       {illustration && <div className="ml-2 h-16">{illustration}</div>}
       <div className="relative h-px bg-line">
         <span aria-hidden="true" className="absolute top-0 -left-[34px] hidden h-px w-[34px] bg-line lg:block" />
-        <PathStop state={stop} className="-top-1.5 -left-[46px] hidden lg:block" />
+        <PathStop section={section} className="-top-1.5 -left-[46px] hidden lg:block" />
       </div>
       <div className="flex flex-wrap items-end justify-between gap-6 pt-7">
         <div>

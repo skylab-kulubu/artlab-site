@@ -2,6 +2,7 @@ import { getContent } from "@/content";
 import { Header } from "@/components/header/Header";
 import { Hero } from "@/components/hero/Hero";
 import { ActiveSectionProvider } from "@/components/nav/ActiveSection";
+import { ScrollProgress } from "@/components/nav/ScrollProgress";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { visibleSections } from "@/lib/sections";
@@ -16,6 +17,7 @@ export default async function Home() {
 
   return (
     <ActiveSectionProvider sections={sections}>
+      <ScrollProgress />
       <Header edition={content.edition} theme={theme} serverNow={content.fetchedAt} />
       <main>
         <Hero content={content} theme={theme} />
@@ -23,7 +25,7 @@ export default async function Home() {
           .filter((s) => s.id !== "baslangic")
           .map((s) => (
             <Section key={s.id} id={s.id} className="min-h-[80vh]">
-              <SectionHeader title={s.label} />
+              <SectionHeader section={s.id} title={s.label} />
             </Section>
           ))}
       </main>
