@@ -37,7 +37,7 @@ export function Hero({ content, theme }: Props) {
   const panel = { edition, sessions, speakers, serverNow: fetchedAt };
 
   return (
-    <section id="baslangic" className="relative h-svh min-h-[680px] overflow-hidden md:min-h-[760px]">
+    <section id="baslangic" className="relative h-svh max-h-[1000px] min-h-[680px] overflow-hidden md:min-h-[760px]">
       <HeroSky serverNow={fetchedAt}>
         <HeroScene layout={desktop} theme={theme} serverNow={fetchedAt} className="hidden md:block" />
         <HeroScene layout={mobile} theme={theme} serverNow={fetchedAt} className="md:hidden" />

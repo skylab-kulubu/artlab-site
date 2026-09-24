@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import type { SectionId } from "@/lib/sections";
 
 export type ArtProps = { className?: string };
 
@@ -8,13 +9,14 @@ export type FigureProps = { mode: HeroMode };
 
 export type Mascot = {
   Logo: ComponentType<ArtProps>;
+  poses: Partial<Record<SectionId, ComponentType<ArtProps>>>;
 };
 
 export type Theme = {
   id: string;
   mascot?: Mascot;
   Figure?: ComponentType<FigureProps>;
-  motifs: boolean;
+  motifs: Partial<Record<SectionId, ComponentType<ArtProps>>>;
   heroMode: HeroMode;
   morphs: ("koza" | "kelebek")[];
 };

@@ -2,7 +2,7 @@ import type { Theme } from "./types";
 
 export const notr: Theme = {
   id: "notr",
-  motifs: false,
+  motifs: {},
   heroMode: "parcacik",
   morphs: [],
 };
