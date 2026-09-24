@@ -8,11 +8,12 @@ type Props = {
   look?: [number, number];
   hands?: [number, number] | false;
   width?: number;
+  listening?: boolean;
   className?: string;
   children?: ReactNode;
 };
 
-export function PeekHead({ look = [0, 0], hands = [6, 94], width = 130, className, children }: Props) {
+export function PeekHead({ look = [0, 0], hands = [6, 94], width = 130, listening, className, children }: Props) {
   return (
     <svg width={width} height="64" viewBox={`0 0 ${width} 64`} aria-hidden="true" className={className}>
       <line x1="70.9" y1="22.6" x2="77.2" y2="10.1" stroke={AMBER} strokeWidth="1.6" />
@@ -21,8 +22,8 @@ export function PeekHead({ look = [0, 0], hands = [6, 94], width = 130, classNam
       <path d="M39.7 38.2 Q60 24.7 80.3 38.2" fill="none" stroke={AMBER} strokeWidth="1.4" opacity="0.45" />
       {[35, 85].map((cx) => (
         <g key={cx}>
-          <circle cx={cx} cy="48.1" r="7.8" fill={FILL} stroke={AMBER} strokeWidth="2" />
-          <circle cx={cx} cy="48.1" r="3.4" fill="none" stroke={AMBER} strokeWidth="1.2" opacity="0.7" />
+          <circle cx={cx} cy="48.1" r="7.8" fill={listening ? CYAN : FILL} stroke={listening ? CYAN : AMBER} strokeWidth="2" />
+          <circle cx={cx} cy="48.1" r="3.4" fill="none" stroke={listening ? FILL : AMBER} strokeWidth="1.2" opacity="0.7" />
         </g>
       ))}
       <circle cx="60" cy="48.6" r="12.2" fill={FILL} stroke={AMBER} strokeWidth="1.5" />

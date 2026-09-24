@@ -3,7 +3,8 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { useNow } from "@/hooks/useNow";
 import { formatDayMonth, formatTime } from "@/lib/format";
-import type { Session, SessionKind, Speaker } from "@/lib/types";
+import { kindLabel } from "@/lib/program";
+import type { Session, Speaker } from "@/lib/types";
 
 type Value = { sessions: Session[]; days: number[]; day: number; now: number; pick: (day: number) => void };
 
@@ -60,14 +61,6 @@ export function DayTabs() {
     </div>
   );
 }
-
-const kindLabel: Record<SessionKind, string> = {
-  acilis: "Açılış",
-  seminer: "Seminer",
-  panel: "Panel",
-  workshop: "Workshop",
-  ara: "Ara",
-};
 
 function Tag({ session }: { session: Session }) {
   const workshop = session.kind === "workshop";

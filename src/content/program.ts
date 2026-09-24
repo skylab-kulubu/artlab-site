@@ -1,9 +1,9 @@
 import type { Session, Speaker } from "@/lib/types";
 
 export const speakers: Speaker[] = [
-  { id: "s1", name: "[Ad Soyad]", title: "[Unvan]", company: "[Şirket]", visible: true, order: 1 },
-  { id: "s2", name: "[Ad Soyad]", title: "[Unvan]", company: "[Şirket]", visible: true, order: 2 },
-  { id: "s3", name: "[Ad Soyad]", title: "[Unvan]", company: "[Şirket]", visible: true, order: 3 },
+  { id: "s1", name: "[Ad Soyad]", title: "[Unvan]", company: "[Şirket]", linkedin: "https://www.linkedin.com/", visible: true, order: 1 },
+  { id: "s2", name: "[Ad Soyad]", title: "[Unvan]", company: "[Şirket]", linkedin: "https://www.linkedin.com/", visible: true, order: 2 },
+  { id: "s3", name: "[Ad Soyad]", title: "[Unvan]", company: "[Şirket]", linkedin: "https://www.linkedin.com/", visible: true, order: 3 },
   { id: "s4", name: "[Ad Soyad]", title: "[Unvan]", company: "[Şirket]", visible: true, order: 4 },
   { id: "s5", name: "[Ad Soyad]", title: "[Unvan]", company: "[Şirket]", visible: true, order: 5 },
   { id: "s6", name: "[Ad Soyad]", title: "[Unvan]", company: "[Şirket]", visible: true, order: 6 },
