@@ -8,6 +8,7 @@ import { Fuaye as FuayeMotif } from "./motifs/Fuaye";
 import { Program as ProgramMotif } from "./motifs/Program";
 import { Arsiv } from "./poses/Arsiv";
 import { Cekilis } from "./poses/Cekilis";
+import { Destekciler } from "./poses/Destekciler";
 import { Neden } from "./poses/Neden";
 import { Fuaye } from "./poses/Fuaye";
 import { Konusmacilar } from "./poses/Konusmacilar";
@@ -16,7 +17,7 @@ import { Soon } from "./Soon";
 
 export const theme2026: Theme = {
   id: "2026",
-  mascot: { Logo, Soon, poses: { neden: Neden, cekilis: Cekilis, program: Program, konusmacilar: Konusmacilar, fuaye: Fuaye, arsiv: Arsiv } },
+  mascot: { Logo, Soon, poses: { neden: Neden, cekilis: Cekilis, program: Program, konusmacilar: Konusmacilar, fuaye: Fuaye, arsiv: Arsiv, destekciler: Destekciler } },
   Figure,
   motifs: { neden: NedenMotif, cekilis: CekilisMotif, program: ProgramMotif, fuaye: FuayeMotif, arsiv: ArsivMotif },
   heroMode: "parcacik",

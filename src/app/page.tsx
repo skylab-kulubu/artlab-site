@@ -6,6 +6,7 @@ import { Foyer } from "@/components/sections/Foyer";
 import { Program } from "@/components/sections/Program";
 import { Raffle } from "@/components/sections/Raffle";
 import { Speakers } from "@/components/sections/Speakers";
+import { Sponsors } from "@/components/sections/Sponsors";
 import { Why } from "@/components/sections/Why";
 import { ActiveSectionProvider } from "@/components/nav/ActiveSection";
 import { ScrollProgress } from "@/components/nav/ScrollProgress";
@@ -21,7 +22,7 @@ export default async function Home() {
   const theme = getTheme();
   const sections = visibleSections(content);
   const shown = new Set(sections.map((s) => s.id));
-  const built = new Set(["baslangic", "neden", "cekilis", "program", "konusmacilar", "fuaye", "arsiv"]);
+  const built = new Set(["baslangic", "neden", "cekilis", "program", "konusmacilar", "fuaye", "arsiv", "destekciler"]);
 
   return (
     <ActiveSectionProvider sections={sections}>
@@ -35,6 +36,7 @@ export default async function Home() {
         <Speakers content={content} theme={theme} />
         {shown.has("fuaye") && <Foyer content={content} theme={theme} />}
         {shown.has("arsiv") && <Archive content={content} theme={theme} />}
+        {shown.has("destekciler") && <Sponsors content={content} theme={theme} />}
         {sections
           .filter((s) => !built.has(s.id))
           .map((s) => (
