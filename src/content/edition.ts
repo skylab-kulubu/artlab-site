@@ -24,7 +24,7 @@ export const edition: Edition = {
   },
 };
 
-export const foyer: Foyer = {};
+export const foyer: Foyer = { standCount: 12 };
 
 export const pastEditions: PastEdition[] = [
   { year: 2022, dateLabel: "14 Kasım", note: "seminer + workshop" },

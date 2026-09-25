@@ -6,7 +6,7 @@ const FILL = "var(--color-bg)";
 
 type Props = {
   look?: [number, number];
-  hands?: [number, number] | false;
+  hands?: number[];
   width?: number;
   listening?: boolean;
   className?: string;
@@ -31,13 +31,12 @@ export function PeekHead({ look = [0, 0], hands = [6, 94], width = 130, listenin
       <circle cx="60" cy="48.6" r="5.2" fill="none" stroke={CYAN} strokeWidth="1.2" opacity="0.6" />
       <circle className="motion-safe:animate-blink" cx={60 + look[0]} cy={48.6 + look[1]} r="2.6" fill={CYAN} />
       {children}
-      {hands &&
-        hands.map((x) => (
-          <g key={x}>
-            <rect x={x} y="52" width="20" height="12" rx="4" fill={FILL} stroke={AMBER} strokeWidth="2" />
-            <path d={`M${x + 6} 55 V60 M${x + 10} 55 V60 M${x + 14} 55 V60`} stroke={AMBER} strokeWidth="1.2" opacity="0.6" />
-          </g>
-        ))}
+      {hands.map((x) => (
+        <g key={x}>
+          <rect x={x} y="52" width="20" height="12" rx="4" fill={FILL} stroke={AMBER} strokeWidth="2" />
+          <path d={`M${x + 6} 55 V60 M${x + 10} 55 V60 M${x + 14} 55 V60`} stroke={AMBER} strokeWidth="1.2" opacity="0.6" />
+        </g>
+      ))}
     </svg>
   );
 }
