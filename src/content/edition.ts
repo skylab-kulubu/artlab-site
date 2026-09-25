@@ -19,8 +19,6 @@ export const edition: Edition = {
   },
   workshopRoom: "[salon adı]",
   programNote: "Seminerler Tarihi Hamam'da, workshoplar [salon adı]'nda.",
-  speakersTotal: 10,
-  nextAnnouncementAt: "2026-10-15T12:00:00+03:00",
   contact: {
     instagram: "https://www.instagram.com/ytuskylab",
   },

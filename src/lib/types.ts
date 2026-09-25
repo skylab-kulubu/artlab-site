@@ -24,8 +24,6 @@ export type Edition = {
   certificateUrl?: string;
   workshopRoom?: string;
   programNote?: string;
-  speakersTotal?: number;
-  nextAnnouncementAt?: string;
   contact: { email?: string; instagram?: string };
 };
 

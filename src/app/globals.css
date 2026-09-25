@@ -119,3 +119,7 @@
     }
   }
 }
+
+.numeral {
+  -webkit-text-stroke: 1.2px var(--color-amber);
+}

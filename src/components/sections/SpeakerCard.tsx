@@ -25,21 +25,14 @@ function LinkedInIcon() {
   );
 }
 
-export function Numeral({ n, filled }: { n: number; filled?: "hover" | "never" }) {
+function Numeral({ n }: { n: number }) {
   return (
-    <svg width="64" height="44" viewBox="0 0 64 44" aria-hidden="true" className="shrink-0">
-      <text
-        x="64"
-        y="38"
-        textAnchor="end"
-        strokeWidth="1.3"
-        className={`font-display text-[40px] font-extrabold transition-[fill] duration-300 ${
-          filled === "never" ? "fill-transparent stroke-line" : "fill-transparent stroke-amber group-hover:fill-amber"
-        }`}
-      >
-        {pad(n)}
-      </text>
-    </svg>
+    <span
+      aria-hidden="true"
+      className="numeral shrink-0 font-display text-xl leading-none font-extrabold text-transparent transition-colors duration-300 group-hover:text-amber md:text-[32px]"
+    >
+      {pad(n)}
+    </span>
   );
 }
 
@@ -65,18 +58,18 @@ export function SpeakerCard({ speaker, n, session }: Props) {
             </div>
           )}
         </div>
-        <div className="flex grow flex-col gap-3.5 px-[18px] pt-[18px] pb-3.5">
+        <div className="flex grow flex-col gap-3 px-3.5 pt-3.5 pb-2.5 md:px-4 md:pt-4">
           <div className="flex items-start justify-between gap-3">
             <div className="flex min-w-0 flex-col gap-[5px]">
-              <h3 className="font-display text-[19px] leading-tight font-semibold">{speaker.name}</h3>
-              {role && <span className="text-[13px] leading-snug text-ink-2">{role}</span>}
+              <h3 className="font-display text-[15px] leading-tight font-semibold md:text-base">{speaker.name}</h3>
+              {role && <span className="text-xs leading-snug text-ink-2 md:text-[13px]">{role}</span>}
             </div>
             <Numeral n={n} />
           </div>
-          <div className="mt-auto flex min-h-[55px] items-center justify-between gap-2 border-t border-line pt-2.5">
+          <div className="mt-auto flex min-h-[52px] items-center justify-between gap-2 border-t border-line pt-2.5">
             {session ? (
               <span className="flex flex-col gap-0.5">
-                <span className="text-[13px] font-semibold text-ink/80 tabular">
+                <span className="text-xs font-semibold text-ink/80 tabular md:text-[13px]">
                   Gün {session.day} · {formatTime(session.startsAt)}
                 </span>
                 <span className="text-[10px] font-bold tracking-[0.16em] text-ink-2 uppercase">{kindLabel[session.kind]}</span>
@@ -90,7 +83,7 @@ export function SpeakerCard({ speaker, n, session }: Props) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`${speaker.name} LinkedIn profili`}
-                className="grid size-11 place-items-center border border-line"
+                className="grid size-11 shrink-0 place-items-center border border-line"
               >
                 <LinkedInIcon />
               </a>
