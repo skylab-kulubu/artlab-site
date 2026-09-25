@@ -13,13 +13,34 @@ import { Neden } from "./poses/Neden";
 import { Fuaye } from "./poses/Fuaye";
 import { Konusmacilar } from "./poses/Konusmacilar";
 import { Program } from "./poses/Program";
-import { Soon } from "./Soon";
+import { Sss } from "./poses/Sss";
+import { Contact, Soon } from "./Soon";
 
 export const theme2026: Theme = {
   id: "2026",
-  mascot: { Logo, Soon, poses: { neden: Neden, cekilis: Cekilis, program: Program, konusmacilar: Konusmacilar, fuaye: Fuaye, arsiv: Arsiv, destekciler: Destekciler } },
+  mascot: {
+    Logo,
+    Soon,
+    Contact,
+    poses: {
+      neden: Neden,
+      cekilis: Cekilis,
+      program: Program,
+      konusmacilar: Konusmacilar,
+      fuaye: Fuaye,
+      arsiv: Arsiv,
+      destekciler: Destekciler,
+      sss: Sss,
+    },
+  },
   Figure,
-  motifs: { neden: NedenMotif, cekilis: CekilisMotif, program: ProgramMotif, fuaye: FuayeMotif, arsiv: ArsivMotif },
+  motifs: {
+    neden: NedenMotif,
+    cekilis: CekilisMotif,
+    program: ProgramMotif,
+    fuaye: FuayeMotif,
+    arsiv: ArsivMotif,
+  },
   heroMode: "parcacik",
   morphs: ["koza", "kelebek"],
 };
