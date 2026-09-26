@@ -1,5 +1,6 @@
 import type { SectionLink } from "@/lib/sections";
 import type { Theme } from "@/themes";
+import { Signature } from "./Signature";
 
 const club = [
   { label: "yildizskylab.com", href: "https://yildizskylab.com" },
@@ -67,7 +68,7 @@ export function Footer({ sections, theme, year }: { sections: SectionLink[]; the
           ))}
         </div>
         <span>© {year} SKY LAB</span>
-        <span>by ✎ Kaan Necip Kalp &lt;/&gt;</span>
+        <Signature />
       </div>
     </footer>
   );
