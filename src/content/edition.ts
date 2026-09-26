@@ -20,6 +20,7 @@ export const edition: Edition = {
   workshopRoom: "[salon adı]",
   programNote: "Seminerler Tarihi Hamam'da, workshoplar [salon adı]'nda.",
   contact: {
+    email: "info@yildizskylab.com",
     instagram: "https://www.instagram.com/ytuskylab",
   },
 };
