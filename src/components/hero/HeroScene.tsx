@@ -1,4 +1,4 @@
-import type { ComponentType, CSSProperties } from "react";
+import type { ComponentType, CSSProperties, ReactNode } from "react";
 import { seeded } from "@/lib/random";
 import type { FigureProps, Theme } from "@/themes";
 import type { SceneLayout } from "./layouts";
@@ -7,6 +7,7 @@ import { Sun } from "./Sun";
 const STEM = "#2F4A2E";
 const SEED_CORE = "#5A3A14";
 const MARGIN = 420;
+const EDGE = 60;
 
 type Loop = { duration: number; phase?: number; from?: number; to?: number; origin?: string };
 
@@ -33,7 +34,7 @@ function city({ w, horizon, city }: SceneLayout) {
   const buildings: { x: number; y: number; w: number; h: number; antenna: boolean }[] = [];
   const windows: { x: number; y: number; opacity: number; lamp?: Loop }[] = [];
 
-  for (let x = 0; x < w; ) {
+  for (let x = -EDGE; x < w + EDGE; ) {
     const bw = pick(city.widths);
     const bh = Math.round(city.minH + rand() ** 1.6 * (city.maxH - city.minH));
     const y = horizon - bh;
@@ -169,24 +170,27 @@ type Props = {
   layout: SceneLayout;
   theme: Theme;
   serverNow: number;
+  part: "back" | "front";
   className?: string;
 };
 
-export function HeroScene({ layout, theme, serverNow, className }: Props) {
+function Layer({ depth, children }: { depth: number; children: ReactNode }) {
+  return (
+    <g className="hero-layer" style={{ "--depth": depth } as CSSProperties}>
+      {children}
+    </g>
+  );
+}
+
+function Back({ layout, theme, serverNow }: Omit<Props, "part" | "className">) {
   const { w, h, wordmark } = layout;
   const { buildings, windows } = city(layout);
   const particle = theme.heroMode === "parcacik" && !wordmark.outline;
-  const Figure: ComponentType<FigureProps> | undefined = theme.Figure;
   const dots = `hero-dots-${w}`;
   const meteor = `hero-meteor-${w}`;
 
   return (
-    <svg
-      viewBox={`0 0 ${w} ${h}`}
-      preserveAspectRatio="xMidYMax slice"
-      aria-hidden="true"
-      className={`absolute inset-0 size-full ${className ?? ""}`}
-    >
+    <>
       <defs>
         <pattern id={dots} width="6" height="6" patternUnits="userSpaceOnUse">
           <circle cx="3" cy="3" r="1.45" fill="var(--mark)" />
@@ -197,125 +201,149 @@ export function HeroScene({ layout, theme, serverNow, className }: Props) {
         </linearGradient>
       </defs>
 
-      <rect width={w} height={h} fill="var(--sky-1)" />
-      {layout.bands.map((y, i) => (
-        <rect key={y} y={y} width={w} height={h - y} fill={`var(--sky-${i + 2})`} />
-      ))}
-
-      <g style={{ opacity: "var(--stars)" }} fill="var(--color-ink)">
-        {stars(layout).map((s, i) => (
-          <circle key={i} className="sky-loop sky-star" style={loop(s.twinkle)} cx={s.x} cy={s.y} r={s.r} />
+      <Layer depth={0}>
+        <rect x={-EDGE} y={-200} width={w + 2 * EDGE} height={h + 200} fill="var(--sky-1)" />
+        {layout.bands.map((y, i) => (
+          <rect key={y} x={-EDGE} y={y} width={w + 2 * EDGE} height={h - y} fill={`var(--sky-${i + 2})`} />
         ))}
-      </g>
-      {layout.meteor && <Meteor {...layout.meteor} gradient={meteor} />}
-
-      {layout.clouds.map((c) => (
-        <rect
-          key={`${c.x}-${c.y}`}
-          className="sky-loop sky-cloud"
-          style={crossing(c.x, w, c.duration)}
-          x={c.x}
-          y={c.y}
-          width={c.w}
-          height={c.h}
-          rx={c.h / 2}
-          fill={`var(${c.band})`}
-          opacity={c.opacity}
-        />
-      ))}
-
-      <Sun layout={layout.sun} serverNow={serverNow} />
-
-      {layout.flocks.map((f) => (
-        <Flock key={f.y} {...f} w={w} />
-      ))}
-
-      {layout.beams.map((b, i) => (
-        <g key={b.points} opacity={b.opacity}>
-          <polygon className="sky-loop sky-beam" style={loop({ duration: 9 + i * 4 })} points={b.points} fill="var(--beam)" />
+        <g style={{ opacity: "var(--stars)" }} fill="var(--color-ink)">
+          {stars(layout).map((s, i) => (
+            <circle key={i} className="sky-loop sky-star" style={loop(s.twinkle)} cx={s.x} cy={s.y} r={s.r} />
+          ))}
         </g>
-      ))}
+        {layout.meteor && <Meteor {...layout.meteor} gradient={meteor} />}
+      </Layer>
 
-      <rect y={layout.horizon - 2} width={w} height={h - layout.horizon + 2} fill="var(--far)" />
-      <g fill="var(--far-d)">
-        {buildings.map((b) => (
-          <g key={b.x}>
-            <rect x={b.x} y={b.y} width={b.w} height={b.h} />
-            {b.antenna && <rect x={b.x + b.w / 2 - 1} y={b.y - 22} width="2" height="22" />}
-          </g>
-        ))}
-      </g>
-      <g fill="var(--win)">
-        {windows.map((win, i) => (
+      <Layer depth={0.15}>
+        {layout.clouds.map((c) => (
           <rect
-            key={i}
-            className={win.lamp ? "sky-loop sky-lamp" : undefined}
-            style={win.lamp && { ...loop(win.lamp), "--on": win.opacity.toFixed(2) } as CSSProperties}
-            x={win.x}
-            y={win.y}
-            width={layout.city.window}
-            height={layout.city.window}
-            opacity={win.lamp ? undefined : win.opacity.toFixed(2)}
+            key={`${c.x}-${c.y}`}
+            className="sky-loop sky-cloud"
+            style={crossing(c.x, w, c.duration)}
+            x={c.x}
+            y={c.y}
+            width={c.w}
+            height={c.h}
+            rx={c.h / 2}
+            fill={`var(${c.band})`}
+            opacity={c.opacity}
           />
         ))}
-      </g>
-      <Hamam {...layout.hamam} />
-      <Tower {...layout.tower} />
-      {layout.train && <Train {...layout.train} w={w} />}
-
-      <text
-        x={w / 2}
-        y={wordmark.y}
-        textAnchor="middle"
-        fill={particle ? `url(#${dots})` : "none"}
-        stroke={particle ? "none" : "var(--mark)"}
-        strokeWidth={wordmark.stroke}
-        opacity="0.95"
-        className="font-display font-extrabold"
-        style={{ fontSize: wordmark.size, letterSpacing: wordmark.spacing }}
-      >
-        ARTLAB
-      </text>
-      {layout.haze && <rect y={layout.haze.y} width={w} height={layout.haze.h} fill="var(--far)" opacity="0.45" />}
-
-      <path d={layout.mid} fill="var(--mid)" />
-      <path d={layout.near} fill="var(--near)" />
-      {layout.flowers.map(([x, y, size]) => (
-        <Flower key={x} x={x} y={y} size={size} />
-      ))}
-      <path d={layout.ground} fill="var(--color-bg)" />
-
-      {layout.sparkles.map(([x, y, r, cyan, opacity], i) => (
-        <g key={`${x}-${y}`} opacity={opacity}>
-          <circle
-            className="sky-loop sky-star"
-            style={loop({ duration: 4 + (i % 4), phase: i / layout.sparkles.length })}
-            cx={x}
-            cy={y}
-            r={r}
-            fill={cyan ? "var(--color-cyan)" : "var(--color-amber)"}
-          />
-        </g>
-      ))}
-      {layout.trail && (
-        <path
-          d={layout.trail}
-          fill="none"
-          stroke="var(--color-amber)"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeDasharray="1.5 7"
-          opacity="0.7"
-        />
-      )}
-
-      {Figure && (
-        <g transform={layout.figure || undefined}>
-          <g className="motion-safe:animate-breathe">
-            <Figure mode={theme.heroMode} />
+        <Sun layout={layout.sun} serverNow={serverNow} />
+        {layout.flocks.map((f) => (
+          <Flock key={f.y} {...f} w={w} />
+        ))}
+        {layout.beams.map((b, i) => (
+          <g key={b.points} opacity={b.opacity}>
+            <polygon className="sky-loop sky-beam" style={loop({ duration: 9 + i * 4 })} points={b.points} fill="var(--beam)" />
           </g>
+        ))}
+      </Layer>
+
+      <Layer depth={0.3}>
+        <rect x={-EDGE} y={layout.horizon - 2} width={w + 2 * EDGE} height={h - layout.horizon + 2} fill="var(--far)" />
+        <g fill="var(--far-d)">
+          {buildings.map((b) => (
+            <g key={b.x}>
+              <rect x={b.x} y={b.y} width={b.w} height={b.h} />
+              {b.antenna && <rect x={b.x + b.w / 2 - 1} y={b.y - 22} width="2" height="22" />}
+            </g>
+          ))}
         </g>
-      )}
+        <g fill="var(--win)">
+          {windows.map((win, i) => (
+            <rect
+              key={i}
+              className={win.lamp ? "sky-loop sky-lamp" : undefined}
+              style={win.lamp && ({ ...loop(win.lamp), "--on": win.opacity.toFixed(2) } as CSSProperties)}
+              x={win.x}
+              y={win.y}
+              width={layout.city.window}
+              height={layout.city.window}
+              opacity={win.lamp ? undefined : win.opacity.toFixed(2)}
+            />
+          ))}
+        </g>
+        <Hamam {...layout.hamam} />
+        <Tower {...layout.tower} />
+        {layout.train && <Train {...layout.train} w={w} />}
+      </Layer>
+
+      <Layer depth={0.4}>
+        <text
+          x={w / 2}
+          y={wordmark.y}
+          textAnchor="middle"
+          fill={particle ? `url(#${dots})` : "none"}
+          stroke={particle ? "none" : "var(--mark)"}
+          strokeWidth={wordmark.stroke}
+          opacity="0.95"
+          className="hero-wordmark font-display font-extrabold"
+          style={{ fontSize: wordmark.size, letterSpacing: wordmark.spacing }}
+        >
+          ARTLAB
+        </text>
+      </Layer>
+    </>
+  );
+}
+
+function Front({ layout, theme }: Omit<Props, "part" | "className" | "serverNow">) {
+  const { w, h } = layout;
+  const Figure: ComponentType<FigureProps> | undefined = theme.Figure;
+
+  return (
+    <>
+      <Layer depth={0.4}>
+        {layout.haze && <rect x={-EDGE} y={layout.haze.y} width={w + 2 * EDGE} height={layout.haze.h} fill="var(--far)" opacity="0.45" />}
+      </Layer>
+      <Layer depth={0.55}>
+        <path d={layout.mid} fill="var(--mid)" />
+      </Layer>
+      <Layer depth={0.6}>
+        {layout.sparkles.map(([x, y, r, cyan, opacity], i) => (
+          <g key={`${x}-${y}`} opacity={opacity}>
+            <circle
+              className="sky-loop sky-star"
+              style={loop({ duration: 4 + (i % 4), phase: i / layout.sparkles.length })}
+              cx={x}
+              cy={y}
+              r={r}
+              fill={cyan ? "var(--color-cyan)" : "var(--color-amber)"}
+            />
+          </g>
+        ))}
+      </Layer>
+      <Layer depth={0.8}>
+        <path d={layout.near} fill="var(--near)" />
+        {layout.flowers.map(([x, y, size]) => (
+          <Flower key={x} x={x} y={y} size={size} />
+        ))}
+        {Figure && (
+          <g transform={layout.figure || undefined}>
+            <g className="motion-safe:animate-breathe">
+              <Figure mode={theme.heroMode} />
+            </g>
+          </g>
+        )}
+      </Layer>
+      <Layer depth={1}>
+        <rect x={-EDGE} y={h - 20} width={w + 2 * EDGE} height={220} fill="var(--color-bg)" />
+        <path d={layout.ground} fill="var(--color-bg)" />
+      </Layer>
+    </>
+  );
+}
+
+export function HeroScene({ layout, theme, serverNow, part, className }: Props) {
+  return (
+    <svg
+      viewBox={`0 0 ${layout.w} ${layout.h}`}
+      preserveAspectRatio="xMidYMax slice"
+      aria-hidden="true"
+      className={`absolute inset-0 size-full overflow-visible ${className ?? ""}`}
+    >
+      {part === "back" ? <Back layout={layout} theme={theme} serverNow={serverNow} /> : <Front layout={layout} theme={theme} />}
     </svg>
   );
 }

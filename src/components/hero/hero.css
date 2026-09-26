@@ -233,3 +233,43 @@
     visibility: hidden;
   }
 }
+
+@property --sy {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+/*
+ * Depth parallax. --px/--py (-1…1) follow the pointer, eased in HeroSky; --sy
+ * runs 0→1 as the hero scrolls away. Nearer layers answer the pointer more and
+ * far ones lag behind the scroll, so the scene reads as depth without any layer
+ * leaving its composition. Phones, touch and reduced motion get the flat scene.
+ */
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .hero-layer {
+    transform: translate(
+      calc(var(--px, 0) * var(--depth) * -18px),
+      calc(var(--py, 0) * var(--depth) * -10px + var(--sy) * (1 - var(--depth)) * 160px)
+    );
+  }
+
+  .hero-stage {
+    transform: perspective(1600px) rotateX(calc(var(--py, 0) * 1deg)) rotateY(calc(var(--px, 0) * -1.4deg)) scale(1.03);
+    transform-origin: 50% 60%;
+  }
+
+  @supports (animation-timeline: view()) {
+    .hero-sky {
+      animation: hero-scroll linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+  }
+}
+
+@keyframes hero-scroll {
+  to {
+    --sy: 1;
+  }
+}

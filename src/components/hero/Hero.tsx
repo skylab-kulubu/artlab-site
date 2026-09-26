@@ -4,6 +4,7 @@ import type { Theme } from "@/themes";
 import { Button } from "@/components/ui/Button";
 import { HeroScene } from "./HeroScene";
 import { HeroSky, VenueClock } from "./HeroSky";
+import { HeroTrail } from "./HeroTrail";
 import { desktop, mobile } from "./layouts";
 import { MiniMap } from "./MiniMap";
 import { PhaseButton } from "./PhaseButton";
@@ -39,8 +40,15 @@ export function Hero({ content, theme }: Props) {
   return (
     <section id="baslangic" className="relative h-svh max-h-[1000px] min-h-[680px] overflow-hidden md:min-h-[760px]">
       <HeroSky serverNow={fetchedAt}>
-        <HeroScene layout={desktop} theme={theme} serverNow={fetchedAt} className="hidden md:block" />
-        <HeroScene layout={mobile} theme={theme} serverNow={fetchedAt} className="md:hidden" />
+        <div className="hero-stage absolute inset-0 hidden md:block">
+          <HeroScene layout={desktop} theme={theme} serverNow={fetchedAt} part="back" />
+          <HeroScene layout={desktop} theme={theme} serverNow={fetchedAt} part="front" />
+        </div>
+        <HeroTrail layout={desktop} className="hidden md:block" />
+        <div className="absolute inset-0 md:hidden">
+          <HeroScene layout={mobile} theme={theme} serverNow={fetchedAt} part="back" />
+          <HeroScene layout={mobile} theme={theme} serverNow={fetchedAt} part="front" />
+        </div>
 
         <p className="absolute top-[100px] left-20 hidden text-xs font-semibold tracking-[0.14em] text-(--hud) md:block">
           {venue.lat.toFixed(3)}°K · {venue.lng.toFixed(3)}°D · {venue.area.toLocaleUpperCase("tr")}{" "}

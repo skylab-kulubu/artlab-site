@@ -21,7 +21,6 @@ export type SceneLayout = {
   ground: string;
   flowers: [x: number, y: number, size: number][];
   sparkles: [x: number, y: number, r: number, cyan: boolean, opacity: number][];
-  trail?: string;
   figure: string;
   sun: { x: number; dx: number; y: number; dy: number; r: number; moon: [number, number] };
 };
@@ -54,9 +53,9 @@ export const desktop: SceneLayout = {
   tower: { x: 1180, top: 382, h: 124, scale: 1 },
   wordmark: { y: 468, size: 206, spacing: 8, stroke: 2 },
   haze: { y: 436, h: 26 },
-  mid: "M0 860 L0 470 L140 455 L300 478 L460 452 L620 440 L780 432 L940 446 L1100 456 L1260 474 L1440 458 L1440 860 Z",
-  near: "M0 860 L0 640 L200 620 L420 650 L640 628 L820 600 L980 570 L1120 590 L1300 615 L1440 600 L1440 860 Z",
-  ground: "M0 860 L0 760 L360 740 L760 770 L1100 745 L1440 760 L1440 860 Z",
+  mid: "M-60 860 L-60 470 L140 455 L300 478 L460 452 L620 440 L780 432 L940 446 L1100 456 L1260 474 L1500 458 L1500 860 Z",
+  near: "M-60 860 L-60 640 L200 620 L420 650 L640 628 L820 600 L980 570 L1120 590 L1300 615 L1500 600 L1500 860 Z",
+  ground: "M-60 860 L-60 760 L360 740 L760 770 L1100 745 L1500 760 L1500 860 Z",
   flowers: [
     [900, 598, 1],
     [1100, 596, 1.2],
@@ -76,7 +75,6 @@ export const desktop: SceneLayout = {
     [1120, 210, 1.3, false, 0.45],
     [1350, 210, 1, true, 0.4],
   ],
-  trail: "M980 580 C 960 700, 720 806, 420 822 S 70 826, 40 860",
   figure: "",
   sun: { x: 330, dx: 810, y: 540, dy: 330, r: 72, moon: [300, 230] },
 };
@@ -98,9 +96,9 @@ export const mobile: SceneLayout = {
   hamam: { x: 65, base: 404, scale: 0.5 },
   tower: { x: 331.5, top: 316, h: 80, scale: 0.8 },
   wordmark: { y: 458, size: 60, spacing: 2, stroke: 1.5, outline: true },
-  mid: "M0 844 L0 452 L90 440 L190 448 L290 438 L390 450 L390 844 Z",
-  near: "M0 844 L0 574 L120 556 L230 526 L300 540 L390 528 L390 844 Z",
-  ground: "M0 844 L0 610 L200 598 L390 612 L390 844 Z",
+  mid: "M-60 844 L-60 452 L90 440 L190 448 L290 438 L450 450 L450 844 Z",
+  near: "M-60 844 L-60 574 L120 556 L230 526 L300 540 L450 528 L450 844 Z",
+  ground: "M-60 844 L-60 610 L200 598 L450 612 L450 844 Z",
   flowers: [
     [160, 558, 0.8],
     [300, 548, 0.9],
