@@ -2,6 +2,7 @@
 
 :root {
   --bg: #0b0e13;
+  --bg-deep: #090b0f;
   --surface: #141a23;
   --surface-2: #0e1218;
   --line: #2a3544;
@@ -18,6 +19,7 @@
 
 @theme inline {
   --color-bg: var(--bg);
+  --color-bg-deep: var(--bg-deep);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
   --color-line: var(--line);

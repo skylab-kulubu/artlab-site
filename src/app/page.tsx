@@ -1,4 +1,5 @@
 import { getContent } from "@/content";
+import { Footer } from "@/components/footer/Footer";
 import { Header } from "@/components/header/Header";
 import { Hero } from "@/components/hero/Hero";
 import { Archive } from "@/components/sections/Archive";
@@ -11,8 +12,6 @@ import { Sponsors } from "@/components/sections/Sponsors";
 import { Why } from "@/components/sections/Why";
 import { ActiveSectionProvider } from "@/components/nav/ActiveSection";
 import { ScrollProgress } from "@/components/nav/ScrollProgress";
-import { Section } from "@/components/ui/Section";
-import { SectionHeader } from "@/components/ui/SectionHeader";
 import { visibleSections } from "@/lib/sections";
 import { getTheme } from "@/themes";
 
@@ -23,7 +22,6 @@ export default async function Home() {
   const theme = getTheme();
   const sections = visibleSections(content);
   const shown = new Set(sections.map((s) => s.id));
-  const built = new Set(["baslangic", "neden", "cekilis", "program", "konusmacilar", "fuaye", "arsiv", "destekciler", "sss"]);
 
   return (
     <ActiveSectionProvider sections={sections}>
@@ -39,14 +37,8 @@ export default async function Home() {
         {shown.has("arsiv") && <Archive content={content} theme={theme} />}
         {shown.has("destekciler") && <Sponsors content={content} theme={theme} />}
         <Faq content={content} theme={theme} />
-        {sections
-          .filter((s) => !built.has(s.id))
-          .map((s) => (
-            <Section key={s.id} id={s.id} className="min-h-[80vh]">
-              <SectionHeader section={s.id} title={s.label} />
-            </Section>
-          ))}
       </main>
+      <Footer sections={sections} theme={theme} year={content.edition.year} />
     </ActiveSectionProvider>
   );
 }

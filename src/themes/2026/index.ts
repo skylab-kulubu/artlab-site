@@ -14,6 +14,7 @@ import { Fuaye } from "./poses/Fuaye";
 import { Konusmacilar } from "./poses/Konusmacilar";
 import { Program } from "./poses/Program";
 import { Sss } from "./poses/Sss";
+import { Sleep } from "./Sleep";
 import { Contact, Soon } from "./Soon";
 
 export const theme2026: Theme = {
@@ -22,6 +23,7 @@ export const theme2026: Theme = {
     Logo,
     Soon,
     Contact,
+    Sleep,
     poses: {
       neden: Neden,
       cekilis: Cekilis,

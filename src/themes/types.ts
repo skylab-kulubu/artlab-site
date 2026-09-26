@@ -12,6 +12,7 @@ export type Mascot = {
   poses: Partial<Record<SectionId, ComponentType<ArtProps>>>;
   Soon: ComponentType<ArtProps>;
   Contact: ComponentType<ArtProps>;
+  Sleep: ComponentType<ArtProps>;
 };
 
 export type Theme = {
