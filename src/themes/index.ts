@@ -1,9 +1,9 @@
 import type { SectionId } from "@/lib/sections";
 import { theme2026 } from "./2026";
 import { notr } from "./notr";
-import type { FigureProps, Theme } from "./types";
+import type { FigureProps, Morph, Theme } from "./types";
 
-export type { FigureProps, Theme };
+export type { FigureProps, Morph, Theme };
 
 const themes: Record<string, Theme> = { [notr.id]: notr, [theme2026.id]: theme2026 };
 

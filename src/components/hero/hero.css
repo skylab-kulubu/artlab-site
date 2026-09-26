@@ -273,3 +273,11 @@
     --sy: 1;
   }
 }
+
+.hero-wordmark {
+  transition: opacity 0.4s ease-out;
+}
+
+.hero-sky[data-particles] .hero-stage .hero-wordmark {
+  opacity: 0;
+}

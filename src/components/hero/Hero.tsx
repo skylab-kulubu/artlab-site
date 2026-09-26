@@ -4,6 +4,7 @@ import type { Theme } from "@/themes";
 import { Button } from "@/components/ui/Button";
 import { HeroScene } from "./HeroScene";
 import { HeroSky, VenueClock } from "./HeroSky";
+import { DiffusionHud, HeroParticles } from "./HeroParticles";
 import { HeroTrail } from "./HeroTrail";
 import { desktop, mobile } from "./layouts";
 import { MiniMap } from "./MiniMap";
@@ -36,12 +37,14 @@ export function Hero({ content, theme }: Props) {
   const { venue } = edition;
   const date = edition.startsAt && edition.endsAt ? formatDateRange(edition.startsAt, edition.endsAt) : "Tarih yakında";
   const panel = { edition, sessions, speakers, serverNow: fetchedAt };
+  const particles = theme.heroMode === "parcacik";
 
   return (
     <section id="baslangic" className="relative h-svh max-h-[1000px] min-h-[680px] overflow-hidden md:min-h-[760px]">
       <HeroSky serverNow={fetchedAt}>
         <div className="hero-stage absolute inset-0 hidden md:block">
           <HeroScene layout={desktop} theme={theme} serverNow={fetchedAt} part="back" />
+          {particles && <HeroParticles layout={desktop} themeId={theme.id} />}
           <HeroScene layout={desktop} theme={theme} serverNow={fetchedAt} part="front" />
         </div>
         <HeroTrail layout={desktop} className="hidden md:block" />
@@ -54,6 +57,11 @@ export function Hero({ content, theme }: Props) {
           {venue.lat.toFixed(3)}°K · {venue.lng.toFixed(3)}°D · {venue.area.toLocaleUpperCase("tr")}{" "}
           <VenueClock serverNow={fetchedAt} />
         </p>
+        {particles && (
+          <div className="absolute top-[122px] left-20 hidden md:block">
+            <DiffusionHud />
+          </div>
+        )}
 
         <div className="absolute top-28 right-6 hidden md:block lg:right-20">
           <PhasePanel {...panel} />

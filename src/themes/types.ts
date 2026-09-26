@@ -7,6 +7,11 @@ export type HeroMode = "parcacik" | "klasik";
 
 export type FigureProps = { mode: HeroMode };
 
+export type Morph = {
+  name: string;
+  draw: (g: CanvasRenderingContext2D, cx: number, cy: number, colors: { amber: string; cyan: string }) => void;
+};
+
 export type Mascot = {
   Logo: ComponentType<ArtProps>;
   poses: Partial<Record<SectionId, ComponentType<ArtProps>>>;
@@ -21,5 +26,5 @@ export type Theme = {
   Figure?: ComponentType<FigureProps>;
   motifs: Partial<Record<SectionId, ComponentType<ArtProps>>>;
   heroMode: HeroMode;
-  morphs: ("koza" | "kelebek")[];
+  morphs: Morph[];
 };

@@ -1,6 +1,7 @@
 import type { Theme } from "../types";
 import { Figure } from "./Figure";
 import { Logo } from "./Logo";
+import { kelebek, koza } from "./morphs";
 import { Arsiv as ArsivMotif } from "./motifs/Arsiv";
 import { Cekilis as CekilisMotif } from "./motifs/Cekilis";
 import { Neden as NedenMotif } from "./motifs/Neden";
@@ -44,5 +45,5 @@ export const theme2026: Theme = {
     arsiv: ArsivMotif,
   },
   heroMode: "parcacik",
-  morphs: ["koza", "kelebek"],
+  morphs: [koza, kelebek],
 };
