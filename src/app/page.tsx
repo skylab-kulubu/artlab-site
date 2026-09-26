@@ -38,7 +38,7 @@ export default async function Home() {
         {shown.has("destekciler") && <Sponsors content={content} theme={theme} />}
         <Faq content={content} theme={theme} />
       </main>
-      <Footer sections={sections} theme={theme} year={content.edition.year} />
+      <Footer sections={sections} theme={theme} edition={content.edition} />
     </ActiveSectionProvider>
   );
 }
