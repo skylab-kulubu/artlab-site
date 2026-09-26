@@ -14,7 +14,7 @@ export function Signature() {
         <span className={reveal} aria-hidden="true">
           <span className={`${glyph} group-hover:pr-2 group-focus-visible:pr-2`}>✎</span>
         </span>
-        <span className="font-bold whitespace-nowrap transition-colors duration-300">KANEKALP</span>
+        <span className="font-bold whitespace-nowrap transition-colors duration-300">Kaan Necip Kalp</span>
         <span className={reveal} aria-hidden="true">
           <span className={`${glyph} group-hover:pl-2 group-focus-visible:pl-2`}>{"</>"}</span>
         </span>
