@@ -23,22 +23,22 @@ export const palettes: Record<EnvName, EnvPalette> = {
   safak: {
     sky1: "#2A6FC4", sky2: "#4A8FD8", sky3: "#7DB3E6", sky4: "#BCD6EE", sky5: "#FFD3A3", sky6: "#FFE08A",
     sun: "#FFF6D2", beam: "#FFFFFF", far: "#A8BEDB", farD: "#86A0C6", mid: "#3F5476", near: "#1C2538",
-    win: "#FFF6D2", mark: "#14264A", bird: "#14264A", hud: "#F2F6FB",
+    win: "#FFF6D2", mark: "#1A1204", bird: "#14264A", hud: "#F2F6FB",
   },
   gunduz: {
     sky1: "#1E6FD9", sky2: "#3E88E3", sky3: "#69A6EC", sky4: "#9CC6F2", sky5: "#C9E0F6", sky6: "#E6F0F8",
     sun: "#FFFBEA", beam: "#FFFFFF", far: "#9DB3D0", farD: "#7F97BA", mid: "#3E5577", near: "#1C2538",
-    win: "#DCE6F2", mark: "#14264A", bird: "#14264A", hud: "#F2F6FB",
+    win: "#DCE6F2", mark: "#1A1204", bird: "#14264A", hud: "#F2F6FB",
   },
   alacakaranlik: {
     sky1: "#0B1524", sky2: "#112036", sky3: "#1C2D48", sky4: "#34405A", sky5: "#76606A", sky6: "#C98A5C",
     sun: "#F5B82E", beam: "#F5B82E", far: "#34405A", farD: "#27314A", mid: "#1A2130", near: "#12161F",
-    win: "#F5B82E", mark: "#E9EDF2", bird: "#E9EDF2", hud: "#8A95A5",
+    win: "#F5B82E", mark: "#F5B82E", bird: "#E9EDF2", hud: "#8A95A5",
   },
   gece: {
     sky1: "#05070B", sky2: "#080C13", sky3: "#0B121B", sky4: "#0E1A24", sky5: "#12272F", sky6: "#18393F",
     sun: "#BFEFF5", beam: "#3ED6F0", far: "#15303A", farD: "#0F2530", mid: "#0D1B24", near: "#0B141B",
-    win: "#3ED6F0", mark: "#E9EDF2", bird: "#E9EDF2", hud: "#8A95A5",
+    win: "#3ED6F0", mark: "#F5B82E", bird: "#E9EDF2", hud: "#8A95A5",
   },
 };
 

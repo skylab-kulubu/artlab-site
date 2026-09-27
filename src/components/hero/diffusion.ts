@@ -7,7 +7,7 @@ const REPEL = 70;
 
 export type Shape = { name: string; x: Float32Array; y: Float32Array; tone: Uint8Array };
 
-// Tones: 0 follows the sky's mark colour, 1 is amber, 2 is cyan.
+// Tones: 0 follows the sky's mark colour (dark by day, amber by night), 1 is amber, 2 is cyan.
 export type Palette = [string, string, string];
 
 type Hud = { onStep?: (step: number, noise: number) => void };
@@ -39,15 +39,18 @@ export function sampleWordmark(text: SVGTextElement, w: number, h: number): Shap
   const data = g.getImageData(0, 0, w, h).data;
   const xs: number[] = [];
   const ys: number[] = [];
-  for (let y = GRID / 2; y < h; y += GRID) {
-    for (let x = GRID / 2; x < w; x += GRID) {
+  const tones: number[] = [];
+  for (let y = GRID / 2, row = 0; y < h; y += GRID, row++) {
+    for (let x = GRID / 2, col = 0; x < w; x += GRID, col++) {
       if (data[(Math.floor(y) * w + Math.floor(x)) * 4 + 3] > 127) {
         xs.push(x);
         ys.push(y);
+        // Checkerboard like the SVG pattern: amber on even cells, the sky's mark colour on odd ones.
+        tones.push((row + col) % 2 === 0 ? 1 : 0);
       }
     }
   }
-  return { name: "artlab", x: Float32Array.from(xs), y: Float32Array.from(ys), tone: new Uint8Array(xs.length) };
+  return { name: "artlab", x: Float32Array.from(xs), y: Float32Array.from(ys), tone: Uint8Array.from(tones) };
 }
 
 export function sampleMorph(morph: Morph, count: number, w: number, h: number, cx: number, cy: number): Shape {

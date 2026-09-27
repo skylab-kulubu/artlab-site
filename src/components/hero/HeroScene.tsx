@@ -192,8 +192,11 @@ function Back({ layout, theme, serverNow }: Omit<Props, "part" | "className">) {
   return (
     <>
       <defs>
-        <pattern id={dots} width="6" height="6" patternUnits="userSpaceOnUse">
-          <circle cx="3" cy="3" r="1.45" fill="var(--mark)" />
+        <pattern id={dots} width="12" height="12" patternUnits="userSpaceOnUse">
+          <circle cx="3" cy="3" r="1.45" fill="var(--color-amber)" />
+          <circle cx="9" cy="9" r="1.45" fill="var(--color-amber)" />
+          <circle cx="9" cy="3" r="1.45" fill="var(--mark)" />
+          <circle cx="3" cy="9" r="1.45" fill="var(--mark)" />
         </pattern>
         <linearGradient id={meteor} x1="0" x2="1" y1="0" y2="0">
           <stop offset="0" stopColor="var(--color-ink)" />
