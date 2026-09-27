@@ -105,6 +105,8 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
         g.clearRect(0, 0, el.width, el.height);
         system.draw(g, map, palette);
         drawSparks(dt);
+        // The static wordmark only steps aside once the canvas has something on screen.
+        if (!root.hasAttribute("data-particles")) root.setAttribute("data-particles", "");
       }
       frame = requestAnimationFrame(tick);
     };
@@ -176,7 +178,6 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
       root.addEventListener("pointermove", move);
       root.addEventListener("pointerleave", leave);
       root.addEventListener("click", click);
-      root.setAttribute("data-particles", "");
       hud.onStep?.(STEPS, 0);
       if (morphs.length) schedule(FIRST_CYCLE_MS);
       wake();
