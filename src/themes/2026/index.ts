@@ -1,5 +1,6 @@
 import type { Theme } from "../types";
 import { Figure } from "./Figure";
+import { Loader } from "./Loader";
 import { Logo } from "./Logo";
 import { kelebek, koza } from "./morphs";
 import { Arsiv as ArsivMotif } from "./motifs/Arsiv";
@@ -25,6 +26,7 @@ export const theme2026: Theme = {
     Soon,
     Contact,
     Sleep,
+    Loader,
     poses: {
       neden: Neden,
       cekilis: Cekilis,

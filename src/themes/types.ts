@@ -18,6 +18,7 @@ export type Mascot = {
   Soon: ComponentType<ArtProps>;
   Contact: ComponentType<ArtProps>;
   Sleep: ComponentType<ArtProps>;
+  Loader: ComponentType<ArtProps>;
 };
 
 export type Theme = {

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope, Unbounded } from "next/font/google";
+import { introScript } from "@/components/Intro";
 import "./globals.css";
 
 const unbounded = Unbounded({
@@ -28,7 +29,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="tr" className={`${unbounded.variable} ${manrope.variable}`} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: clockScript }} />
+        <script dangerouslySetInnerHTML={{ __html: clockScript + ";" + introScript }} />
       </head>
       <body className="min-h-dvh">{children}</body>
     </html>

@@ -125,3 +125,48 @@
 .numeral {
   -webkit-text-stroke: 1.2px var(--color-amber);
 }
+
+/* First-visit intro: the robot head draws itself and the eye lights up, then the veil lifts. */
+.intro {
+  animation: intro-out 0.35s ease-in 1.05s forwards;
+}
+
+.loader-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: loader-draw 0.75s cubic-bezier(0.65, 0, 0.35, 1) 0.05s forwards;
+}
+
+.loader-eye {
+  opacity: 0;
+  animation: loader-eye 0.25s ease-out 0.8s forwards;
+}
+
+:root[data-intro-seen] .intro {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro {
+    display: none;
+  }
+}
+
+@keyframes intro-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes loader-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes loader-eye {
+  to {
+    opacity: 1;
+  }
+}
