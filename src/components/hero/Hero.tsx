@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { HeroScene } from "./HeroScene";
 import { HeroSky, VenueClock } from "./HeroSky";
 import { DiffusionHud, HeroParticles } from "./HeroParticles";
+import { HeroPointer } from "./HeroPointer";
 import { HeroTrail } from "./HeroTrail";
 import { desktop, mobile } from "./layouts";
 import { MiniMap } from "./MiniMap";
@@ -111,6 +112,7 @@ export function Hero({ content, theme }: Props) {
           </svg>
           KEŞFET
         </a>
+        <HeroPointer />
       </HeroSky>
     </section>
   );

@@ -99,7 +99,7 @@ export function Figure({ mode }: FigureProps) {
       <circle cx="980" cy="400.2" r="10.3" fill="var(--color-bg)" stroke={AMBER} strokeWidth="1.5" />
       <circle cx="980" cy="400.2" r="7.5" fill="none" stroke={CYAN} strokeWidth="2" />
       <circle cx="980" cy="400.2" r="4.4" fill="none" stroke={CYAN} strokeWidth="1.2" opacity="0.6" />
-      <circle className="motion-safe:animate-blink" cx="981.5" cy="398.7" r="2.2" fill={CYAN} />
+      <circle className="hero-eye motion-safe:animate-blink" cx="980" cy="400.2" r="2.2" fill={CYAN} />
 
       {mode === "klasik" ? (
         <>

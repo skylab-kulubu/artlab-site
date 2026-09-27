@@ -281,3 +281,8 @@
 .hero-sky[data-particles] .hero-stage .hero-wordmark {
   opacity: 0;
 }
+
+.hero-eye {
+  transform: translate(calc(var(--eye-x, 0.5) * 3.4px), calc(var(--eye-y, -0.5) * 2.8px));
+  transition: transform 0.18s ease-out;
+}
