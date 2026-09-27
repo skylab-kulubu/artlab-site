@@ -1,6 +1,7 @@
 import { getContent } from "@/content";
 import { Footer } from "@/components/footer/Footer";
 import { Header } from "@/components/header/Header";
+import { EventSchema } from "@/components/EventSchema";
 import { Intro } from "@/components/Intro";
 import { Hero } from "@/components/hero/Hero";
 import { Archive } from "@/components/sections/Archive";
@@ -26,6 +27,7 @@ export default async function Home() {
 
   return (
     <ActiveSectionProvider sections={sections}>
+      <EventSchema content={content} />
       <Intro theme={theme} />
       <ScrollProgress />
       <Header edition={content.edition} theme={theme} serverNow={content.fetchedAt} />

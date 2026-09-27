@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Manrope, Unbounded } from "next/font/google";
 import { introScript } from "@/components/Intro";
+import { getContent } from "@/content";
+import { SITE_URL, siteDescription, siteTitle } from "@/lib/site";
 import "./globals.css";
 
 const unbounded = Unbounded({
@@ -20,10 +22,29 @@ const manrope = Manrope({
 // Runs before first paint so the hero's ambient loops start at the wall clock's phase.
 const clockScript = `document.documentElement.style.setProperty("--clock",(Date.now()/1e3%86400).toFixed(2)+"s")`;
 
-export const metadata: Metadata = {
-  title: "ARTLAB 2026 · Yapay Zeka Zirvesi",
-  description: "YTÜ SKY LAB tarafından düzenlenen ARTLAB Yapay Zeka Zirvesi.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { edition } = await getContent();
+  const title = siteTitle(edition);
+  const description = siteDescription(edition);
+
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: { default: title, template: `%s · ARTLAB ${edition.year}` },
+    description,
+    keywords: ["ARTLAB", "yapay zeka", "yapay zeka zirvesi", "SKY LAB", "Yıldız Teknik Üniversitesi", "YTÜ", "etkinlik", "konferans"],
+    alternates: { canonical: "/" },
+    openGraph: {
+      type: "website",
+      locale: "tr_TR",
+      url: "/",
+      siteName: "ARTLAB",
+      title,
+      description,
+    },
+    twitter: { card: "summary_large_image", title, description, site: "@skylabkulubu" },
+    robots: { index: true, follow: true },
+  };
+}
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
