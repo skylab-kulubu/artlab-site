@@ -7,7 +7,7 @@ const REPEL = 70;
 
 export type Shape = { name: string; x: Float32Array; y: Float32Array; tone: Uint8Array };
 
-// Tones: 0 follows the sky's mark colour (dark by day, amber by night), 1 is amber, 2 is cyan.
+// Tones: 0 follows the sky's mark colour (the wordmark's inner dots), 1 is amber, 2 is cyan.
 export type Palette = [string, string, string];
 
 type Hud = { onStep?: (step: number, noise: number) => void };
@@ -25,7 +25,7 @@ function shuffle(n: number) {
 // The wordmark is sampled on the same 6-unit grid as the SVG's dot pattern and
 // from the glyph positions the SVG itself laid out, so at rest every particle
 // sits exactly on a dot of the static wordmark it takes over from.
-export function sampleWordmark(text: SVGTextElement, w: number, h: number): Shape {
+export function sampleWordmark(text: SVGTextElement, w: number, h: number, band: number): Shape {
   const canvas = new OffscreenCanvas(w, h);
   const g = canvas.getContext("2d")!;
   const style = getComputedStyle(text);
@@ -37,17 +37,21 @@ export function sampleWordmark(text: SVGTextElement, w: number, h: number): Shap
     g.fillText(chars[i], p.x, p.y);
   }
   const data = g.getImageData(0, 0, w, h).data;
+  const inside = (x: number, y: number) =>
+    x >= 0 && y >= 0 && x < w && y < h && data[(Math.floor(y) * w + Math.floor(x)) * 4 + 3] > 127;
+  const steps = [-band, -band / 2, 0, band / 2, band];
+  // A dot is on the rim when anything within the band around it falls outside the
+  // letter, the same square neighbourhood the SVG's erode filter uses for its mask.
+  const onRim = (x: number, y: number) => steps.some((dy) => steps.some((dx) => !inside(x + dx, y + dy)));
   const xs: number[] = [];
   const ys: number[] = [];
   const tones: number[] = [];
-  for (let y = GRID / 2, row = 0; y < h; y += GRID, row++) {
-    for (let x = GRID / 2, col = 0; x < w; x += GRID, col++) {
-      if (data[(Math.floor(y) * w + Math.floor(x)) * 4 + 3] > 127) {
-        xs.push(x);
-        ys.push(y);
-        // Checkerboard like the SVG pattern: amber on even cells, the sky's mark colour on odd ones.
-        tones.push((row + col) % 2 === 0 ? 1 : 0);
-      }
+  for (let y = GRID / 2; y < h; y += GRID) {
+    for (let x = GRID / 2; x < w; x += GRID) {
+      if (!inside(x, y)) continue;
+      xs.push(x);
+      ys.push(y);
+      tones.push(onRim(x, y) ? 1 : 0);
     }
   }
   return { name: "artlab", x: Float32Array.from(xs), y: Float32Array.from(ys), tone: Uint8Array.from(tones) };

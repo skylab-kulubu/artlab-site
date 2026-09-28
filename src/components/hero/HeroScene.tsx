@@ -1,7 +1,7 @@
-import type { ComponentType, CSSProperties, ReactNode } from "react";
+import type { ComponentType, CSSProperties, ReactNode, SVGProps } from "react";
 import { seeded } from "@/lib/random";
 import type { FigureProps, Theme } from "@/themes";
-import type { SceneLayout } from "./layouts";
+import { EDGE_BAND, type SceneLayout } from "./layouts";
 import { Sun } from "./Sun";
 
 const STEM = "#2F4A2E";
@@ -174,6 +174,24 @@ type Props = {
   className?: string;
 };
 
+type LettersProps = Omit<SVGProps<SVGTextElement>, "children"> & { layout: SceneLayout; sampled?: boolean };
+
+function Letters({ layout, sampled, className, ...rest }: LettersProps) {
+  const { w, wordmark } = layout;
+  return (
+    <text
+      x={w / 2}
+      y={wordmark.y}
+      textAnchor="middle"
+      className={`font-display font-extrabold ${sampled ? "hero-letters" : ""} ${className ?? ""}`}
+      style={{ fontSize: wordmark.size, letterSpacing: wordmark.spacing }}
+      {...rest}
+    >
+      ARTLAB
+    </text>
+  );
+}
+
 function Layer({ depth, children }: { depth: number; children: ReactNode }) {
   return (
     <g className="hero-layer" style={{ "--depth": depth } as CSSProperties}>
@@ -192,12 +210,22 @@ function Back({ layout, theme, serverNow }: Omit<Props, "part" | "className">) {
   return (
     <>
       <defs>
-        <pattern id={dots} width="12" height="12" patternUnits="userSpaceOnUse">
+        <pattern id={dots} width="6" height="6" patternUnits="userSpaceOnUse">
           <circle cx="3" cy="3" r="1.45" fill="var(--color-amber)" />
-          <circle cx="9" cy="9" r="1.45" fill="var(--color-amber)" />
-          <circle cx="9" cy="3" r="1.45" fill="var(--mark)" />
-          <circle cx="3" cy="9" r="1.45" fill="var(--mark)" />
         </pattern>
+        <pattern id={`${dots}-inner`} width="6" height="6" patternUnits="userSpaceOnUse">
+          <circle cx="3" cy="3" r="1.45" fill="var(--mark)" />
+        </pattern>
+        <filter id={`${dots}-erode`}>
+          <feMorphology operator="erode" radius={EDGE_BAND} />
+        </filter>
+        <mask id={`${dots}-inside`} maskUnits="userSpaceOnUse" x={0} y={0} width={w} height={h}>
+          <Letters layout={layout} fill="white" filter={`url(#${dots}-erode)`} />
+        </mask>
+        <mask id={`${dots}-rim`} maskUnits="userSpaceOnUse" x={0} y={0} width={w} height={h}>
+          <rect width={w} height={h} fill="white" />
+          <Letters layout={layout} fill="black" filter={`url(#${dots}-erode)`} />
+        </mask>
         <linearGradient id={meteor} x1="0" x2="1" y1="0" y2="0">
           <stop offset="0" stopColor="var(--color-ink)" />
           <stop offset="1" stopColor="var(--color-ink)" stopOpacity="0" />
@@ -273,19 +301,16 @@ function Back({ layout, theme, serverNow }: Omit<Props, "part" | "className">) {
       </Layer>
 
       <Layer depth={0.4}>
-        <text
-          x={w / 2}
-          y={wordmark.y}
-          textAnchor="middle"
-          fill={particle ? `url(#${dots})` : "none"}
-          stroke={particle ? "none" : "var(--mark)"}
-          strokeWidth={wordmark.stroke}
-          opacity="0.95"
-          className="hero-wordmark font-display font-extrabold"
-          style={{ fontSize: wordmark.size, letterSpacing: wordmark.spacing }}
-        >
-          ARTLAB
-        </text>
+        {particle ? (
+          <g className="hero-wordmark" opacity="0.95">
+            <Letters layout={layout} fill={`url(#${dots})`} mask={`url(#${dots}-rim)`} sampled />
+            <Letters layout={layout} fill={`url(#${dots}-inner)`} mask={`url(#${dots}-inside)`} />
+          </g>
+        ) : (
+          <g className="hero-wordmark" opacity="0.95">
+            <Letters layout={layout} fill="none" stroke="var(--color-amber)" strokeWidth={wordmark.stroke} />
+          </g>
+        )}
       </Layer>
     </>
   );

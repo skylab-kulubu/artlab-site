@@ -3,7 +3,7 @@
 import { useEffect, useRef, type CSSProperties } from "react";
 import { getTheme } from "@/themes";
 import { Diffusion, hud, sampleMorph, sampleWordmark, STEPS, type Palette, type Shape } from "./diffusion";
-import type { SceneLayout } from "./layouts";
+import { EDGE_BAND, type SceneLayout } from "./layouts";
 
 const HAND = { x: 1044, y: 366 };
 const MORPH_CENTER = { x: 720, y: 360 };
@@ -21,7 +21,7 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
     const el = canvas.current;
     const root = el?.closest<HTMLElement>(".hero-sky");
     const stage = el?.closest<HTMLElement>(".hero-stage");
-    const text = stage?.querySelector<SVGTextElement>(".hero-wordmark");
+    const text = stage?.querySelector<SVGTextElement>(".hero-letters");
     const media = window.matchMedia("(min-width: 768px) and (prefers-reduced-motion: no-preference)");
     if (!el || !root || !text || !media.matches) return;
 
@@ -169,7 +169,7 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
 
     document.fonts.ready.then(() => {
       if (cancelled) return;
-      const rest = sampleWordmark(text, w, h);
+      const rest = sampleWordmark(text, w, h, EDGE_BAND);
       system = new Diffusion(rest);
       shapes = [rest, ...morphs.map((m) => sampleMorph(m, rest.x.length, w, h, MORPH_CENTER.x, MORPH_CENTER.y))];
       readPalette();
