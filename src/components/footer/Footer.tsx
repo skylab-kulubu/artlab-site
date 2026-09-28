@@ -58,7 +58,7 @@ export function Footer({ theme, year }: { theme: Theme; year: number }) {
       </a>
 
       <div className="flex items-end justify-between gap-6 border-b border-line">
-        <div className="min-w-0 grow pb-4">
+        <div className="reveal min-w-0 grow pb-4">
           <Wordmark />
         </div>
         {Sleep && (

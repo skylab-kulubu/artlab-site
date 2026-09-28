@@ -224,3 +224,51 @@ dialog[open]::backdrop {
     animation-duration: 0.01ms !important;
   }
 }
+
+/*
+ * Scroll reveals, driven by the element's own view timeline: no JavaScript, and
+ * where the browser lacks view() the content simply sits in place from the start.
+ * Section headings draw their line out from the path stop, cards rise in order.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal,
+    .reveal-group > * {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 45%;
+    }
+
+    .reveal-group > :nth-child(4n + 2) {
+      animation-range: entry 12% entry 52%;
+    }
+
+    .reveal-group > :nth-child(4n + 3) {
+      animation-range: entry 19% entry 59%;
+    }
+
+    .reveal-group > :nth-child(4n + 4) {
+      animation-range: entry 26% entry 66%;
+    }
+
+    .reveal-line {
+      transform-origin: left;
+      animation: reveal-line linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 30%;
+    }
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    translate: 0 18px;
+  }
+}
+
+@keyframes reveal-line {
+  from {
+    scale: 0 1;
+  }
+}

@@ -88,7 +88,7 @@ export function Faq({ content, theme }: { content: Content; theme: Theme }) {
   return (
     <Section id="sss">
       <SectionHeader section="sss" title="Sık sorulanlar" illustration={Pose && <Pose />} />
-      <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+      <div className="reveal-group grid gap-12 lg:grid-cols-2 lg:gap-16">
         <div className="flex flex-col border-t border-line">
           {faqs.length ? (
             faqs.map((faq, i) => (
@@ -125,7 +125,7 @@ export function Faq({ content, theme }: { content: Content; theme: Theme }) {
       <Chamfer
         id="iletisim"
         border="amber"
-        className="scroll-mt-24"
+        className="reveal scroll-mt-24"
         innerClassName="flex flex-col gap-6 px-6 py-7 md:flex-row md:items-center md:gap-9 md:px-9"
       >
         {ContactArt ? <ContactArt className="shrink-0" /> : <StopGlyph />}

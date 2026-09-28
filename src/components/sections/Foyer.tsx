@@ -46,7 +46,7 @@ export function Foyer({ content, theme }: { content: Content; theme: Theme }) {
         lead="Oturum aralarında stantları gez, demoları dene."
         illustration={Pose && <Pose />}
       />
-      <div className="grid gap-6 md:grid-cols-3 md:grid-rows-[210px_210px]">
+      <div className="reveal-group grid gap-6 md:grid-cols-3 md:grid-rows-[210px_210px]">
         <Chamfer className="md:col-span-2 md:row-span-2" innerClassName="relative flex min-h-[300px] flex-col justify-end overflow-hidden p-7 md:p-9">
           {foyer.photo && (
             <>

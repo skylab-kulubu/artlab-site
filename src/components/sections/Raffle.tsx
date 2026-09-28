@@ -135,7 +135,7 @@ export function Raffle({ content, theme }: { content: Content; theme: Theme }) {
             </a>
           )}
         </div>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="reveal-group grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {raffle.prizes.map((prize) => (
             <PrizeCard key={prize.id} prize={prize} content={content} />
           ))}

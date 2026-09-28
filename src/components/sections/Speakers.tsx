@@ -15,7 +15,7 @@ export function Speakers({ content, theme }: { content: Content; theme: Theme })
     <Section id="konusmacilar" className="gap-8">
       <SectionHeader section="konusmacilar" title="Konuşmacılar" illustration={Pose && <Pose />} />
       {speakers.length ? (
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="reveal-group grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-5">
           {speakers.map((speaker, i) => (
             <SpeakerCard key={speaker.id} speaker={speaker} n={i + 1} session={speakerSession(sessions, speaker.id)} />
           ))}

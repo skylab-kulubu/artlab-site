@@ -43,7 +43,7 @@ export function Why({ content, theme }: { content: Content; theme: Theme }) {
   return (
     <Section id="neden" motif={Motif && <Motif />}>
       <SectionHeader section="neden" title="Neden ARTLAB" lead={content.why.lead} illustration={Pose && <Pose />} />
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="reveal-group grid gap-6 md:grid-cols-3">
         {content.why.items.map((item, i) => (
           <Chamfer key={item.icon} border={i === 0 ? "amber" : "line"} surface="bg" innerClassName="flex flex-col gap-3.5 p-8">
             <WhyIcon icon={item.icon} />
