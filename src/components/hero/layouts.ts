@@ -1,5 +1,6 @@
 // Wordmark dots whose centre sits within this band of the letter's edge form the rim.
-export const EDGE_BAND = 4.5;
+// One full grid step, so the outermost row of dots is always rim however an edge falls between rows.
+export const EDGE_BAND = 6;
 
 type Band = "--sky-4" | "--sky-5" | "--sky-6";
 

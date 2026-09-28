@@ -216,15 +216,33 @@ function Back({ layout, theme, serverNow }: Omit<Props, "part" | "className">) {
         <pattern id={`${dots}-inner`} width="6" height="6" patternUnits="userSpaceOnUse">
           <circle cx="3" cy="3" r="1.45" fill="var(--mark)" />
         </pattern>
-        <filter id={`${dots}-erode`}>
+        <filter id={`${dots}-erode`} x="-5%" y="-20%" width="110%" height="140%">
           <feMorphology operator="erode" radius={EDGE_BAND} />
         </filter>
+        <filter id={`${dots}-grow`} x="-5%" y="-20%" width="110%" height="140%">
+          <feMorphology operator="dilate" radius="2.5" />
+        </filter>
+        <pattern id={`${dots}-centres`} width="6" height="6" patternUnits="userSpaceOnUse">
+          <rect x="2" y="2" width="2" height="2" fill="white" />
+        </pattern>
+        <mask id={`${dots}-at-centres`} maskUnits="userSpaceOnUse" x={0} y={0} width={w} height={h}>
+          <rect width={w} height={h} fill={`url(#${dots}-centres)`} />
+        </mask>
+        {/* Each dot is judged by its centre alone, then the verdict is grown back over the whole dot, so the mask never splits one. */}
         <mask id={`${dots}-inside`} maskUnits="userSpaceOnUse" x={0} y={0} width={w} height={h}>
-          <Letters layout={layout} fill="white" filter={`url(#${dots}-erode)`} />
+          <g filter={`url(#${dots}-grow)`}>
+            <g mask={`url(#${dots}-at-centres)`}>
+              <Letters layout={layout} fill="white" filter={`url(#${dots}-erode)`} />
+            </g>
+          </g>
         </mask>
         <mask id={`${dots}-rim`} maskUnits="userSpaceOnUse" x={0} y={0} width={w} height={h}>
           <rect width={w} height={h} fill="white" />
-          <Letters layout={layout} fill="black" filter={`url(#${dots}-erode)`} />
+          <g filter={`url(#${dots}-grow)`}>
+            <g mask={`url(#${dots}-at-centres)`}>
+              <Letters layout={layout} fill="black" filter={`url(#${dots}-erode)`} />
+            </g>
+          </g>
         </mask>
         <linearGradient id={meteor} x1="0" x2="1" y1="0" y2="0">
           <stop offset="0" stopColor="var(--color-ink)" />
