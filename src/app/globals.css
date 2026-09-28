@@ -52,6 +52,8 @@
   html {
     scroll-behavior: smooth;
     color-scheme: dark;
+    background-color: var(--color-bg);
+    overscroll-behavior-y: none;
   }
 
   body {
