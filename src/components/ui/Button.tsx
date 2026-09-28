@@ -21,7 +21,7 @@ export function Button({ variant = "primary", size = "md", className = "", ...pr
     <a
       {...(external && { target: "_blank", rel: "noopener noreferrer" })}
       {...props}
-      className={`inline-flex items-center justify-center gap-2.5 whitespace-nowrap transition-colors ${variants[variant]} ${sizes[size]} ${className}`}
+      className={`inline-flex items-center justify-center gap-2.5 whitespace-nowrap transition-[color,background-color,border-color,filter,translate] active:translate-y-px ${variants[variant]} ${sizes[size]} ${className}`}
     />
   );
 }

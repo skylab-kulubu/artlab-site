@@ -8,8 +8,11 @@ import { sectionArt, type Theme } from "@/themes";
 function Toggle() {
   return (
     <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" className="shrink-0" strokeWidth="1.8">
-      <path d="M3 9 H15" className="stroke-amber group-open:stroke-cyan" />
-      <path d="M9 3 V15" className="stroke-amber group-open:hidden" />
+      <path d="M3 9 H15" className="stroke-amber transition-[stroke] duration-300 group-open:stroke-cyan" />
+      <path
+        d="M9 3 V15"
+        className="origin-center stroke-amber transition-[rotate,opacity] duration-300 [transform-box:fill-box] group-open:rotate-90 group-open:opacity-0"
+      />
     </svg>
   );
 }
@@ -89,12 +92,14 @@ export function Faq({ content, theme }: { content: Content; theme: Theme }) {
         <div className="flex flex-col border-t border-line">
           {faqs.length ? (
             faqs.map((faq, i) => (
-              <details key={faq.q} open={i === 0} className="group border-b border-line py-[22px]">
+              <details key={faq.q} open={i === 0} className="faq-item group border-b border-line py-[22px]">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-semibold group-open:font-bold [&::-webkit-details-marker]:hidden">
                   {faq.q}
                   <Toggle />
                 </summary>
-                <p className="mt-3 max-w-[520px] text-base leading-relaxed text-ink-2">{faq.a}</p>
+                <p className="max-w-[520px] pt-3 text-base leading-relaxed text-ink-2 opacity-0 transition-opacity duration-300 group-open:opacity-100">
+                  {faq.a}
+                </p>
               </details>
             ))
           ) : (

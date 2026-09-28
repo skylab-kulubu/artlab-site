@@ -124,6 +124,7 @@ export function SessionList({ speakers }: { speakers: Speaker[] }) {
       aria-labelledby={`program-sekme-${day}`}
       className="flex flex-col border-t border-line"
     >
+      <div key={day} className="rise-in flex flex-col">
       {sessions
         .filter((s) => s.day === day)
         .map((s) => {
@@ -166,6 +167,7 @@ export function SessionList({ speakers }: { speakers: Speaker[] }) {
             </div>
           );
         })}
+      </div>
     </div>
   );
 }
