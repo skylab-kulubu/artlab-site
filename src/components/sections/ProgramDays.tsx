@@ -1,6 +1,7 @@
 "use client";
 
-import { createContext, useContext, useState, type ReactNode } from "react";
+import * as m from "motion/react-m";
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { useNow } from "@/hooks/useNow";
 import { formatDayMonth, formatTime } from "@/lib/format";
 import { kindLabel } from "@/lib/program";
@@ -32,11 +33,36 @@ export function ProgramDays({ sessions, serverNow, children }: ProviderProps) {
   );
 }
 
+type Slot = { x: number; width: number };
+
 export function DayTabs() {
   const { sessions, days, day, pick } = useProgram();
+  const list = useRef<HTMLDivElement>(null);
+  const [slots, setSlots] = useState<Slot[] | null>(null);
+
+  useEffect(() => {
+    const el = list.current;
+    if (!el) return;
+    const measure = () =>
+      setSlots([...el.querySelectorAll<HTMLElement>("[role=tab]")].map((t) => ({ x: t.offsetLeft, width: t.offsetWidth })));
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const slot = slots?.[days.indexOf(day)];
 
   return (
-    <div role="tablist" aria-label="Program günleri" className="flex flex-wrap gap-2.5">
+    <div ref={list} role="tablist" aria-label="Program günleri" className="relative flex flex-wrap gap-2.5">
+      {slot && (
+        <m.span
+          aria-hidden="true"
+          className="cut absolute top-0 left-0 h-11 bg-amber"
+          initial={false}
+          animate={{ x: slot.x, width: slot.width }}
+          transition={{ type: "spring", stiffness: 420, damping: 36 }}
+        />
+      )}
       {days.map((d) => {
         const first = sessions.find((s) => s.day === d);
         const selected = d === day;
@@ -49,8 +75,10 @@ export function DayTabs() {
             aria-selected={selected}
             aria-controls="program-listesi"
             onClick={() => pick(d)}
-            className={`cut h-11 px-5 text-[15px] transition-colors ${
-              selected ? "bg-amber font-bold text-on-amber" : "bg-surface font-semibold text-ink/80 hover:text-ink"
+            className={`cut relative h-11 px-5 text-[15px] transition-colors duration-300 ${
+              selected
+                ? `font-bold text-on-amber ${slot ? "bg-transparent" : "bg-amber"}`
+                : "bg-surface font-semibold text-ink/80 hover:text-ink"
             }`}
           >
             Gün {d}

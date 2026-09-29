@@ -21,7 +21,7 @@ export function SoonCard({ theme, title, text, link }: Props) {
         <p className="text-[15px] leading-relaxed text-ink-2">{text}</p>
       </div>
       {link && (
-        <a href={link.href} target="_blank" rel="noopener noreferrer" className="shrink-0 text-[15px] font-bold">
+        <a href={link.href} target="_blank" rel="noopener noreferrer" className="link-arrow shrink-0 text-[15px] font-bold">
           {link.label}
         </a>
       )}

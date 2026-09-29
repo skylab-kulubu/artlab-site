@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/Button";
 import { Chamfer } from "@/components/ui/Chamfer";
+import { RollingNumber } from "@/components/ui/RollingNumber";
 import { useNow } from "@/hooks/useNow";
 import { formatTime } from "@/lib/format";
 import { countdown, currentSession, nextSession, phaseAt } from "@/lib/phase";
@@ -14,7 +15,6 @@ type Props = {
   serverNow: number;
 };
 
-const pad = (n: number) => String(n).padStart(2, "0");
 const eyebrow = "text-[11px] font-bold tracking-[0.18em] uppercase";
 
 function byline(session: Session, speakers: Speaker[]) {
@@ -66,7 +66,7 @@ export function PhasePanel(props: Props) {
             ).map(([value, unit], i) => (
               <div key={unit} className="flex flex-col gap-1">
                 <span className={`font-display text-[34px] font-semibold tabular ${i === 3 ? "text-cyan" : ""}`}>
-                  {pad(value)}
+                  <RollingNumber value={value} />
                 </span>
                 <span className="text-[11px] font-semibold tracking-[0.14em] text-ink-2 uppercase">{unit}</span>
               </div>
@@ -105,7 +105,7 @@ export function PhasePanel(props: Props) {
             <span className="truncate text-ink-2">
               {current && next && `Sıradaki · ${formatTime(next.startsAt)} ${next.title}`}
             </span>
-            <a href="#program" className="font-bold">
+            <a href="#program" className="link-arrow font-bold">
               Program
             </a>
           </div>
@@ -122,7 +122,7 @@ export function PhasePanel(props: Props) {
             <Button href={edition.certificateUrl ?? "#sertifika"} size="sm">
               Sertifikanı al
             </Button>
-            <a href="#arsiv" className="text-sm font-bold">
+            <a href="#arsiv" className="link-arrow text-sm font-bold">
               Geçmiş yıllar
             </a>
           </div>
@@ -134,7 +134,7 @@ export function PhasePanel(props: Props) {
           <span className={`${eyebrow} text-amber`}>Tarih yakında</span>
           <p className="text-[15px] leading-relaxed text-ink/80">Tarih ve kayıtlar çok yakında açıklanacak.</p>
           {edition.contact.instagram && (
-            <a href={edition.contact.instagram} target="_blank" rel="noopener noreferrer" className="text-sm font-bold">
+            <a href={edition.contact.instagram} target="_blank" rel="noopener noreferrer" className="link-arrow text-sm font-bold">
               Instagram&apos;da takip et
             </a>
           )}
@@ -155,10 +155,10 @@ export function PhaseStrip(props: Props) {
         <>
           <span className={`${eyebrow} text-amber`}>Kalan</span>
           <span className="font-display text-base font-semibold tabular">
-            {pad(left.days)}
-            <span className="text-[10px] text-ink-2">g</span> {pad(left.hours)}
-            <span className="text-[10px] text-ink-2">s</span> {pad(left.minutes)}
-            <span className="text-[10px] text-ink-2">d</span> <span className="text-cyan">{pad(left.seconds)}</span>
+            <RollingNumber value={left.days} />
+            <span className="text-[10px] text-ink-2">g</span> <RollingNumber value={left.hours} />
+            <span className="text-[10px] text-ink-2">s</span> <RollingNumber value={left.minutes} />
+            <span className="text-[10px] text-ink-2">d</span> <span className="text-cyan"><RollingNumber value={left.seconds} /></span>
             <span className="text-[10px] text-ink-2">sn</span>
           </span>
         </>

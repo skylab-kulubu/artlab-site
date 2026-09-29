@@ -42,7 +42,7 @@ export function SpeakerCard({ speaker, n, session }: Props) {
   const role = [speaker.title, speaker.company].filter(Boolean).join(" · ");
 
   return (
-    <Chamfer className="group" innerClassName="flex flex-col">
+    <Chamfer className="group card-lift" innerClassName="flex flex-col">
       <article className="flex h-full flex-col">
         <div className="relative aspect-4/5 overflow-hidden bg-amber">
           {speaker.photo ? (

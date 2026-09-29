@@ -1,17 +1,16 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
+import { RollingNumber } from "@/components/ui/RollingNumber";
 import { useActiveSection } from "@/components/nav/ActiveSection";
 import { useNow } from "@/hooks/useNow";
 import { countdown, phaseAction, phaseAt } from "@/lib/phase";
 import type { Edition } from "@/lib/types";
 
-const pad = (n: number) => String(n).padStart(2, "0");
-
 function Unit({ value, unit, live }: { value: number; unit: string; live?: boolean }) {
   return (
     <>
-      <span className={live ? "text-cyan" : undefined}>{pad(value)}</span>
+      <RollingNumber value={value} className={live ? "text-cyan" : undefined} />
       <span className="text-[10px] text-ink-2">{unit}</span>
     </>
   );

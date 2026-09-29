@@ -43,7 +43,7 @@ function PrizeCard({ prize, content }: { prize: Prize; content: Content }) {
   const firstDay = content.edition.startsAt;
 
   return (
-    <Chamfer border={prize.featured ? "amber" : "line"} innerClassName="flex flex-col">
+    <Chamfer border={prize.featured ? "amber" : "line"} className="card-lift" innerClassName="flex flex-col">
       <article className="flex h-full flex-col">
         <div className={`relative grid h-[150px] place-items-center ${prize.featured ? "bg-amber/12" : "bg-surface-2"}`}>
           {prize.image ? (
@@ -130,7 +130,7 @@ export function Raffle({ content, theme }: { content: Content; theme: Theme }) {
             <span className="text-ink/80">{raffle.baseConditions.join(" ")} Her ödülün kendi şartı var.</span>
           </span>
           {details && (
-            <a href={details} target="_blank" rel="noopener noreferrer" className="shrink-0 text-sm font-bold">
+            <a href={details} target="_blank" rel="noopener noreferrer" className="link-arrow shrink-0 text-sm font-bold">
               Tüm şartlar
             </a>
           )}

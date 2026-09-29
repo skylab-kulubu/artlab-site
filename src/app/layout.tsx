@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope, Unbounded } from "next/font/google";
 import { introScript } from "@/components/Intro";
+import { MotionProvider } from "@/components/MotionProvider";
 import { getContent } from "@/content";
 import { SITE_URL, siteDescription, siteTitle } from "@/lib/site";
 import "./globals.css";
@@ -52,7 +53,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: clockScript + ";" + introScript }} />
       </head>
-      <body className="min-h-dvh">{children}</body>
+      <body className="min-h-dvh">
+        <MotionProvider>{children}</MotionProvider>
+      </body>
     </html>
   );
 }

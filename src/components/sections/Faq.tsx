@@ -116,7 +116,7 @@ export function Faq({ content, theme }: { content: Content; theme: Theme }) {
               {venue.campus} Kampüsü · {venue.name}
             </h3>
             <p className="text-[15px] leading-relaxed text-ink-2">{venue.transport.join(" ")}</p>
-            <a href={directions} target="_blank" rel="noopener noreferrer" className="self-start text-[15px] font-bold">
+            <a href={directions} target="_blank" rel="noopener noreferrer" className="link-arrow self-start text-[15px] font-bold">
               Yol tarifi al
             </a>
           </div>

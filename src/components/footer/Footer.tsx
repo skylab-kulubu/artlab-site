@@ -104,8 +104,25 @@ export function Footer({ theme, year }: { theme: Theme; year: number }) {
           </a>
         </div>
         <div className="flex items-center gap-3">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/img/weblablogo.svg" alt="WEB LAB" width={47} height={36} className={`h-9 w-auto ${mark}`} />
+          <span className="group relative block h-9 w-[47px]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/img/weblablogo-beyaz.svg"
+              alt="WEB LAB"
+              width={47}
+              height={36}
+              className="absolute inset-0 size-full opacity-80 transition-opacity duration-300 group-hover:opacity-0"
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/img/weblablogo.svg"
+              alt=""
+              aria-hidden="true"
+              width={47}
+              height={36}
+              className="absolute inset-0 size-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            />
+          </span>
           <Signature />
         </div>
       </div>

@@ -291,3 +291,29 @@ dialog[open]::backdrop {
     scale: 0 1;
   }
 }
+
+/* Cards lift on hover with transform, since scroll reveals already own the translate property. */
+@utility card-lift {
+  transition:
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.3s ease-out;
+
+  &:hover {
+    transform: translateY(-3px);
+    background-color: var(--color-amber);
+  }
+}
+
+@utility link-arrow {
+  &::after {
+    content: "→";
+    display: inline-block;
+    margin-left: 0.35em;
+    transition: transform 0.2s ease-out;
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    transform: translateX(3px);
+  }
+}
