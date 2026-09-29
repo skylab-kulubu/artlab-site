@@ -9,7 +9,7 @@ const fade = "transition-opacity duration-300";
 // Sleeps by default and wakes while an ancestor marked group/robot is hovered.
 export function Sleep({ className }: ArtProps) {
   return (
-    <svg width="180" height="96" viewBox="0 0 120 64" aria-hidden="true" className={className}>
+    <svg width="180" height="117" viewBox="0 -14 120 78" aria-hidden="true" className={className}>
       <line x1="70.9" y1="22.6" x2="77.2" y2="10.1" stroke={AMBER} strokeWidth="1.3" />
       <circle cx="77.2" cy="10.1" r="2.6" fill={CYAN} />
       <circle cx="60" cy="46" r="26" fill={FILL} stroke={AMBER} strokeWidth="1.6" />
