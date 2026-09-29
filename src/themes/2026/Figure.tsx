@@ -88,8 +88,6 @@ export function Figure({ mode }: FigureProps) {
       <Joint cx={1012} cy={440} r={9} />
       <path d="M975 416 V430 M985 416 V430" stroke={AMBER} strokeWidth="2.4" />
 
-      <line x1="989.2" y1="378.2" x2="994.5" y2="367.6" stroke={AMBER} strokeWidth="1.6" />
-      <circle cx="994.5" cy="367.6" r="2.2" fill={CYAN} />
       <circle cx="980" cy="398" r="22" fill={BODY} stroke={AMBER} strokeWidth="2" />
       <path d="M962.8 391.4 Q980 380 997.2 391.4" fill="none" stroke={AMBER} strokeWidth="1.4" opacity="0.45" />
       <Joint cx={958.9} cy={399.8} r={6.6} />

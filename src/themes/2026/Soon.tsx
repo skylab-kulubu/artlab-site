@@ -7,8 +7,6 @@ const CYAN = "var(--color-cyan)";
 function BigHead({ className, children }: ArtProps & { children?: ReactNode }) {
   return (
     <svg width="92" height="84" viewBox="0 0 120 110" aria-hidden="true" className={className}>
-      <line x1="72.6" y1="21" x2="79.8" y2="6.6" stroke={AMBER} strokeWidth="1.6" />
-      <circle cx="79.8" cy="6.6" r="3" fill={CYAN} />
       <g fill="none" stroke={AMBER}>
         <circle cx="60" cy="48" r="30" strokeWidth="2" />
         <path d="M36.6 39 Q60 23.4 83.4 39" strokeWidth="1.4" opacity="0.45" />

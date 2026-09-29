@@ -10,8 +10,6 @@ const fade = "transition-opacity duration-300";
 export function Sleep({ className }: ArtProps) {
   return (
     <svg width="180" height="117" viewBox="0 -14 120 78" aria-hidden="true" className={className}>
-      <line x1="70.9" y1="22.6" x2="77.2" y2="10.1" stroke={AMBER} strokeWidth="1.3" />
-      <circle cx="77.2" cy="10.1" r="2.6" fill={CYAN} />
       <circle cx="60" cy="46" r="26" fill={FILL} stroke={AMBER} strokeWidth="1.6" />
       <path d="M39.7 38.2 Q60 24.7 80.3 38.2" fill="none" stroke={AMBER} strokeWidth="1.1" opacity="0.45" />
       {[35, 85].map((cx) => (

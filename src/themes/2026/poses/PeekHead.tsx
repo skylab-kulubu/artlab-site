@@ -32,15 +32,6 @@ export function PeekHead({
       className={className}
     >
       <g transform={tilt ? `rotate(${tilt} 60 52)` : undefined}>
-        <line
-          x1="70.9"
-          y1="22.6"
-          x2="77.2"
-          y2="10.1"
-          stroke={AMBER}
-          strokeWidth="1.6"
-        />
-        <circle cx="77.2" cy="10.1" r="2.6" fill={CYAN} />
         <circle
           cx="60"
           cy="46"
