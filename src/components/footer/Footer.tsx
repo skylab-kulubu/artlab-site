@@ -6,16 +6,11 @@ const mark = "opacity-80 transition-opacity duration-300 hover:opacity-100";
 
 function Wordmark() {
   return (
-    <svg viewBox="0 0 1170 168" role="img" aria-label="ARTLAB" className="block h-auto w-full max-w-[900px]">
-      <defs>
-        <pattern id="footer-dots" width="6" height="6" patternUnits="userSpaceOnUse">
-          <circle cx="3" cy="3" r="1.6" fill="var(--color-ink-2)" />
-        </pattern>
-      </defs>
+    <svg viewBox="0 0 1170 168" role="img" aria-label="ARTLAB" className="block h-auto w-full max-w-[900px] select-none">
       <text
         x="0"
         y="150"
-        fill="url(#footer-dots)"
+        fill="var(--color-line)"
         className="font-display font-extrabold"
         style={{ fontSize: 200, letterSpacing: 6 }}
       >

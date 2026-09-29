@@ -78,6 +78,25 @@
     outline-offset: 2px;
   }
 
+  button,
+  summary,
+  label[for],
+  select,
+  [role="button"],
+  [role="tab"] {
+    cursor: pointer;
+  }
+
+  :disabled {
+    cursor: not-allowed;
+  }
+
+  svg[aria-hidden="true"],
+  [aria-hidden="true"] svg,
+  canvas {
+    user-select: none;
+  }
+
   ::selection {
     background-color: var(--color-amber);
     color: var(--color-on-amber);
