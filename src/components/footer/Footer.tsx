@@ -6,11 +6,21 @@ const mark = "opacity-80 transition-opacity duration-300 hover:opacity-100";
 
 function Wordmark() {
   return (
-    <svg viewBox="0 0 1170 168" role="img" aria-label="ARTLAB" className="block h-auto w-full max-w-[900px] select-none">
+    <svg viewBox="-4 -8 1180 184" role="img" aria-label="ARTLAB" className="block h-auto w-full max-w-[900px] select-none">
+      <defs>
+        {/* Outline traced from the silhouette rather than stroked, so the font's overlapping contours stay out of it. */}
+        <filter id="footer-outline" x="-2%" y="-10%" width="104%" height="120%">
+          <feMorphology in="SourceAlpha" operator="dilate" radius="2" result="grown" />
+          <feComposite in="grown" in2="SourceAlpha" operator="out" result="ring" />
+          <feFlood style={{ floodColor: "var(--color-ink-3)" }} />
+          <feComposite in2="ring" operator="in" />
+        </filter>
+      </defs>
       <text
         x="0"
         y="150"
-        fill="var(--color-line)"
+        fill="#fff"
+        filter="url(#footer-outline)"
         className="font-display font-extrabold"
         style={{ fontSize: 200, letterSpacing: 6 }}
       >
