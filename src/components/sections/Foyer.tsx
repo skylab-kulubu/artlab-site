@@ -61,7 +61,7 @@ export function Foyer({ content, theme }: { content: Content; theme: Theme }) {
           </div>
         </Chamfer>
         {small.map(({ title, text, Icon }) => (
-          <Chamfer key={title} surface="bg" className="card-lift" innerClassName="flex flex-col justify-between gap-6 p-7">
+          <Chamfer key={title} surface="bg" innerClassName="flex flex-col justify-between gap-6 p-7">
             <Icon />
             <div>
               <h3 className="text-xl font-bold">{title}</h3>

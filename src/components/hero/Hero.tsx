@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Content } from "@/content";
 import { formatDateRange } from "@/lib/format";
 import type { Theme } from "@/themes";
@@ -33,6 +34,9 @@ function PinIcon() {
 
 type Props = { content: Content; theme: Theme };
 
+// Place in the hero's entrance order; the delay itself lives in CSS so it plays before hydration.
+const order = (i: number) => ({ "--i": i }) as CSSProperties;
+
 export function Hero({ content, theme }: Props) {
   const { edition, sessions, speakers, fetchedAt } = content;
   const { venue } = edition;
@@ -54,20 +58,20 @@ export function Hero({ content, theme }: Props) {
           <HeroScene layout={mobile} theme={theme} serverNow={fetchedAt} part="front" />
         </div>
 
-        <p className="absolute top-[100px] left-20 hidden text-xs font-semibold tracking-[0.14em] text-(--hud) md:block">
+        <p className="enter absolute top-[100px] left-20 hidden text-xs font-semibold tracking-[0.14em] text-(--hud) md:block" style={order(0)}>
           {venue.lat.toFixed(3)}°K · {venue.lng.toFixed(3)}°D · {venue.area.toLocaleUpperCase("tr")}{" "}
           <VenueClock serverNow={fetchedAt} />
         </p>
         {particles && (
-          <div className="absolute top-[122px] left-20 hidden md:block">
+          <div className="enter absolute top-[122px] left-20 hidden md:block" style={order(1)}>
             <DiffusionHud />
           </div>
         )}
 
-        <div className="absolute top-28 right-6 hidden md:block lg:right-20">
+        <div className="enter absolute top-28 right-6 hidden md:block lg:right-20" style={order(2)}>
           <PhasePanel {...panel} />
         </div>
-        <div className="absolute inset-x-4 top-[88px] md:hidden">
+        <div className="enter absolute inset-x-4 top-[88px] md:hidden" style={order(2)}>
           <PhaseStrip {...panel} />
         </div>
 
@@ -75,13 +79,13 @@ export function Hero({ content, theme }: Props) {
           <h1 className="sr-only">
             ARTLAB {edition.year} · Yapay Zeka Zirvesi
           </h1>
-          <span className="text-[11px] font-bold tracking-[0.18em] text-amber md:text-[13px]">
+          <span className="enter text-[11px] font-bold tracking-[0.18em] text-amber md:text-[13px]" style={order(3)}>
             {edition.number}. EDİSYON · YAPAY ZEKA ZİRVESİ
           </span>
-          <p className="font-display text-[26px] leading-[1.15] font-semibold md:text-[40px] md:leading-[1.1]">
+          <p className="enter font-display text-[26px] leading-[1.15] font-semibold md:text-[40px] md:leading-[1.1]" style={order(4)}>
             {edition.slogan ?? "Yapay Zeka Zirvesi"}
           </p>
-          <div className="flex flex-wrap gap-x-7 gap-y-2 text-sm text-ink/80 md:text-base">
+          <div className="enter flex flex-wrap gap-x-7 gap-y-2 text-sm text-ink/80 md:text-base" style={order(5)}>
             <span className="flex items-center gap-2">
               <CalendarIcon />
               {date}
@@ -91,7 +95,7 @@ export function Hero({ content, theme }: Props) {
               {venue.campus} · {venue.name}
             </span>
           </div>
-          <div className="mt-1.5 flex gap-2.5 md:gap-3.5">
+          <div className="enter mt-1.5 flex gap-2.5 md:gap-3.5" style={order(6)}>
             <PhaseButton edition={edition} serverNow={fetchedAt} className="flex-1 md:flex-none" />
             <Button href="#program" variant="outline">
               Programı gör
@@ -99,13 +103,14 @@ export function Hero({ content, theme }: Props) {
           </div>
         </div>
 
-        <div className="absolute right-20 bottom-16 hidden lg:block">
+        <div className="enter absolute right-20 bottom-16 hidden lg:block" style={order(7)}>
           <MiniMap venue={venue.name} />
         </div>
 
         <a
           href="#neden"
-          className="absolute bottom-[18px] left-14 hidden items-center gap-2 text-[11px] font-bold tracking-[0.18em] text-amber hover:text-amber md:flex"
+          className="enter absolute bottom-[18px] left-14 hidden items-center gap-2 text-[11px] font-bold tracking-[0.18em] text-amber hover:text-amber md:flex"
+          style={order(8)}
         >
           <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
             <path d="M2 4 L6 8 L10 4" fill="none" stroke="currentColor" strokeWidth="1.6" />

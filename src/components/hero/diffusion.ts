@@ -131,6 +131,18 @@ export class Diffusion {
     this.startedAt = -1;
   }
 
+  // Scatters every particle into noise and holds it there until startAt, so the
+  // wordmark can be generated in full view once the intro has lifted.
+  emerge(startAt: number) {
+    for (let i = 0; i < this.n; i++) {
+      this.nx[i] = (Math.random() - 0.5) * 1400;
+      this.ny[i] = (Math.random() - 0.5) * 600;
+    }
+    this.step = 0;
+    this.startedAt = startAt;
+    hud.onStep?.(0, 1);
+  }
+
   // Advances the denoising schedule; returns true while there is anything left to draw.
   update(now: number, pointer: { x: number; y: number } | null) {
     let moving = false;

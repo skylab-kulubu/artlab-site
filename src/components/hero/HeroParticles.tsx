@@ -11,6 +11,7 @@ const FIRST_CYCLE_MS = 6000;
 const CYCLE_MS = 14000;
 const HOLD_MS = [2400, 3200];
 const SPARKS = 18;
+const INTRO_LIFT_MS = 1100;
 
 type Spark = { t: number; life: number; tx: number; ty: number; wobble: number };
 
@@ -179,6 +180,11 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
       root.addEventListener("pointerleave", leave);
       root.addEventListener("click", click);
       hud.onStep?.(STEPS, 0);
+      // On a first visit the intro covers the hero, so the wordmark is generated from noise as it lifts.
+      const intro = document.querySelector(".intro");
+      if (intro && !document.documentElement.hasAttribute("data-intro-seen")) {
+        system.emerge(Math.max(performance.now(), INTRO_LIFT_MS));
+      }
       if (morphs.length) schedule(FIRST_CYCLE_MS);
       wake();
     });

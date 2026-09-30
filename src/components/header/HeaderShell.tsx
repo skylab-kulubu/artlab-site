@@ -8,7 +8,7 @@ export function HeaderShell({ children }: { children: ReactNode }) {
   const onHero = active === "baslangic";
 
   return (
-    <header className="fixed inset-x-3 top-3 z-50 lg:inset-x-6 lg:top-4">
+    <header className="enter-down fixed inset-x-3 top-3 z-50 lg:inset-x-6 lg:top-4">
       <div className="cho relative bg-ink/18 p-px">
         <div
           className={`chi flex h-16 items-center justify-between gap-4 pr-3 pl-4 backdrop-blur-md transition-colors duration-500 lg:gap-8 lg:pl-6 ${
