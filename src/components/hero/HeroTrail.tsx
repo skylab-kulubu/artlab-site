@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import type { SceneLayout } from "./layouts";
 
 const PATH_X = 40;
@@ -35,6 +35,7 @@ function trailPath(layout: SceneLayout, width: number, height: number) {
 export function HeroTrail({ layout, className }: { layout: SceneLayout; className?: string }) {
   const ref = useRef<SVGSVGElement>(null);
   const [d, setD] = useState<string | null>(null);
+  const mask = `trail-${useId().replace(/:/g, "")}`;
 
   useEffect(() => {
     const el = ref.current;
@@ -50,15 +51,22 @@ export function HeroTrail({ layout, className }: { layout: SceneLayout; classNam
   return (
     <svg ref={ref} aria-hidden="true" className={`pointer-events-none absolute inset-0 size-full ${className ?? ""}`}>
       {d && (
-        <path
-          d={d}
-          fill="none"
-          stroke="var(--color-amber)"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeDasharray="1.5 7"
-          opacity="0.7"
-        />
+        <>
+          {/* A solid copy draws itself in the mask, so the dashed trail appears from the robot's feet down to the path. */}
+          <mask id={mask} maskUnits="userSpaceOnUse">
+            <path d={d} pathLength={1} fill="none" stroke="#fff" strokeWidth="6" className="trail-draw" />
+          </mask>
+          <path
+            d={d}
+            fill="none"
+            stroke="var(--color-amber)"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeDasharray="1.5 7"
+            opacity="0.7"
+            mask={`url(#${mask})`}
+          />
+        </>
       )}
     </svg>
   );

@@ -181,8 +181,9 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
       root.addEventListener("click", click);
       hud.onStep?.(STEPS, 0);
       // On a first visit the intro covers the hero, so the wordmark is generated from noise as it lifts.
+      // Only while the page is still loading: a later remount (hot reload) takes over in place instead.
       const intro = document.querySelector(".intro");
-      if (intro && !document.documentElement.hasAttribute("data-intro-seen")) {
+      if (intro && !document.documentElement.hasAttribute("data-intro-seen") && performance.now() < INTRO_LIFT_MS * 2) {
         system.emerge(Math.max(performance.now(), INTRO_LIFT_MS));
       }
       if (morphs.length) schedule(FIRST_CYCLE_MS);
@@ -198,7 +199,8 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
       root.removeEventListener("pointermove", move);
       root.removeEventListener("pointerleave", leave);
       root.removeEventListener("click", click);
-      root.removeAttribute("data-particles");
+      // data-particles stays: a remount (strict mode, hot reload) takes over at once, and dropping
+      // it here would flash the static wordmark back in between the two.
     };
   }, [layout, themeId]);
 
