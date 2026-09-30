@@ -4,7 +4,7 @@ import type { Theme } from "@/themes";
 import { CompactCompass, Compass } from "./Compass";
 import { HeaderAction } from "./HeaderAction";
 import { HeaderShell } from "./HeaderShell";
-import { MobileMenu } from "./MobileMenu";
+import { MenuButton } from "./MobileMenu";
 
 type Props = { edition: Edition; theme: Theme; serverNow: number };
 
@@ -21,7 +21,7 @@ export function Header({ edition, theme, serverNow }: Props) {
       <CompactCompass />
       <div className="flex items-center gap-1">
         <HeaderAction edition={edition} serverNow={serverNow} />
-        <MobileMenu />
+        <MenuButton />
       </div>
     </HeaderShell>
   );
