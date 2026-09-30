@@ -270,6 +270,12 @@ dialog[open]::backdrop {
       animation-range: entry 26% entry 66%;
     }
 
+    .path-draw {
+      animation: path-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 55%;
+    }
+
     .reveal-line {
       transform-origin: left;
       animation: reveal-line linear both;
@@ -283,6 +289,12 @@ dialog[open]::backdrop {
   from {
     opacity: 0;
     translate: 0 18px;
+  }
+}
+
+@keyframes path-draw {
+  from {
+    clip-path: inset(0 0 100% 0);
   }
 }
 

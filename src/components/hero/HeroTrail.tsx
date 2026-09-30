@@ -26,10 +26,16 @@ function trailPath(layout: SceneLayout, width: number, height: number) {
   const c1 = map([960, 700]);
   const c2 = map([720, 806]);
   const mid = map([420, 822]);
+  // The last curve leaves the low run level and lands on the section path heading
+  // straight down, so the trail and the dashed line below read as one stroke.
+  const run: Point = [mid[0] - 190 * s, mid[1] + 4 * s];
+  const land: Point = [PATH_X, height - 30 * s];
   const end: Point = [PATH_X, height];
-  const c3: Point = [PATH_X + 30 * s, height - 34 * s];
   const f = (p: Point) => `${p[0].toFixed(1)} ${p[1].toFixed(1)}`;
-  return `M${f(feet)} C ${f(c1)}, ${f(c2)}, ${f(mid)} S ${f(c3)}, ${f(end)}`;
+  return {
+    d: `M${f(feet)} C ${f(c1)}, ${f(c2)}, ${f(mid)} C ${f(run)}, ${f(land)}, ${f(end)}`,
+    labelBottom: height - mid[1] + 16,
+  };
 }
 
 export function HeroTrail({ layout, className }: { layout: SceneLayout; className?: string }) {
@@ -42,7 +48,10 @@ export function HeroTrail({ layout, className }: { layout: SceneLayout; classNam
     if (!el) return;
     const observer = new ResizeObserver(([entry]) => {
       const { width, height } = entry.contentRect;
-      setD(width ? trailPath(layout, width, height) : null);
+      if (!width) return setD(null);
+      const trail = trailPath(layout, width, height);
+      setD(trail.d);
+      el.parentElement?.style.setProperty("--kesfet-bottom", `${Math.round(trail.labelBottom)}px`);
     });
     observer.observe(el);
     return () => observer.disconnect();

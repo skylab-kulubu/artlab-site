@@ -109,8 +109,8 @@ export function Hero({ content, theme }: Props) {
 
         <a
           href="#neden"
-          className="enter absolute bottom-[18px] left-14 hidden items-center gap-2 text-[11px] font-bold tracking-[0.18em] text-amber hover:text-amber md:flex"
-          style={order(8)}
+          className="enter absolute left-[58px] hidden items-center gap-2 text-[11px] font-bold tracking-[0.18em] text-amber hover:text-amber md:flex"
+          style={{ ...order(8), bottom: "var(--kesfet-bottom, 56px)" }}
         >
           <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
             <path d="M2 4 L6 8 L10 4" fill="none" stroke="currentColor" strokeWidth="1.6" />
