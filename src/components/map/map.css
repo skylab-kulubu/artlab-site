@@ -1,0 +1,36 @@
+/* The inverse of the map's zoom, so markers and strokes keep their on-screen size. */
+@property --inv {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+.map-stack {
+  transform-origin: 0 0;
+  transition:
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    --inv 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.map-stack[data-dragging] {
+  transition: none;
+}
+
+.map-marker {
+  scale: calc(var(--inv) * var(--marker, 1));
+}
+
+.map-line {
+  stroke-width: calc(var(--w) * var(--inv));
+  transition: opacity 0.4s;
+}
+
+.map-dots {
+  stroke-dasharray: 0.1 calc(8px * var(--inv));
+}
+
+@container (width < 520px) {
+  .map-stack {
+    --marker: 0.72;
+  }
+}

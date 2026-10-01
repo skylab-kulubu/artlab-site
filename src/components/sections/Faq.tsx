@@ -3,6 +3,7 @@ import { Chamfer } from "@/components/ui/Chamfer";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { StopGlyph } from "@/components/ui/StopGlyph";
+import { VenueMap } from "@/components/map/VenueMap";
 import { sectionArt, type Theme } from "@/themes";
 
 function Toggle() {
@@ -14,48 +15,6 @@ function Toggle() {
         className="origin-center stroke-amber transition-[rotate,opacity] duration-300 [transform-box:fill-box] group-open:rotate-90 group-open:opacity-0"
       />
     </svg>
-  );
-}
-
-function VenueMap({ venue }: { venue: string }) {
-  return (
-    <Chamfer surface="surface-2" className="h-[300px]" innerClassName="relative overflow-hidden">
-      <svg
-        width="100%"
-        height="298"
-        viewBox="0 0 600 298"
-        preserveAspectRatio="xMidYMid slice"
-        aria-hidden="true"
-        className="block"
-      >
-        <g stroke="var(--color-line-2)">
-          <path d="M0 210 L600 170" strokeWidth="16" />
-          <path d="M170 0 L250 298" strokeWidth="12" />
-          <path d="M0 90 L600 120" strokeWidth="8" />
-          <path d="M420 0 L380 298" strokeWidth="6" />
-        </g>
-        <path d="M0 245 L600 205" stroke="var(--color-cyan)" strokeWidth="2" strokeDasharray="7 5" />
-        <circle cx="140" cy="236" r="7" fill="var(--color-surface-2)" stroke="var(--color-cyan)" strokeWidth="2" />
-        <path
-          d="M140 236 Q250 200 330 140"
-          fill="none"
-          stroke="var(--color-amber)"
-          strokeWidth="1.8"
-          strokeDasharray="3 5"
-        />
-        <path
-          d="M330 140 C320 127 315 119 315 112 A15 15 0 0 1 345 112 C345 119 340 127 330 140 Z"
-          fill="var(--color-amber)"
-        />
-        <circle cx="330" cy="112" r="5" fill="var(--color-surface-2)" />
-        <text x="356" y="118" fill="var(--color-ink)" className="font-sans" fontSize="15" fontWeight="700">
-          {venue}
-        </text>
-        <text x="96" y="266" fill="var(--color-ink-2)" className="font-sans" fontSize="13" fontWeight="600">
-          M1A · Davutpaşa-YTÜ
-        </text>
-      </svg>
-    </Chamfer>
   );
 }
 
@@ -110,13 +69,18 @@ export function Faq({ content, theme }: { content: Content; theme: Theme }) {
           )}
         </div>
         <div id="konum" className="flex scroll-mt-24 flex-col gap-5">
-          <VenueMap venue={venue.name} />
+          <VenueMap venue={venue.name} directions={directions} />
           <div className="flex flex-col gap-3">
             <h3 className="text-xl font-bold">
               {venue.campus} Kampüsü · {venue.name}
             </h3>
             <p className="text-[15px] leading-relaxed text-ink-2">{venue.transport.join(" ")}</p>
-            <a href={directions} target="_blank" rel="noopener noreferrer" className="link-arrow self-start text-[15px] font-bold">
+            <a
+              href={directions}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-arrow self-start text-[15px] font-bold"
+            >
               Yol tarifi al
             </a>
           </div>
