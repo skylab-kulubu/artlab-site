@@ -51,8 +51,16 @@ export function Foyer({ content, theme }: { content: Content; theme: Theme }) {
           {foyer.photo && (
             <>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={foyer.photo.src} alt={foyer.photo.alt} className="absolute inset-0 size-full object-cover" />
-              <div aria-hidden="true" className="absolute inset-0 bg-linear-to-t from-bg via-bg/60 to-transparent" />
+              <img
+                src={foyer.photo.src}
+                alt={foyer.photo.alt}
+                width={foyer.photo.width}
+                height={foyer.photo.height}
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 size-full object-cover object-[50%_40%]"
+              />
+              <div aria-hidden="true" className="absolute inset-0 bg-linear-to-t from-bg via-bg/55 to-bg/10" />
             </>
           )}
           <div className="relative">

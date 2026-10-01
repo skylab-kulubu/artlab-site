@@ -26,7 +26,15 @@ export const edition: Edition = {
   },
 };
 
-export const foyer: Foyer = { standCount: 12 };
+export const foyer: Foyer = {
+  standCount: 12,
+  photo: {
+    src: "/img/fuaye.jpg",
+    alt: "Tarihi Hamam fuayesinde stantları gezen katılımcılar",
+    width: 1600,
+    height: 900,
+  },
+};
 
 export const pastEditions: PastEdition[] = [
   { year: 2022, dateLabel: "14 Kasım", note: "seminer + workshop" },
