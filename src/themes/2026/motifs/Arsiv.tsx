@@ -1,44 +1,46 @@
-import { seeded } from "@/lib/random";
 import type { ArtProps } from "../../types";
+import { DOVE_BOX, DOVE_PATH, DOVE_PIXELS, DOVE_TIPS } from "./dove";
 
-const pixels = (() => {
-  const rand = seeded(2025);
-  return [
-    [186, 24],
-    [226, 52],
-  ].flatMap(([x, y]) =>
-    Array.from({ length: 14 }, (_, i) => {
-      const t = (i + 1) / 14;
-      const size = Math.round(6 - t * 3);
-      return {
-        x: Math.round(x + t * 120 + rand() * 18),
-        y: Math.round(y - 18 + t * 30 + (rand() - 0.5) * 40),
-        size,
-        opacity: (1 - t * 0.85).toFixed(2),
-      };
-    }),
-  );
-})();
+const PAD = 26;
+const [bx, by, bw, bh] = DOVE_BOX;
+const box = { x: bx - PAD, y: by - PAD, width: bw + 2 * PAD, height: bh + 2 * PAD };
 
 export function Arsiv({ className }: ArtProps) {
   return (
     <svg
-      width="520"
-      height="160"
-      viewBox="0 0 520 160"
+      width="250"
+      height={Math.round((250 * box.height) / box.width)}
+      viewBox={`${box.x} ${box.y} ${box.width} ${box.height}`}
       aria-hidden="true"
-      className={`absolute top-7.5 right-20 opacity-55 ${className ?? ""}`}
+      className={`absolute top-4 right-24 opacity-55 ${className ?? ""}`}
     >
-      <g fill="none" stroke="var(--color-ink)" strokeWidth="1.4" strokeLinejoin="round">
-        <path d="M70 124 Q108 104 158 110 Q182 106 198 96 L212 99 L201 110 Q186 128 150 132 Q110 140 70 124 Z" />
-        <path d="M118 112 Q128 50 186 24 Q176 64 156 106" />
-        <path d="M138 110 Q168 64 226 52 Q202 88 172 112" />
-        <path d="M70 124 L38 110 L46 126 L34 138 L72 128" />
-      </g>
-      <circle cx="202" cy="101" r="1.6" fill="var(--color-ink)" />
+      <defs>
+        {DOVE_TIPS.map(([cx, cy], i) => (
+          <radialGradient key={i} id={`dove-tip-${i}`} gradientUnits="userSpaceOnUse" cx={cx} cy={cy} r="17">
+            <stop offset="0" stopColor="#000" />
+            <stop offset="1" stopColor="#fff" />
+          </radialGradient>
+        ))}
+        {/* The outline fades out towards each wing tip, where the pixels take over. */}
+        <mask id="dove-fade" maskUnits="userSpaceOnUse" {...box}>
+          <rect {...box} fill="#fff" />
+          {DOVE_TIPS.map((_, i) => (
+            <rect key={i} {...box} fill={`url(#dove-tip-${i})`} style={{ mixBlendMode: "multiply" }} />
+          ))}
+        </mask>
+      </defs>
+      <path
+        d={DOVE_PATH}
+        fill="none"
+        stroke="var(--color-ink)"
+        strokeWidth="1.3"
+        strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
+        mask="url(#dove-fade)"
+      />
       <g fill="var(--color-ink)">
-        {pixels.map((p, i) => (
-          <rect key={i} x={p.x} y={p.y} width={p.size} height={p.size} opacity={p.opacity} />
+        {DOVE_PIXELS.map(([x, y, size, opacity], i) => (
+          <rect key={i} x={x} y={y} width={size} height={size} opacity={opacity} />
         ))}
       </g>
     </svg>
