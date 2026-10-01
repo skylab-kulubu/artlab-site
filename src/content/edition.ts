@@ -17,6 +17,7 @@ export const edition: Edition = {
       "41AT otobüs hattı da kampüse gidiyor.",
     ],
   },
+  registrationUrl: "https://skyl.app/artlab-katilimci-formu",
   workshopRoom: "[salon adı]",
   programNote: "Seminerler Tarihi Hamam'da, workshoplar [salon adı]'nda.",
   contact: {

@@ -134,7 +134,6 @@ export function Faq({ content, theme }: { content: Content; theme: Theme }) {
           <h3 className="text-[22px] font-bold">Aklına takılan bir şey mi var?</h3>
           <p className="text-[15px] leading-relaxed text-ink-2">
             Etkinlik, kayıt süreci ya da sponsorluk hakkında merak ettiğin her şey için bize yaz.
-            {contact.email && " Sponsorluk dosyasını da bu adresten isteyebilirsin."}
           </p>
         </div>
         {contact.email ? (
