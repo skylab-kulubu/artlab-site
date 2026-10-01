@@ -57,6 +57,7 @@ export function Hero({ content, theme }: Props) {
           <HeroScene layout={mobile} theme={theme} serverNow={fetchedAt} part="back" />
           <HeroScene layout={mobile} theme={theme} serverNow={fetchedAt} part="front" />
         </div>
+        <HeroTrail layout={mobile} className="md:hidden" />
 
         <p className="enter absolute top-[100px] left-20 hidden text-xs font-semibold tracking-[0.14em] text-(--hud) md:block" style={order(0)}>
           {venue.lat.toFixed(3)}°K · {venue.lng.toFixed(3)}°D · {venue.area.toLocaleUpperCase("tr")}{" "}

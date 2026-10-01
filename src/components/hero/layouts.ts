@@ -2,6 +2,8 @@
 // One full grid step, so the outermost row of dots is always rim however an edge falls between rows.
 export const EDGE_BAND = 6;
 
+type Point = [number, number];
+
 type Band = "--sky-4" | "--sky-5" | "--sky-6";
 
 export type SceneLayout = {
@@ -26,6 +28,9 @@ export type SceneLayout = {
   flowers: [x: number, y: number, size: number][];
   sparkles: [x: number, y: number, r: number, cyan: boolean, opacity: number][];
   figure: string;
+  // Trail from the robot's feet to the section path: scene points for the first
+  // curve, then the run towards the edge and how far above the bottom it turns down.
+  trail: { pathX: number; zoom: boolean; feet: Point; c1: Point; c2: Point; mid: Point; run: Point; landLift: number };
   sun: { x: number; dx: number; y: number; dy: number; r: number; moon: [number, number] };
 };
 
@@ -80,6 +85,7 @@ export const desktop: SceneLayout = {
     [1350, 210, 1, true, 0.4],
   ],
   figure: "",
+  trail: { pathX: 40, zoom: true, feet: [980, 580], c1: [960, 700], c2: [720, 806], mid: [420, 822], run: [-190, 4], landLift: 30 },
   sun: { x: 330, dx: 810, y: 540, dy: 330, r: 72, moon: [300, 230] },
 };
 
@@ -116,5 +122,6 @@ export const mobile: SceneLayout = {
     [60, 300, 1, false, 0.3],
   ],
   figure: "translate(222 530) scale(0.62) translate(-980 -572)",
+  trail: { pathX: 8, zoom: false, feet: [222, 534], c1: [214, 572], c2: [150, 584], mid: [64, 586], run: [-50, 0], landLift: 236 },
   sun: { x: 110, dx: 200, y: 410, dy: 250, r: 46, moon: [80, 150] },
 };

@@ -13,7 +13,6 @@ import { Speakers } from "@/components/sections/Speakers";
 import { Sponsors } from "@/components/sections/Sponsors";
 import { Why } from "@/components/sections/Why";
 import { ActiveSectionProvider } from "@/components/nav/ActiveSection";
-import { ScrollProgress } from "@/components/nav/ScrollProgress";
 import { visibleSections } from "@/lib/sections";
 import type { Theme } from "@/themes";
 
@@ -27,7 +26,6 @@ export function Site({ content, theme, intro = true }: Props) {
     <ActiveSectionProvider sections={sections}>
       <EventSchema content={content} />
       {intro && <Intro theme={theme} />}
-      <ScrollProgress />
       <Header edition={content.edition} theme={theme} serverNow={content.fetchedAt} />
       <main>
         <Hero content={content} theme={theme} />

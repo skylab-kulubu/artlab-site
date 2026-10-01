@@ -14,7 +14,7 @@ export function Section({ id, children, motif, className = "" }: Props) {
       id={id}
       className={`relative isolate flex scroll-mt-24 flex-col gap-12 overflow-clip px-5 pt-20 pb-16 lg:px-20 lg:pt-24 ${className}`}
     >
-      <span aria-hidden="true" className="path-draw absolute inset-y-0 left-10 hidden border-l border-dashed border-path lg:block" />
+      <span aria-hidden="true" className="path-draw absolute inset-y-0 left-2 border-l border-dashed border-path lg:left-10" />
       {motif && (
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 hidden lg:block">
           {motif}

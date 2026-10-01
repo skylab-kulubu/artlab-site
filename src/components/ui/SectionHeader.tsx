@@ -16,8 +16,8 @@ export function SectionHeader({ section, title, lead, illustration, aside }: Pro
       {illustration && <div className="reveal ml-2 h-16">{illustration}</div>}
       <div className="relative h-px">
         <span aria-hidden="true" className="reveal-line absolute inset-0 bg-line" />
-        <span aria-hidden="true" className="absolute top-0 -left-[34px] hidden h-px w-[34px] bg-line lg:block" />
-        <PathStop section={section} className="-top-1.5 -left-[46px] hidden lg:block" />
+        <span aria-hidden="true" className="absolute top-0 -left-3 h-px w-3 bg-line lg:-left-[34px] lg:w-[34px]" />
+        <PathStop section={section} className="-top-1.5 -left-[18px] lg:-left-[46px]" />
       </div>
       <div className="flex flex-wrap items-end justify-between gap-6 pt-7">
         <div className="reveal">
