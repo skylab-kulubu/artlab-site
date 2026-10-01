@@ -68,58 +68,44 @@ export function Faq({ content, theme }: { content: Content; theme: Theme }) {
             </div>
           )}
         </div>
-        <div id="konum" className="flex scroll-mt-24 flex-col gap-5">
-          <VenueMap venue={venue.name} directions={directions} />
-          <div className="flex flex-col gap-3">
-            <h3 className="text-xl font-bold">
-              {venue.campus} Kampüsü · {venue.name}
-            </h3>
-            <p className="text-[15px] leading-relaxed text-ink-2">{venue.transport.join(" ")}</p>
-            <a
-              href={directions}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-arrow self-start text-[15px] font-bold"
-            >
-              Yol tarifi al
-            </a>
+        <Chamfer
+          id="iletisim"
+          border="amber"
+          className="scroll-mt-24 self-start"
+          innerClassName="flex flex-col gap-6 px-6 py-7 md:px-9 md:py-9"
+        >
+          {ContactArt ? <ContactArt className="shrink-0" /> : <StopGlyph />}
+          <div className="flex grow flex-col gap-1.5">
+            <span className="text-[11px] font-bold tracking-[0.18em] text-cyan">İLETİŞİM</span>
+            <h3 className="text-[22px] font-bold">Aklına takılan bir şey mi var?</h3>
+            <p className="text-[15px] leading-relaxed text-ink-2">
+              Etkinlik, kayıt süreci ya da sponsorluk hakkında merak ettiğin her şey için bize yaz.
+            </p>
           </div>
-        </div>
-      </div>
-      <Chamfer
-        id="iletisim"
-        border="amber"
-        className="reveal scroll-mt-24"
-        innerClassName="flex flex-col gap-6 px-6 py-7 md:flex-row md:items-center md:gap-9 md:px-9"
-      >
-        {ContactArt ? <ContactArt className="shrink-0" /> : <StopGlyph />}
-        <div className="flex grow flex-col gap-1.5">
-          <span className="text-[11px] font-bold tracking-[0.18em] text-cyan">İLETİŞİM</span>
-          <h3 className="text-[22px] font-bold">Aklına takılan bir şey mi var?</h3>
-          <p className="text-[15px] leading-relaxed text-ink-2">
-            Etkinlik, kayıt süreci ya da sponsorluk hakkında merak ettiğin her şey için bize yaz.
-          </p>
-        </div>
-        {contact.email ? (
-          <a
-            href={`mailto:${contact.email}`}
-            className="flex shrink-0 items-center gap-3 self-start border border-line px-5 py-4 font-display text-base font-semibold text-ink hover:border-cyan hover:text-ink md:self-auto"
-          >
-            <MailIcon />
-            {contact.email}
-          </a>
-        ) : (
-          contact.instagram && (
+          {contact.email ? (
             <a
-              href={contact.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="shrink-0 self-start border border-line px-5 py-4 font-display text-base font-semibold text-ink hover:border-cyan hover:text-ink md:self-auto"
+              href={`mailto:${contact.email}`}
+              className="flex shrink-0 items-center gap-3 self-start border border-line px-5 py-4 font-display text-base font-semibold text-ink hover:border-cyan hover:text-ink"
             >
-              Instagram&apos;dan yaz
+              <MailIcon />
+              {contact.email}
             </a>
-          )
-        )}
+          ) : (
+            contact.instagram && (
+              <a
+                href={contact.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="shrink-0 self-start border border-line px-5 py-4 font-display text-base font-semibold text-ink hover:border-cyan hover:text-ink"
+              >
+                Instagram&apos;dan yaz
+              </a>
+            )
+          )}
+        </Chamfer>
+      </div>
+      <Chamfer id="konum" className="reveal mt-12 scroll-mt-24 lg:mt-16">
+        <VenueMap venue={venue.name} place={`${venue.campus} Kampüsü · ${venue.name}`} directions={directions} />
       </Chamfer>
     </Section>
   );

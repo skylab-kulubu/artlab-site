@@ -11,6 +11,7 @@ export function MiniMap({ venue }: { venue: string }) {
         <span className="absolute top-0 left-0 bg-bg-deep/85 py-1.5 pr-3 pl-4 text-[11px] font-bold tracking-[0.14em] text-ink group-hover/mini:text-amber">
           HARİTA · ULAŞIM
         </span>
+        <span className="absolute right-0 bottom-0 bg-bg-deep/75 px-1 text-[9px] text-ink-3">© OpenStreetMap</span>
       </a>
     </Chamfer>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type PointerEvent } from "react";
+import { MapChrome } from "./MapChrome";
 import { clampView, Diamond, FULL, MapStack, PinGlyph, type View } from "./MapStack";
 import { MAP_H, MAP_W, steps } from "./route";
 
@@ -106,6 +107,7 @@ function Frame({ venue }: { venue: string }) {
           }`}
         >
           <MapStack view={view} active={active} dragging={dragging} onStep={pick} venue={venue} />
+          <MapChrome scale={clampView(view).scale} />
         </div>
         <div className="absolute top-3 right-3 flex flex-col gap-1.5">
           <IconButton label="Yakınlaştır" onClick={() => zoom(1.5)}>
@@ -155,7 +157,9 @@ function Frame({ venue }: { venue: string }) {
   );
 }
 
-export function VenueMap({ venue, directions }: { venue: string; directions: string }) {
+type Props = { venue: string; place: string; directions: string };
+
+export function VenueMap({ venue, place, directions }: Props) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
 
@@ -166,24 +170,67 @@ export function VenueMap({ venue, directions }: { venue: string; directions: str
 
   return (
     <>
-      <button
-        type="button"
-        onClick={show}
-        aria-haspopup="dialog"
-        className="group/map cho block w-full bg-line p-px text-left"
-      >
-        <span className="chi block bg-surface-2">
-          <span className="relative block aspect-[1200/1023] overflow-hidden bg-bg @container">
+      <div className="grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
+        <button
+          type="button"
+          onClick={show}
+          aria-haspopup="dialog"
+          aria-label="Yol tarifini haritada aç"
+          className="group/map relative block aspect-[4/3] overflow-hidden bg-bg @container sm:aspect-[3/2]"
+        >
+          {/* The frame is wider than the map, so the map fills the width and is
+              centred on the route's vertical span. */}
+          <span className="absolute inset-x-0 top-1/2 block aspect-[1200/1023] -translate-y-[52.1%]">
             <MapStack venue={venue} />
           </span>
-          <span className="flex items-center justify-between gap-3 border-t border-line px-4 py-3.5">
-            <span className="text-[11px] font-bold tracking-[0.18em] text-ink-2">METRODAN 4 ADIMDA</span>
-            <span className="link-arrow text-[14px] font-bold text-amber group-hover/map:text-ink">
-              Yol tarifini aç
-            </span>
+          <MapChrome />
+          <span className="absolute top-3 right-3 grid size-10 place-items-center border border-line bg-bg-deep/90 text-ink transition-colors group-hover/map:border-cyan">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              aria-hidden="true"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              fill="none"
+            >
+              <path d="M8.5 1.5 H12.5 V5.5 M12.5 1.5 L8 6 M5.5 12.5 H1.5 V8.5 M1.5 12.5 L6 8" />
+            </svg>
           </span>
-        </span>
-      </button>
+        </button>
+        <div className="flex flex-col gap-5 border-line p-6 max-lg:border-t md:p-8 lg:border-l">
+          <div className="flex flex-col gap-1.5">
+            <span className="text-[11px] font-bold tracking-[0.18em] text-cyan">KONUM</span>
+            <h3 className="text-xl font-bold">{place}</h3>
+          </div>
+          <ol className="flex flex-col gap-3">
+            {steps.map((step, i) => (
+              <li key={step.title} className="flex items-start gap-3">
+                <span className="grid size-[22px] shrink-0 scale-[0.85] place-items-center">
+                  {i === steps.length - 1 ? <PinGlyph /> : <Diamond n={i + 1} tone={step.tone} />}
+                </span>
+                <span className="text-[15px] leading-snug">
+                  <span className="font-semibold text-ink">{step.title}</span>
+                  <span className="text-ink-2"> · {step.text}</span>
+                </span>
+              </li>
+            ))}
+          </ol>
+          <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 pt-1">
+            <button
+              type="button"
+              onClick={show}
+              aria-haspopup="dialog"
+              className="cut inline-flex h-11 items-center bg-amber px-5 text-sm font-bold text-on-amber hover:brightness-110"
+            >
+              Yol tarifini aç
+            </button>
+            <a href={directions} target="_blank" rel="noopener noreferrer" className="link-arrow text-[15px] font-bold">
+              Google Haritalar
+            </a>
+          </div>
+        </div>
+      </div>
 
       <dialog
         ref={dialog}

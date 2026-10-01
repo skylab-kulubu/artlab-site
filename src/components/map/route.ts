@@ -1,6 +1,8 @@
 // Overlay geometry for public/map/base.svg, in its 1200 × 1023 coordinate space.
 export const MAP_W = 1200;
 export const MAP_H = 1023;
+// The source map's scale bar spans 157 units for 200 m.
+export const METERS_PER_UNIT = 200 / 157;
 
 export const legs = {
   metroWalk:
@@ -51,7 +53,7 @@ export const steps: Step[] = [
     text: "41AT veya kampüs ringine bin",
     at: [1007.3, 787.5],
     tone: "amber",
-    focus: { x: 640, y: 550, scale: 1.5 },
+    focus: { x: 640, y: 540, scale: 1.3 },
     leg: "ring",
     next: {
       kind: "ride",

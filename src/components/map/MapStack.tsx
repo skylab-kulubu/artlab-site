@@ -140,7 +140,7 @@ export function MapStack({ view = FULL, active = null, dragging, onStep, steps: 
       {numbered &&
         steps.map((step, i) => {
           // Metro and hamam already have their own glyph, so their numbers sit beside it.
-          const offset = i === 0 ? [-30, 20] : i === steps.length - 1 ? [-28, -22] : [0, 0];
+          const offset = i === 0 ? [-30, -20] : i === steps.length - 1 ? [-28, -22] : [0, 0];
           return (
             <span key={step.title} className="map-marker absolute size-0" style={at(step.at)}>
               <Marker
