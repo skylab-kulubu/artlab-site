@@ -30,13 +30,13 @@ export function Site({ content, theme, intro = true }: Props) {
       <main>
         <Hero content={content} theme={theme} />
         <Why content={content} theme={theme} />
-        {shown.has("cekilis") && <Raffle content={content} theme={theme} />}
         <Program content={content} theme={theme} />
+        <Faq content={content} theme={theme} />
         <Speakers content={content} theme={theme} />
+        {shown.has("cekilis") && <Raffle content={content} theme={theme} />}
         {shown.has("fuaye") && <Foyer content={content} theme={theme} />}
         {shown.has("arsiv") && <Archive content={content} theme={theme} />}
         {shown.has("destekciler") && <Sponsors content={content} theme={theme} />}
-        <Faq content={content} theme={theme} />
       </main>
       <Footer theme={theme} year={content.edition.year} />
     </ActiveSectionProvider>
