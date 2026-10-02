@@ -39,8 +39,42 @@ export const foyer: Foyer = {
 export const pastEditions: PastEdition[] = [
   { year: 2022, dateLabel: "14 Kasım", note: "seminer + workshop" },
   { year: 2023, dateLabel: "13 Kasım" },
-  { year: 2024, dateLabel: "25–26 Kasım" },
-  { year: 2025, dateLabel: "11–12 Aralık" },
+  {
+    year: 2024,
+    dateLabel: "25–26 Kasım",
+    gallery: [
+      {
+        src: "/img/arsiv/2024-1.jpg",
+        alt: "Katılımcılar bir stantta dizüstü bilgisayarlardaki demoları inceliyor",
+        width: 1600,
+        height: 1067,
+      },
+      {
+        src: "/img/arsiv/2024-2.jpg",
+        alt: "Bir katılımcı sanal gerçeklik gözlüğüyle bir demoyu deniyor",
+        width: 1600,
+        height: 1067,
+      },
+      { src: "/img/arsiv/2024-3.jpg", alt: "Katılımcılar fuayede sohbet ediyor", width: 1600, height: 1067 },
+      {
+        src: "/img/arsiv/2024-4.jpg",
+        alt: "Tarihi Hamam fuayesinde stantların arasında sohbet eden katılımcılar",
+        width: 1600,
+        height: 1067,
+      },
+    ],
+  },
+  {
+    year: 2025,
+    dateLabel: "11–12 Aralık",
+    gallery: [
+      {
+        src: "/img/arsiv/2025-1.jpg",
+        alt: "Bir katılımcı sponsor stantında oyun deniyor, çevresinde izleyenler",
+        width: 1600,
+        height: 1067,
+      },
+      { src: "/img/arsiv/2025-2.jpg", alt: "Oturum arasında fuayede toplanan katılımcılar", width: 1600, height: 1067 },
+    ],
+  },
 ];
-
-export const archiveGap = "2019–2021";

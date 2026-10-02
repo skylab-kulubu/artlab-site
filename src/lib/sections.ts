@@ -20,7 +20,7 @@ const all: (SectionLink & { shown: (c: Content) => boolean })[] = [
   { id: "program", label: "Program", shown: () => true },
   { id: "konusmacilar", label: "Konuşmacılar", shown: () => true },
   { id: "fuaye", label: "Fuaye", shown: (c) => c.sponsors.length > 0 },
-  { id: "arsiv", label: "Geçmiş yıllar", shown: (c) => c.pastEditions.length > 0 },
+  { id: "arsiv", label: "Geçmiş yıllar", shown: (c) => c.pastEditions.some((p) => p.gallery?.length) },
   { id: "destekciler", label: "Destekçiler", shown: (c) => c.sponsors.length > 0 },
   { id: "sss", label: "SSS", shown: () => true },
 ];

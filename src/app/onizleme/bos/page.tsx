@@ -20,7 +20,6 @@ export default async function EmptyPreview() {
         raffle: { ...content.raffle, enabled: false, prizes: [] },
         faqs: [],
         pastEditions: [],
-        archiveGap: "",
       }}
       theme={getTheme()}
       intro={false}

@@ -1,4 +1,4 @@
-import { archiveGap, edition, foyer, pastEditions } from "./edition";
+import { edition, foyer, pastEditions } from "./edition";
 import { faqs } from "./faq";
 import { sessions, speakers } from "./program";
 import { raffle } from "./raffle";
@@ -16,8 +16,7 @@ export async function getContent() {
     raffle,
     faqs: [...faqs].sort((a, b) => a.order - b.order),
     foyer,
-    pastEditions: [...pastEditions].sort((a, b) => a.year - b.year),
-    archiveGap,
+    pastEditions: [...pastEditions].sort((a, b) => b.year - a.year),
     fetchedAt: Date.now(),
   };
 }

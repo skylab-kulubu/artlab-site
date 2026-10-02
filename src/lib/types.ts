@@ -100,7 +100,6 @@ export type PastEdition = {
   year: number;
   dateLabel: string;
   note?: string;
-  cover?: Asset;
   gallery?: Asset[];
 };
 
