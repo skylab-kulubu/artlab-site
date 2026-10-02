@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type PointerEvent } from "react";
 import { MapChrome } from "./MapChrome";
 import { clampView, Diamond, FULL, MapStack, PinGlyph, type View } from "./MapStack";
 import { MAP_H, MAP_W, steps } from "./route";
+import { WIDE_METERS_PER_UNIT, WIDE_NORTH, WIDE_W, WideMap } from "./WideMap";
 
 function LegSample({ kind }: { kind: "walk" | "ride" }) {
   return (
@@ -170,20 +171,26 @@ export function VenueMap({ venue, place, directions }: Props) {
 
   return (
     <>
-      <div className="grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
+      <div className="flex flex-col lg:grid lg:grid-cols-[minmax(0,min(600px,55%))_minmax(0,1fr)] min-[1800px]:grid-cols-[minmax(0,1200px)_minmax(0,1fr)]">
         <button
           type="button"
           onClick={show}
           aria-haspopup="dialog"
           aria-label="Yol tarifini haritada aç"
-          className="group/map relative block aspect-[4/3] overflow-hidden bg-bg @container sm:aspect-[3/2]"
+          className="group/map relative block aspect-[4/3] overflow-hidden bg-bg @container sm:aspect-[3/2] lg:aspect-[4/3] min-[1800px]:aspect-[1360/500]"
         >
-          {/* The frame is wider than the map, so the map fills the width and is
-              centred on the route's vertical span. */}
-          <span className="absolute inset-x-0 top-1/2 block aspect-[1200/1023] -translate-y-[52.1%]">
+          {/* Below 1800px the frame is wider than the map, so the map fills the width and
+              is centred on the route's vertical span; past it the horizontal map takes over. */}
+          <span className="absolute inset-x-0 top-1/2 block aspect-[1200/1023] -translate-y-[52.1%] min-[1800px]:hidden">
             <MapStack venue={venue} />
           </span>
-          <MapChrome />
+          <span className="min-[1800px]:hidden">
+            <MapChrome />
+          </span>
+          <span className="max-[1799px]:hidden">
+            <WideMap />
+            <MapChrome units={WIDE_W} metersPerUnit={WIDE_METERS_PER_UNIT} north={WIDE_NORTH} />
+          </span>
           <span className="absolute top-3 right-3 grid size-10 place-items-center border border-line bg-bg-deep/90 text-ink transition-colors group-hover/map:border-cyan">
             <svg
               width="14"
@@ -198,7 +205,7 @@ export function VenueMap({ venue, place, directions }: Props) {
             </svg>
           </span>
         </button>
-        <div className="flex flex-col gap-5 border-line p-6 max-lg:border-t md:p-8 lg:border-l">
+        <div className="flex flex-col gap-5 border-t border-line p-6 md:p-8 lg:border-t-0 lg:border-l">
           <div className="flex flex-col gap-1.5">
             <span className="text-[11px] font-bold tracking-[0.18em] text-cyan">KONUM</span>
             <h3 className="text-xl font-bold">{place}</h3>
@@ -216,7 +223,7 @@ export function VenueMap({ venue, place, directions }: Props) {
               </li>
             ))}
           </ol>
-          <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 pt-1">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-1 lg:mt-auto">
             <button
               type="button"
               onClick={show}

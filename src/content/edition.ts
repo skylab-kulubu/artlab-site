@@ -10,8 +10,10 @@ export const edition: Edition = {
     name: "Tarihi Hamam",
     campus: "YTÜ Davutpaşa",
     area: "Davutpaşa",
-    lat: 41.026,
+    lat: 41.0275,
     lng: 28.89,
+    mapUrl:
+      "https://www.google.com/maps/place/Y%C4%B1ld%C4%B1z+Teknik+%C3%9Cniversitesi+Tarihi+Hamam/@41.0276248,28.8875133,18z/data=!4m6!3m5!1s0x14cabb133f838f69:0xcb444d1e45bc3b33!8m2!3d41.0275075!4d28.8899995!16s%2Fg%2F11r_tg6rcf",
     transport: [
       "M1A metrosuyla Davutpaşa-YTÜ durağında in, kampüs ringiyle Tarihi Hamam'a ulaş.",
       "41AT otobüs hattı da kampüse gidiyor.",

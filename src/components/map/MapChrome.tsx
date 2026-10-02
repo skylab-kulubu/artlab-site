@@ -7,7 +7,9 @@ const NICE = [10, 20, 25, 50, 100, 200, 250, 500, 1000];
 
 // The compass, scale bar and attribution sit above the zoomed map at a fixed size;
 // only the scale bar follows the zoom, snapping to a round distance.
-export function MapChrome({ scale = 1 }: { scale?: number }) {
+type Props = { scale?: number; units?: number; metersPerUnit?: number; north?: number };
+
+export function MapChrome({ scale = 1, units = MAP_W, metersPerUnit = METERS_PER_UNIT, north = 0 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
 
@@ -19,7 +21,7 @@ export function MapChrome({ scale = 1 }: { scale?: number }) {
     return () => observer.disconnect();
   }, []);
 
-  const pxPerMeter = ((width / MAP_W) * scale) / METERS_PER_UNIT;
+  const pxPerMeter = ((width / units) * scale) / metersPerUnit;
   const target = width < 520 ? 64 : 110;
   const meters = NICE.findLast((m) => m * pxPerMeter <= target) ?? NICE[0];
   const label = meters >= 1000 ? `${meters / 1000} km` : `${meters} m`;
@@ -27,24 +29,24 @@ export function MapChrome({ scale = 1 }: { scale?: number }) {
   return (
     <div ref={ref} aria-hidden="true" className="pointer-events-none absolute inset-0 text-ink-3 select-none">
       <svg
-        width="40"
-        height="54"
-        viewBox="0 0 40 54"
-        className="absolute top-2.5 left-3 max-[520px]:scale-75 origin-top-left"
+        width="64"
+        height="64"
+        viewBox="-32 -32 64 64"
+        className="absolute top-2 left-2 origin-top-left max-[520px]:scale-75"
       >
+        <circle r="18" fill="var(--color-bg-deep)" fillOpacity="0.85" stroke="var(--color-line-2)" />
+        <path d="M0 -12 L5.5 5 L0 1 L-5.5 5 Z" fill="var(--color-amber)" transform={`rotate(${north})`} />
         <text
-          x="20"
-          y="10"
+          x={22 * Math.sin((north * Math.PI) / 180)}
+          y={-22 * Math.cos((north * Math.PI) / 180) + 4}
           textAnchor="middle"
           fill="currentColor"
           fontSize="10"
-          fontWeight="600"
+          fontWeight="700"
           className="font-sans"
         >
           K
         </text>
-        <circle cx="20" cy="34" r="19.5" fill="var(--color-bg-deep)" fillOpacity="0.85" stroke="var(--color-line-2)" />
-        <path d="M20 21 L26 39 L20 35 L14 39 Z" fill="var(--color-amber)" />
       </svg>
       {width > 0 && (
         <div className="absolute bottom-3 left-3 flex items-end gap-2 text-[11px] leading-none font-semibold">
