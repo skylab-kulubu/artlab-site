@@ -14,11 +14,11 @@ export const legs = {
 export const hamam =
   "M451.7 215.1L440.7 228.7L414.4 261.4L424.9 269.7L460.9 224.9L462.2 223.3L458.9 220.8L451.7 215.1Z";
 
-export const ringStops: [number, number][] = [
-  [733.4, 645.8],
-  [559, 672],
-  [401, 549],
-  [308, 470],
+export const ringStops: { name: string; at: [number, number] }[] = [
+  { name: "Kütüphane", at: [733.4, 645.8] },
+  { name: "Yabancı Diller Okulu", at: [559, 672] },
+  { name: "İnşaat Fakültesi", at: [401, 549] },
+  { name: "Sanat-Tasarım Fakültesi", at: [308, 470] },
 ];
 
 export const metro: [number, number] = [1171.6, 860.8];

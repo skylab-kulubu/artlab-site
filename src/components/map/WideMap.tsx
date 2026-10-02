@@ -1,5 +1,6 @@
 // The horizontal route map for wide screens: public/map/wide.svg holds the streets,
-// and the route, stops and labels are drawn here so they use the site's fonts.
+// and the route, stops and labels are drawn here so they use the site's fonts. The route
+// is the campus map's own, turned onto this map (41.5° anticlockwise, ×1.012).
 export const WIDE_W = 1360;
 export const WIDE_H = 500;
 // Its scale bar spanned 81.4 units for 100 m, and north is turned 41.4° clockwise.
@@ -76,7 +77,7 @@ export function WideMap() {
           </textPath>
         </text>
         <path
-          d="M1041.1 160.5 L1018.9 161.9 L1003.7 159.7 L988.3 158.0 L922.6 163.7 L881.8 165.5 L876.1 165.7 L867.7 166.7 L863.1 169.6 L833.8 187.5 L786.3 214.6 L753.4 231.5 L741.7 237.6 L727.4 244.7 L713.5 249.0 L699.0 251.0 L685.9 249.7 L675.9 252.7 L668.5 260.7 L641.3 349.6 L639.4 356.0 L636.7 361.2 L631.5 366.4 L608.4 383.5 L601.1 384.8 L583.4 388.0 L466.0 394.6 L465.8 394.6 L463.9 394.7 L424.7 396.9 L398.0 389.9 L291.8 395.9 L242.5 398.7 L230.5 398.1 L226.8 396.5 L221.9 387.9 L221.2 373.2 L220.8 366.4 L215.5 259.9 L209.1 260.2 L207.5 260.3 L178.6 262.0"
+          d="M1028.6 163.7L1006.8 165L991.9 162.7L976.8 161L912.4 166.5L872.5 168.2L866.9 168.4L858.7 169.4L854.2 172.2L825.6 189.7L779.2 216.2L747 232.7L735.6 238.6L721.6 245.5L708 249.8L693.9 251.6L681 250.4L671.2 253.4L664 261L637.9 348.2L636 354.5L633.3 359.6L628.3 364.7L605.8 381.3L598.6 382.6L581.3 385.8L466.3 392L466.1 392L464.2 392.1L426 394.2L399.7 387.3L295.7 392.9L247.4 395.5L235.6 395L232 393.4L227.2 384.9L226.4 370.5L226 363.8L220.3 259.4L214 259.8L212.4 259.8L184.1 261.4"
           fill="none"
           stroke="#F5B82E"
           strokeWidth="10"
@@ -85,7 +86,7 @@ export function WideMap() {
           opacity="0.16"
         />
         <path
-          d="M1041.1 160.5 L1018.9 161.9 L1003.7 159.7 L988.3 158.0 L922.6 163.7 L881.8 165.5 L876.1 165.7 L867.7 166.7 L863.1 169.6 L833.8 187.5 L786.3 214.6 L753.4 231.5 L741.7 237.6 L727.4 244.7 L713.5 249.0 L699.0 251.0 L685.9 249.7 L675.9 252.7 L668.5 260.7 L641.3 349.6 L639.4 356.0 L636.7 361.2 L631.5 366.4 L608.4 383.5 L601.1 384.8 L583.4 388.0 L466.0 394.6 L465.8 394.6 L463.9 394.7 L424.7 396.9 L398.0 389.9 L291.8 395.9 L242.5 398.7 L230.5 398.1 L226.8 396.5 L221.9 387.9 L221.2 373.2 L220.8 366.4 L215.5 259.9 L209.1 260.2 L207.5 260.3 L178.6 262.0"
+          d="M1028.6 163.7L1006.8 165L991.9 162.7L976.8 161L912.4 166.5L872.5 168.2L866.9 168.4L858.7 169.4L854.2 172.2L825.6 189.7L779.2 216.2L747 232.7L735.6 238.6L721.6 245.5L708 249.8L693.9 251.6L681 250.4L671.2 253.4L664 261L637.9 348.2L636 354.5L633.3 359.6L628.3 364.7L605.8 381.3L598.6 382.6L581.3 385.8L466.3 392L466.1 392L464.2 392.1L426 394.2L399.7 387.3L295.7 392.9L247.4 395.5L235.6 395L232 393.4L227.2 384.9L226.4 370.5L226 363.8L220.3 259.4L214 259.8L212.4 259.8L184.1 261.4"
           fill="none"
           stroke="#F5B82E"
           strokeWidth="4.5"
@@ -93,7 +94,7 @@ export function WideMap() {
           strokeLinejoin="round"
         />
         <path
-          d="M1210.0 132.0 L1207.3 130.3 L1205.3 129.0 L1193.0 121.2 L1192.4 122.3 L1191.7 123.4 L1189.7 126.6 L1188.8 128.2 L1185.1 134.3 L1179.9 130.9 L1171.1 126.4 L1161.2 122.6 L1150.9 119.9 L1140.3 118.8 L1133.2 118.9 L1130.0 119.0 L1119.3 120.2 L1108.8 122.4 L1099.6 125.7 L1090.8 129.6 L1089.1 130.7 L1087.9 132.2 L1087.1 134.2 L1087.1 136.4 L1087.8 138.4 L1089.2 140.0 L1091.0 141.1 L1093.1 141.5 L1095.2 141.2 L1097.1 140.1 L1098.5 138.7 L1099.2 136.9 L1099.4 134.9 L1099.0 133.0 L1098.0 131.3 L1096.5 130.0 L1094.7 129.3 L1092.7 129.1 L1090.5 129.5 L1088.2 130.3 L1085.3 131.7 L1082.1 134.9 L1080.8 136.8 L1080.3 138.8 L1079.6 140.5 L1078.2 142.4 L1068.5 145.9 L1066.5 147.1 L1064.9 148.4 L1062.1 151.2 L1059.4 154.1 L1051.7 159.2 L1041.1 160.5 L1041.1 160.5"
+          d="M1193.8 136L1191.3 134.3L1189.2 133.1L1177.2 125.4L1176.5 126.4L1175.8 127.6L1173.9 130.8L1173 132.2L1169.4 138.2L1164.4 135L1155.8 130.4L1146 126.8L1135.9 124L1125.5 123L1118.6 123.1L1115.5 123.1L1104.9 124.3L1094.7 126.4L1085.7 129.6L1077.1 133.4L1075.4 134.5L1074.3 136L1073.5 138L1073.4 140.1L1074.2 142.1L1075.5 143.6L1077.3 144.8L1079.4 145.2L1081.5 144.8L1083.3 143.8L1084.6 142.3L1085.4 140.6L1085.6 138.7L1085.1 136.8L1084.1 135.1L1082.7 133.9L1080.8 133.1L1078.9 133L1076.8 133.3L1074.5 134.1L1071.7 135.5L1068.6 138.7L1067.4 140.4L1066.8 142.4L1066.2 144.2L1064.8 145.9L1055.3 149.4L1053.4 150.6L1051.7 151.9L1049 154.5L1046.4 157.4L1038.9 162.3L1028.6 163.7"
           fill="none"
           stroke="#3ED6F0"
           strokeWidth="3.6"
@@ -102,7 +103,7 @@ export function WideMap() {
           strokeDasharray="0.1 8"
         />
         <path
-          d="M178.6 262.0 L189.0 266.1 L207.6 266.8 L207.5 260.3 L208.7 232.0 L210.1 231.9 L216.5 231.5 L218.7 231.4 L219.6 231.4 L240.8 230.2 L239.2 193.2 L237.6 154.7 L237.1 143.2 L236.6 129.3 L235.4 101.3"
+          d="M184.1 261.4L212.4 259.8L213.5 232L226.4 231.8L224.2 202.6L218.3 111.8"
           fill="none"
           stroke="#3ED6F0"
           strokeWidth="3.6"
@@ -110,157 +111,56 @@ export function WideMap() {
           strokeLinejoin="round"
           strokeDasharray="0.1 8"
         />
-        <circle cx="608.4" cy="383.5" r="5" fill="#0E1218" stroke="#F5B82E" strokeWidth="2" />
-        <rect x="539.4" y="393.5" width="138.0" height="18" fill="#0B0E13" fillOpacity="0.88" />
-        <text
-          x="545.4"
-          y="406.5"
-          style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontSize: "11px", fontWeight: "600" }}
-          fill="#8A95A5"
-        >
-          Yabancı Diller Okulu
-        </text>
-        <circle cx="434.3" cy="396.4" r="5" fill="#0E1218" stroke="#F5B82E" strokeWidth="2" />
-        <rect x="377.9" y="406.4" width="112.8" height="18" fill="#0B0E13" fillOpacity="0.88" />
-        <text
-          x="383.9"
-          y="419.4"
-          style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontSize: "11px", fontWeight: "600" }}
-          fill="#8A95A5"
-        >
-          İnşaat Fakültesi
-        </text>
-        <circle cx="733.1" cy="241.9" r="5" fill="#0E1218" stroke="#F5B82E" strokeWidth="2" />
-        <rect x="698.7" y="251.9" width="68.7" height="18" fill="#0B0E13" fillOpacity="0.88" />
-        <text
-          x="704.7"
-          y="264.9"
-          style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontSize: "11px", fontWeight: "600" }}
-          fill="#8A95A5"
-        >
-          Kütüphane
-        </text>
         <path
-          d="M219.4 100.1 L220.1 118.2 L222.0 161.4 L235.7 160.7 L233.2 101.4 L233.2 99.3 L228.9 99.5 L219.4 100.1 Z"
+          d="M223.3 102.8L224.1 120.5L226.1 162.9L239.7 162.1L236.9 104L236.8 101.9L232.6 102.2L223.3 102.8Z"
           fill="#F5B82E"
           fillOpacity="0.35"
           stroke="#F5B82E"
           strokeWidth="2"
         />
-        <g transform="translate(226.5 113.6)">
-          <path
-            d="M0 0 C-7 -10 -12 -16 -12 -24 A12 12 0 0 1 12 -24 C12 -16 7 -10 0 0 Z"
-            fill="#F5B82E"
-            stroke="#0B0E13"
-            strokeWidth="2"
-          />
-          <circle cy="-24" r="4.5" fill="#0B0E13" />
-        </g>
-        <circle cx="1188.0" cy="111.5" r="12" fill="#0B0E13" stroke="#E9EDF2" strokeWidth="2" />
+        <circle cx="725.9" cy="240.1" r="5" fill="#0E1218" stroke="#F5B82E" strokeWidth="2" />
+        <circle cx="611.3" cy="377" r="5" fill="#0E1218" stroke="#F5B82E" strokeWidth="2" />
+        <circle cx="409" cy="389.9" r="5" fill="#0E1218" stroke="#F5B82E" strokeWidth="2" />
+        <circle cx="285.5" cy="392.4" r="5" fill="#0E1218" stroke="#F5B82E" strokeWidth="2" />
+        <rect x="691.6" y="250.1" width="68.7" height="18" fill="#0B0E13" fillOpacity="0.88" />
         <text
-          x="1188.0"
-          y="116.0"
+          x="725.9"
+          y="263.1"
           textAnchor="middle"
-          style={{ fontFamily: "var(--font-unbounded), sans-serif", fontSize: "12px", fontWeight: "700" }}
-          fill="#E9EDF2"
+          fill="#8A95A5"
+          style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontSize: "11px" }}
         >
-          M
+          Kütüphane
         </text>
-        <g transform="translate(1210.0 132.0)">
-          <rect
-            x="-10"
-            y="-10"
-            width="20"
-            height="20"
-            transform="rotate(45)"
-            fill="#3ED6F0"
-            stroke="#0B0E13"
-            strokeWidth="2"
-          />
-          <text
-            y="4.5"
-            textAnchor="middle"
-            style={{ fontFamily: "var(--font-unbounded), sans-serif", fontSize: "11px", fontWeight: "700" }}
-            fill="#0B0E13"
-          >
-            1
-          </text>
-        </g>
-        <g transform="translate(1041.1 160.5)">
-          <rect
-            x="-10"
-            y="-10"
-            width="20"
-            height="20"
-            transform="rotate(45)"
-            fill="#F5B82E"
-            stroke="#0B0E13"
-            strokeWidth="2"
-          />
-          <text
-            y="4.5"
-            textAnchor="middle"
-            style={{ fontFamily: "var(--font-unbounded), sans-serif", fontSize: "11px", fontWeight: "700" }}
-            fill="#0B0E13"
-          >
-            2
-          </text>
-        </g>
-        <g transform="translate(178.6 262.0)">
-          <rect
-            x="-10"
-            y="-10"
-            width="20"
-            height="20"
-            transform="rotate(45)"
-            fill="#F5B82E"
-            stroke="#0B0E13"
-            strokeWidth="2"
-          />
-          <text
-            y="4.5"
-            textAnchor="middle"
-            style={{ fontFamily: "var(--font-unbounded), sans-serif", fontSize: "11px", fontWeight: "700" }}
-            fill="#0B0E13"
-          >
-            3
-          </text>
-        </g>
-        <rect x="1228.0" y="123.0" width="93.6" height="18" fill="#0B0E13" fillOpacity="0.88" />
+        <rect x="542.3" y="387" width="138" height="18" fill="#0B0E13" fillOpacity="0.88" />
         <text
-          x="1234.0"
-          y="136.0"
-          style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontSize: "12px", fontWeight: "600" }}
-          fill="#E9EDF2"
+          x="611.3"
+          y="400"
+          textAnchor="middle"
+          fill="#8A95A5"
+          style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontSize: "11px" }}
         >
-          Metro çıkışı
+          Yabancı Diller Okulu
         </text>
-        <rect x="977.3" y="176.5" width="127.6" height="18" fill="#0B0E13" fillOpacity="0.88" />
+        <rect x="352.6" y="399.9" width="112.8" height="18" fill="#0B0E13" fillOpacity="0.88" />
         <text
-          x="983.3"
-          y="189.5"
-          style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontSize: "12px", fontWeight: "600" }}
-          fill="#E9EDF2"
+          x="409"
+          y="412.9"
+          textAnchor="middle"
+          fill="#8A95A5"
+          style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontSize: "11px" }}
         >
-          Davutpaşa Kampüsü
+          İnşaat Fakültesi
         </text>
-        <rect x="84.2" y="278.0" width="188.8" height="18" fill="#0B0E13" fillOpacity="0.88" />
+        <rect x="217.5" y="364.4" width="136" height="18" fill="#0B0E13" fillOpacity="0.88" />
         <text
-          x="90.2"
-          y="291.0"
-          style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontSize: "12px", fontWeight: "600" }}
-          fill="#E9EDF2"
+          x="285.5"
+          y="377.4"
+          textAnchor="middle"
+          fill="#8A95A5"
+          style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontSize: "11px" }}
         >
-          Spor Kompleksi · Yemekhane
-        </text>
-        <rect x="174.9" y="53.6" width="103.2" height="18" fill="#0B0E13" fillOpacity="0.88" />
-        <text
-          x="180.9"
-          y="66.6"
-          style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontSize: "13px", fontWeight: "600" }}
-          fill="#F5B82E"
-        >
-          Tarihi Hamam
+          Sanat-Tasarım Fakültesi
         </text>
         <text
           x="165.7"
@@ -275,6 +175,121 @@ export function WideMap() {
           fill="#6B7788"
         >
           YEMEKHANE
+        </text>
+        <g transform="translate(226.4 115.4)">
+          <path
+            d="M0 0 C-7 -10 -12 -16 -12 -24 A12 12 0 0 1 12 -24 C12 -16 7 -10 0 0 Z"
+            fill="#F5B82E"
+            stroke="#0B0E13"
+            strokeWidth="2"
+          />
+          <circle cy="-24" r="4.5" fill="#0B0E13" />
+        </g>
+        <circle cx="1202.3" cy="109" r="12" fill="#0B0E13" stroke="#E9EDF2" strokeWidth="2" />
+        <text
+          x="1202.3"
+          y="113.5"
+          textAnchor="middle"
+          fill="#E9EDF2"
+          style={{ fontFamily: "var(--font-unbounded), sans-serif", fontSize: "12px", fontWeight: "700" }}
+        >
+          M
+        </text>
+        <g transform="translate(1224.3 129.5)">
+          <rect
+            x="-10"
+            y="-10"
+            width="20"
+            height="20"
+            transform="rotate(45)"
+            fill="#3ED6F0"
+            stroke="#0B0E13"
+            strokeWidth="2"
+          />
+          <text
+            y="4.5"
+            textAnchor="middle"
+            fill="#0B0E13"
+            style={{ fontFamily: "var(--font-unbounded), sans-serif", fontSize: "11px", fontWeight: "700" }}
+          >
+            1
+          </text>
+        </g>
+        <g transform="translate(1028.6 163.7)">
+          <rect
+            x="-10"
+            y="-10"
+            width="20"
+            height="20"
+            transform="rotate(45)"
+            fill="#F5B82E"
+            stroke="#0B0E13"
+            strokeWidth="2"
+          />
+          <text
+            y="4.5"
+            textAnchor="middle"
+            fill="#0B0E13"
+            style={{ fontFamily: "var(--font-unbounded), sans-serif", fontSize: "11px", fontWeight: "700" }}
+          >
+            2
+          </text>
+        </g>
+        <g transform="translate(184.1 261.4)">
+          <rect
+            x="-10"
+            y="-10"
+            width="20"
+            height="20"
+            transform="rotate(45)"
+            fill="#F5B82E"
+            stroke="#0B0E13"
+            strokeWidth="2"
+          />
+          <text
+            y="4.5"
+            textAnchor="middle"
+            fill="#0B0E13"
+            style={{ fontFamily: "var(--font-unbounded), sans-serif", fontSize: "11px", fontWeight: "700" }}
+          >
+            3
+          </text>
+        </g>
+        <rect x="1242.3" y="120.5" width="93.6" height="18" fill="#0B0E13" fillOpacity="0.88" />
+        <text
+          x="1248.3"
+          y="133.5"
+          fill="#E9EDF2"
+          style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontSize: "12px" }}
+        >
+          Metro çıkışı
+        </text>
+        <rect x="964.8" y="179.7" width="127.6" height="18" fill="#0B0E13" fillOpacity="0.88" />
+        <text
+          x="970.8"
+          y="192.7"
+          fill="#E9EDF2"
+          style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontSize: "12px" }}
+        >
+          Davutpaşa Kampüsü
+        </text>
+        <rect x="89.7" y="277.4" width="188.8" height="18" fill="#0B0E13" fillOpacity="0.88" />
+        <text
+          x="95.7"
+          y="290.4"
+          fill="#E9EDF2"
+          style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontSize: "12px" }}
+        >
+          Spor Kompleksi · Yemekhane
+        </text>
+        <rect x="174.8" y="55.4" width="103.2" height="18" fill="#0B0E13" fillOpacity="0.88" />
+        <text
+          x="180.8"
+          y="68.4"
+          fill="#F5B82E"
+          style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontSize: "13px" }}
+        >
+          Tarihi Hamam
         </text>
       </svg>
     </span>

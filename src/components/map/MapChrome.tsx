@@ -7,21 +7,26 @@ const NICE = [10, 20, 25, 50, 100, 200, 250, 500, 1000];
 
 // The compass, scale bar and attribution sit above the zoomed map at a fixed size;
 // only the scale bar follows the zoom, snapping to a round distance.
-type Props = { scale?: number; units?: number; metersPerUnit?: number; north?: number };
+// coverUnits: when the map also covers the frame's height, how many units tall it shows there.
+type Props = { scale?: number; units?: number; coverUnits?: number; metersPerUnit?: number; north?: number };
 
-export function MapChrome({ scale = 1, units = MAP_W, metersPerUnit = METERS_PER_UNIT, north = 0 }: Props) {
+export function MapChrome({ scale = 1, units = MAP_W, coverUnits, metersPerUnit = METERS_PER_UNIT, north = 0 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState(0);
+  const [size, setSize] = useState({ width: 0, height: 0 });
+  const { width, height } = size;
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const observer = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width));
+    const observer = new ResizeObserver(([entry]) =>
+      setSize({ width: entry.contentRect.width, height: entry.contentRect.height }),
+    );
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
-  const pxPerMeter = ((width / units) * scale) / metersPerUnit;
+  const pxPerUnit = Math.max(width / units, coverUnits ? height / coverUnits : 0);
+  const pxPerMeter = (pxPerUnit * scale) / metersPerUnit;
   const target = width < 520 ? 64 : 110;
   const meters = NICE.findLast((m) => m * pxPerMeter <= target) ?? NICE[0];
   const label = meters >= 1000 ? `${meters / 1000} km` : `${meters} m`;

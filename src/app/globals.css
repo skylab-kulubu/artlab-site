@@ -18,6 +18,8 @@
 }
 
 @theme inline {
+  --breakpoint-wide: 90rem;
+
   --color-bg: var(--bg);
   --color-bg-deep: var(--bg-deep);
   --color-surface: var(--surface);

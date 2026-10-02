@@ -171,25 +171,28 @@ export function VenueMap({ venue, place, directions }: Props) {
 
   return (
     <>
-      <div className="flex flex-col lg:grid lg:grid-cols-[minmax(0,min(600px,55%))_minmax(0,1fr)] min-[1800px]:grid-cols-[minmax(0,1200px)_minmax(0,1fr)]">
+      <div className="flex flex-col wide:grid wide:grid-cols-[minmax(0,1300px)_minmax(340px,1fr)]">
         <button
           type="button"
           onClick={show}
           aria-haspopup="dialog"
           aria-label="Yol tarifini haritada aç"
-          className="group/map relative block aspect-[4/3] overflow-hidden bg-bg @container sm:aspect-[3/2] lg:aspect-[4/3] min-[1800px]:aspect-[1360/500]"
+          className="group/map relative block aspect-[4/3] min-w-0 overflow-hidden bg-bg [container-type:size] sm:aspect-[3/2] lg:aspect-[1360/469] wide:w-full wide:self-stretch"
         >
-          {/* Below 1800px the frame is wider than the map, so the map fills the width and
-              is centred on the route's vertical span; past it the horizontal map takes over. */}
-          <span className="absolute inset-x-0 top-1/2 block aspect-[1200/1023] -translate-y-[52.1%] min-[1800px]:hidden">
+          {/* The map covers the frame, centred on the route: the campus map on phones and
+              tablets, the horizontal one from lg up. The frames are shaped so that covering
+              never crops the route itself. */}
+          <span className="absolute inset-x-0 top-1/2 block aspect-[1200/1023] -translate-y-[52.1%] lg:hidden">
             <MapStack venue={venue} />
           </span>
-          <span className="min-[1800px]:hidden">
+          <span className="lg:hidden">
             <MapChrome />
           </span>
-          <span className="max-[1799px]:hidden">
-            <WideMap />
-            <MapChrome units={WIDE_W} metersPerUnit={WIDE_METERS_PER_UNIT} north={WIDE_NORTH} />
+          <span className="max-lg:hidden">
+            <span className="absolute top-1/2 left-1/2 block aspect-[1360/500] w-[max(100cqw,100cqh*1360/469)] -translate-x-1/2 -translate-y-[47%]">
+              <WideMap />
+            </span>
+            <MapChrome units={WIDE_W} coverUnits={469} metersPerUnit={WIDE_METERS_PER_UNIT} north={WIDE_NORTH} />
           </span>
           <span className="absolute top-3 right-3 grid size-10 place-items-center border border-line bg-bg-deep/90 text-ink transition-colors group-hover/map:border-cyan">
             <svg
@@ -205,34 +208,39 @@ export function VenueMap({ venue, place, directions }: Props) {
             </svg>
           </span>
         </button>
-        <div className="flex flex-col gap-5 border-t border-line p-6 md:p-8 lg:border-t-0 lg:border-l">
-          <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-5 border-t border-line p-6 md:p-8 lg:flex-row lg:items-center lg:gap-10 wide:flex-col wide:items-stretch wide:gap-4 wide:border-t-0 wide:border-l wide:p-6">
+          <div className="flex flex-col gap-1.5 lg:w-[240px] lg:shrink-0 wide:w-auto">
             <span className="text-[11px] font-bold tracking-[0.18em] text-cyan">KONUM</span>
-            <h3 className="text-xl font-bold">{place}</h3>
+            <h3 className="text-xl font-bold wide:text-lg">{place}</h3>
           </div>
-          <ol className="flex flex-col gap-3">
+          <ol className="flex flex-col gap-3 lg:grid lg:grow lg:grid-cols-2 lg:gap-x-8 wide:flex wide:gap-2">
             {steps.map((step, i) => (
               <li key={step.title} className="flex items-start gap-3">
                 <span className="grid size-[22px] shrink-0 scale-[0.85] place-items-center">
                   {i === steps.length - 1 ? <PinGlyph /> : <Diamond n={i + 1} tone={step.tone} />}
                 </span>
-                <span className="text-[15px] leading-snug">
+                <span className="text-[15px] leading-snug wide:text-sm">
                   <span className="font-semibold text-ink">{step.title}</span>
-                  <span className="text-ink-2"> · {step.text}</span>
+                  <span className="text-ink-2 wide:hidden"> · {step.text}</span>
                 </span>
               </li>
             ))}
           </ol>
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-1 lg:mt-auto">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-1 lg:shrink-0 lg:flex-col lg:items-start lg:pt-0 wide:mt-auto wide:flex-row wide:items-center wide:gap-x-4">
             <button
               type="button"
               onClick={show}
               aria-haspopup="dialog"
-              className="cut inline-flex h-11 items-center bg-amber px-5 text-sm font-bold text-on-amber hover:brightness-110"
+              className="cut inline-flex h-11 items-center bg-amber px-5 wide:px-4 text-sm font-bold text-on-amber hover:brightness-110"
             >
               Yol tarifini aç
             </button>
-            <a href={directions} target="_blank" rel="noopener noreferrer" className="link-arrow text-[15px] font-bold">
+            <a
+              href={directions}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-arrow text-[15px] font-bold wide:text-sm"
+            >
               Google Haritalar
             </a>
           </div>

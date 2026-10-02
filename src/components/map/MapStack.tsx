@@ -112,7 +112,7 @@ export function MapStack({ view = FULL, active = null, dragging, onStep, steps: 
           <path d={legs.metroWalk} className="map-line map-dots" style={line(3.6, dim("metroWalk"))} />
           <path d={legs.hamamWalk} className="map-line map-dots" style={line(3.6, dim("hamamWalk"))} />
         </g>
-        {ringStops.map(([x, y]) => (
+        {ringStops.map(({ at: [x, y] }) => (
           <circle
             key={x}
             cx={x}
@@ -126,6 +126,16 @@ export function MapStack({ view = FULL, active = null, dragging, onStep, steps: 
         ))}
       </svg>
 
+      {ringStops.map(({ name, at: point }) => (
+        <span key={name} className="map-marker absolute size-0" style={at(point)}>
+          <span
+            className="absolute top-[9px] -translate-x-1/2 bg-bg-deep/88 px-1.5 py-0.5 text-[10px] font-medium whitespace-nowrap text-ink-2 transition-opacity"
+            style={{ opacity: focusLeg !== null && focusLeg !== "ring" ? 0.3 : 1 }}
+          >
+            {name}
+          </span>
+        </span>
+      ))}
       <span className="map-marker absolute size-0" style={at(metro)}>
         <span className="absolute -top-[13px] -left-[13px] grid size-[26px] place-items-center rounded-full border-2 border-ink bg-bg-deep text-[11px] font-extrabold text-ink">
           M
