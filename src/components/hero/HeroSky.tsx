@@ -114,8 +114,10 @@ export function HeroSky({ serverNow, children }: { serverNow: number; children: 
     const tick = (now: number) => {
       const dt = last ? now - last : 0;
       last = now;
-      // Frames across a pause (tab hidden, hero off screen) say nothing about speed.
-      if (dt > 0 && dt < 250 && !el.hasAttribute("data-paused")) {
+      // Frames while the hero is off screen say nothing about speed. A long frame is counted:
+      // a device taking a second a frame is the one lite mode is for. The gap across a hidden
+      // tab is not, since the clock restarts when the page comes back.
+      if (dt > 0 && !el.hasAttribute("data-paused")) {
         measured += dt;
         frames++;
         if (dt > SLOW_MS) slow++;
@@ -126,11 +128,16 @@ export function HeroSky({ serverNow, children }: { serverNow: number; children: 
       }
       if (slow / frames > 0.5) el.setAttribute("data-lite", "");
     };
+    const restart = () => {
+      last = 0;
+    };
+    document.addEventListener("visibilitychange", restart);
     // Loading, hydration and the intro are slow everywhere, so the watch starts after them.
     const start = setTimeout(() => (frame = requestAnimationFrame(tick)), 2000);
     return () => {
       clearTimeout(start);
       cancelAnimationFrame(frame);
+      document.removeEventListener("visibilitychange", restart);
     };
   }, []);
 

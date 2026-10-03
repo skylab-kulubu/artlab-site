@@ -262,17 +262,14 @@
   animation-play-state: paused;
 }
 
-.hero-wordmark {
-  transition: opacity 0.4s ease-out;
-}
-
-/* Hidden, not only transparent, so it is no longer painted once the particles have it. */
+/*
+ * Out of the render tree, not only hidden, the moment the particles have it. On a screen
+ * of more than 1x WebKit rebuilds the wordmark's masks and their morphology filters on
+ * every frame for as long as they are in the tree, visible or not, about a second a frame,
+ * so it does not fade out either: the canvas draws the same dots on the same grid.
+ */
 .hero-sky[data-particles] .hero-stage .hero-wordmark {
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    opacity 0.4s ease-out,
-    visibility 0s 0.4s;
+  display: none;
 }
 
 .hero-eye {

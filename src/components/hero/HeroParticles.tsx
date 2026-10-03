@@ -23,8 +23,10 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
     const root = el?.closest<HTMLElement>(".hero-sky");
     const stage = el?.closest<HTMLElement>(".hero-stage");
     const text = stage?.querySelector<SVGTextElement>(".hero-letters");
-    const media = window.matchMedia("(min-width: 768px) and (prefers-reduced-motion: no-preference)");
-    if (!el || !root || !text || !media.matches) return;
+    if (!el || !root || !text || !window.matchMedia("(min-width: 768px)").matches) return;
+    // With reduced motion the canvas still takes the wordmark over, drawn once and held still,
+    // so the masked SVG copy, which WebKit rebuilds on every frame, can leave the render tree.
+    const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const g = el.getContext("2d")!;
     const { w, h } = layout;
@@ -42,6 +44,8 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
     const still = document.createElement("canvas");
     let stillKey = "";
     let busy = false;
+    // A still canvas keeps drawing for a moment after the sky's colours change, while they ease in.
+    let awakeUntil = 0;
     const timers: ReturnType<typeof setTimeout>[] = [];
     let cancelled = false;
 
@@ -105,7 +109,7 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
     const tick = (now: number) => {
       frame = 0;
       if (!system || root.hasAttribute("data-paused")) return;
-      const lite = root.hasAttribute("data-lite");
+      const lite = calm || root.hasAttribute("data-lite");
       if (now - lastPalette > 500) {
         readPalette();
         lastPalette = now;
@@ -138,7 +142,7 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
         if (!root.hasAttribute("data-particles")) root.setAttribute("data-particles", "");
       }
       // In lite mode the canvas rests on the settled wordmark and asks for no more frames.
-      if (lite && !moving) return;
+      if (lite && !moving && now > awakeUntil) return;
       frame = requestAnimationFrame(tick);
     };
 
@@ -196,7 +200,13 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
     };
 
     const observer = new ResizeObserver(resize);
-    const paused = new MutationObserver(wake);
+    const paused = new MutationObserver((records) => {
+      if (records.some((r) => r.attributeName === "style")) {
+        awakeUntil = performance.now() + 2000;
+        lastPalette = 0;
+      }
+      wake();
+    });
 
     document.fonts.ready.then(() => {
       if (cancelled) return;
@@ -205,18 +215,22 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
       shapes = [rest, ...morphs.map((m) => sampleMorph(m, rest.x.length, w, h, MORPH_CENTER.x, MORPH_CENTER.y))];
       readPalette();
       observer.observe(el);
-      paused.observe(root, { attributes: true, attributeFilter: ["data-paused", "data-lite"] });
-      root.addEventListener("pointermove", move);
-      root.addEventListener("pointerleave", leave);
-      root.addEventListener("click", click);
+      paused.observe(root, { attributes: true, attributeFilter: ["data-paused", "data-lite", "style"] });
+      // Held still: no repelling, no sparks, no morphs on click.
+      if (!calm) {
+        root.addEventListener("pointermove", move);
+        root.addEventListener("pointerleave", leave);
+        root.addEventListener("click", click);
+      }
       hud.onStep?.(STEPS, 0);
       // On a first visit the intro covers the hero, so the wordmark is generated from noise as it lifts.
       // Only while the page is still loading: a later remount (hot reload) takes over in place instead.
       const intro = document.querySelector(".intro");
-      if (intro && !document.documentElement.hasAttribute("data-intro-seen") && performance.now() < INTRO_LIFT_MS * 2) {
+      const firstVisit = intro && !document.documentElement.hasAttribute("data-intro-seen");
+      if (!calm && firstVisit && performance.now() < INTRO_LIFT_MS * 2) {
         system.emerge(Math.max(performance.now(), INTRO_LIFT_MS));
       }
-      if (morphs.length) schedule(FIRST_CYCLE_MS);
+      if (morphs.length && !calm) schedule(FIRST_CYCLE_MS);
       wake();
     });
 
