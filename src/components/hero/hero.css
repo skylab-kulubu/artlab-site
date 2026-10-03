@@ -256,6 +256,11 @@
   will-change: transform;
 }
 
+/* Once the canvas has the wordmark, the layer holds only unpainted text and needs no backing of its own. */
+.hero-sky[data-particles] .hero-isolate {
+  will-change: auto;
+}
+
 /* Lite mode, for devices that cannot keep up: the scene holds still. */
 .hero-sky[data-lite] .sky-loop,
 .hero-sky[data-lite] .sky-wing {

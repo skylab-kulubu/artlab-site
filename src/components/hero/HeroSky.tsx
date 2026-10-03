@@ -105,6 +105,10 @@ export function HeroSky({ serverNow, children }: { serverNow: number; children: 
     if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const SAMPLE_MS = 3000;
     const SLOW_MS = 28;
+    // A verdict needs a few frames, and one frame counts for half a second at most, so a single
+    // stall while loading cannot put a fast device in lite mode.
+    const MIN_FRAMES = 5;
+    const MAX_FRAME_MS = 500;
     let frame = 0;
     let last = 0;
     let measured = 0;
@@ -118,11 +122,11 @@ export function HeroSky({ serverNow, children }: { serverNow: number; children: 
       // a device taking a second a frame is the one lite mode is for. The gap across a hidden
       // tab is not, since the clock restarts when the page comes back.
       if (dt > 0 && !el.hasAttribute("data-paused")) {
-        measured += dt;
+        measured += Math.min(dt, MAX_FRAME_MS);
         frames++;
         if (dt > SLOW_MS) slow++;
       }
-      if (measured < SAMPLE_MS) {
+      if (measured < SAMPLE_MS || frames < MIN_FRAMES) {
         frame = requestAnimationFrame(tick);
         return;
       }
