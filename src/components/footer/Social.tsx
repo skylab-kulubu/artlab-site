@@ -24,7 +24,7 @@ const links = [
   {
     label: "X",
     href: "https://x.com/skylabkulubu",
-    path: <path d="M4 4 L20 20 M20 4 L4 20" />,
+    path: <path d="M4 4 H9 L20 20 H15 Z M19.5 4 L13.44 10.46 M10.56 13.54 L4.5 20" />,
   },
   {
     label: "Facebook",
