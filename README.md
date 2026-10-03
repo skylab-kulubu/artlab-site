@@ -15,6 +15,18 @@ npm run lint
 
 Next.js (App Router), React, Tailwind CSS 4, TypeScript. Sayfa statik üretilir ve saatte bir yeniden üretilir (`revalidate = 3600`).
 
+## Yayın
+
+`main`'e her push'ta GitHub Actions bir Docker imajı derleyip `ghcr.io/skylab-kulubu/artlab-site` adresine gönderir (`.github/workflows/image.yml`). Etiketler: `latest` (main), commit'in kısa SHA'sı (`sha-…`) ve `v1.2.3` gibi bir git etiketi push'lanırsa `1.2.3`.
+
+İmaj Next.js'in standalone çıktısını Node 22 üzerinde, root olmayan bir kullanıcıyla 3000 portunda çalıştırır:
+
+```bash
+docker run -p 3000:3000 ghcr.io/skylab-kulubu/artlab-site:latest
+```
+
+Paket gizliyse sunucunun GHCR'ye `read:packages` yetkili bir token'la giriş yapması gerekir.
+
 ## Dizinler
 
 ```
