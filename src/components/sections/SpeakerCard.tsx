@@ -36,9 +36,9 @@ function Numeral({ n }: { n: number }) {
   );
 }
 
-type Props = { speaker: Speaker; n: number; session?: Session };
+type Props = { speaker: Speaker; n: number; session?: Session; multiDay?: boolean };
 
-export function SpeakerCard({ speaker, n, session }: Props) {
+export function SpeakerCard({ speaker, n, session, multiDay }: Props) {
   const role = [speaker.title, speaker.company].filter(Boolean).join(" · ");
 
   return (
@@ -70,7 +70,8 @@ export function SpeakerCard({ speaker, n, session }: Props) {
             {session ? (
               <span className="flex flex-col gap-0.5">
                 <span className="text-xs font-semibold text-ink/80 tabular md:text-[13px]">
-                  Gün {session.day} · {formatTime(session.startsAt)}
+                  {multiDay && `Gün ${session.day} · `}
+                  {formatTime(session.startsAt)}
                 </span>
                 <span className="text-[10px] font-bold tracking-[0.16em] text-ink-2 uppercase">{kindLabel[session.kind]}</span>
               </span>

@@ -118,8 +118,8 @@ export function Raffle({ content, theme }: { content: Content; theme: Theme }) {
     <Section id="cekilis" motif={Motif && <Motif />}>
       <SectionHeader
         section="cekilis"
-        title={<EditableRegion scope="global" blockPath="cekilis.baslik" blockType="ShortText" defaultValue="Çekiliş" />}
-        lead={<EditableRegion scope="global" blockPath="cekilis.aciklama" blockType="LongText" defaultValue="Her ödülün kendi katılım şartı var. Hangisine uyuyorsan onun çekilişine girersin." />}
+        title={<EditableRegion blockPath="cekilis.baslik" blockType="ShortText" defaultValue="Çekiliş" />}
+        lead={<EditableRegion blockPath="cekilis.aciklama" blockType="LongText" defaultValue="Her ödülün kendi katılım şartı var. Hangisine uyuyorsan onun çekilişine girersin." />}
         illustration={Pose && <Pose />}
         aside={
           <span className="cut inline-flex items-center gap-2 bg-surface-2 px-3.5 py-2.5 text-[13px] font-bold text-cyan">

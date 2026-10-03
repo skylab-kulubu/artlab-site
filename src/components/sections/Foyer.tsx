@@ -43,8 +43,8 @@ export function Foyer({ content, theme }: { content: Content; theme: Theme }) {
     <Section id="fuaye" motif={Motif && <Motif />}>
       <SectionHeader
         section="fuaye"
-        title={<EditableRegion scope="global" blockPath="fuaye.baslik" blockType="ShortText" defaultValue="Fuaye" />}
-        lead={<EditableRegion scope="global" blockPath="fuaye.aciklama" blockType="LongText" defaultValue="Oturum aralarında stantları gez, demoları dene." />}
+        title={<EditableRegion blockPath="fuaye.baslik" blockType="ShortText" defaultValue="Fuaye" />}
+        lead={<EditableRegion blockPath="fuaye.aciklama" blockType="LongText" defaultValue="Oturum aralarında stantları gez, demoları dene." />}
         illustration={Pose && <Pose />}
       />
       <div className="reveal-group grid gap-6 md:grid-cols-3 md:grid-rows-[210px_210px]">

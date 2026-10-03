@@ -100,8 +100,8 @@ export function Sponsors({ content, theme }: { content: Content; theme: Theme })
     <Section id="destekciler" className="gap-11">
       <SectionHeader
         section="destekciler"
-        title={<EditableRegion scope="global" blockPath="destekciler.baslik" blockType="ShortText" defaultValue="Destekçiler" />}
-        lead={<EditableRegion scope="global" blockPath="destekciler.aciklama" blockType="LongText" defaultValue="ARTLAB'i mümkün kılanlar. Çoğunu fuayede de bulabilirsin." />}
+        title={<EditableRegion blockPath="destekciler.baslik" blockType="ShortText" defaultValue="Destekçiler" />}
+        lead={<EditableRegion blockPath="destekciler.aciklama" blockType="LongText" defaultValue="ARTLAB'i mümkün kılanlar. Çoğunu fuayede de bulabilirsin." />}
         illustration={Pose && <Pose />}
       />
       <div className="flex flex-col gap-px border border-line bg-line">

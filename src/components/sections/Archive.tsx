@@ -15,8 +15,8 @@ export function Archive({ content, theme }: { content: Content; theme: Theme }) 
     <Section id="arsiv" motif={Motif && <Motif />}>
       <SectionHeader
         section="arsiv"
-        title={<EditableRegion scope="global" blockPath="arsiv.baslik" blockType="ShortText" defaultValue="Geçmiş yıllar" />}
-        lead={<EditableRegion scope="global" blockPath="arsiv.aciklama" blockType="LongText" defaultValue="Önceki ARTLAB'lerden kareler." />}
+        title={<EditableRegion blockPath="arsiv.baslik" blockType="ShortText" defaultValue="Geçmiş yıllar" />}
+        lead={<EditableRegion blockPath="arsiv.aciklama" blockType="LongText" defaultValue="Önceki ARTLAB'lerden kareler." />}
         illustration={Pose && <Pose />}
       />
       <div className="reveal">

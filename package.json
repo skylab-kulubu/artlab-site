@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@skylab-kulubu/inscribed-auth": "^0.3.1",
+    "image-size": "^2.0.4",
     "inscribed": "^5.0.2",
     "motion": "^13.4.2",
     "next": "16.3.6",

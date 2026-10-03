@@ -14,7 +14,7 @@ export function Program({ content, theme }: { content: Content; theme: Theme }) 
   if (!sessions.length) {
     return (
       <Section id="program">
-        <SectionHeader section="program" title={<EditableRegion scope="global" blockPath="program.baslik" blockType="ShortText" defaultValue="Program" />} illustration={Pose && <Pose />} />
+        <SectionHeader section="program" title={<EditableRegion blockPath="program.baslik" blockType="ShortText" defaultValue="Program" />} illustration={Pose && <Pose />} />
         <SoonCard
           theme={theme}
           title="Program hazırlanıyor"
@@ -30,7 +30,7 @@ export function Program({ content, theme }: { content: Content; theme: Theme }) 
       <ProgramDays sessions={sessions} serverNow={fetchedAt}>
         <SectionHeader
           section="program"
-          title={<EditableRegion scope="global" blockPath="program.baslik" blockType="ShortText" defaultValue="Program" />}
+          title={<EditableRegion blockPath="program.baslik" blockType="ShortText" defaultValue="Program" />}
           lead={edition.programNote}
           illustration={Pose && <Pose />}
           aside={<DayTabs />}

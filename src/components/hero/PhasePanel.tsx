@@ -41,6 +41,7 @@ export function PhasePanel(props: Props) {
   const { edition, speakers } = props;
   const { phase, current, next, left, progress } = usePanel(props);
   const shown = current ?? next;
+  const multiDay = new Set(props.sessions.map((s) => s.day)).size > 1;
 
   return (
     <Chamfer surface="none" className="w-[400px] max-w-full" innerClassName="flex flex-col gap-3.5 bg-bg/80 px-6 pt-5 pb-[22px]">
@@ -80,7 +81,7 @@ export function PhasePanel(props: Props) {
           <div className="flex items-center justify-between">
             <span className={`${eyebrow} flex items-center gap-2 text-cyan`}>
               <span className="size-2 rounded-full bg-cyan motion-safe:animate-pulse" />
-              Canlı · Gün {shown?.day ?? 1}
+              Canlı{multiDay && ` · Gün ${shown?.day ?? 1}`}
             </span>
             {shown && (
               <span className="text-[13px] font-semibold text-ink-2 tabular">

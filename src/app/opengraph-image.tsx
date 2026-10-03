@@ -3,6 +3,8 @@ import { getContent } from "@/content";
 import { palettes } from "@/lib/env";
 import { formatDateRange } from "@/lib/format";
 
+// Rendered per request: the edition comes from the CMS, which a build must not bake in.
+export const dynamic = "force-dynamic";
 export const alt = "ARTLAB · Yapay Zeka Zirvesi";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";

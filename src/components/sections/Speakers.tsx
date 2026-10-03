@@ -11,14 +11,15 @@ export function Speakers({ content, theme }: { content: Content; theme: Theme })
   const { speakers, sessions, edition } = content;
   const { Pose } = sectionArt(theme, "konusmacilar");
   const instagram = edition.contact.instagram;
+  const multiDay = new Set(sessions.map((s) => s.day)).size > 1;
 
   return (
     <Section id="konusmacilar" className="gap-8">
-      <SectionHeader section="konusmacilar" title={<EditableRegion scope="global" blockPath="konusmacilar.baslik" blockType="ShortText" defaultValue="Konuşmacılar" />} illustration={Pose && <Pose />} />
+      <SectionHeader section="konusmacilar" title={<EditableRegion blockPath="konusmacilar.baslik" blockType="ShortText" defaultValue="Konuşmacılar" />} illustration={Pose && <Pose />} />
       {speakers.length ? (
         <div className="reveal-group grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-5">
           {speakers.map((speaker, i) => (
-            <SpeakerCard key={speaker.id} speaker={speaker} n={i + 1} session={speakerSession(sessions, speaker.id)} />
+            <SpeakerCard key={speaker.id} speaker={speaker} n={i + 1} session={speakerSession(sessions, speaker.id)} multiDay={multiDay} />
           ))}
         </div>
       ) : (

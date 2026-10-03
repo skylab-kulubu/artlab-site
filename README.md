@@ -49,7 +49,7 @@ src/
 public/img/     Kulüp ve iş birliği logoları.
 ```
 
-- **Tüm içerik tek kapıdan gelir:** `src/content/index.ts` içindeki `getContent()`. CMS bağlandığında yalnızca bu fonksiyon değişir; tipler (`src/lib/types.ts`) CMS şemasıyla aynıdır.
+- **Tüm içerik tek kapıdan gelir:** `src/content/index.ts` içindeki `getContent()`. CMS bloklarını okur ve bileşenlerin kullandığı tiplere (`src/lib/types.ts`) çevirir; CMS'e ulaşılamazsa sayfa boş hâlleriyle açılır.
 - **Renkler token'dır:** `src/app/globals.css` başındaki değişkenler. Bileşenlerde hex yazılmaz; marka yenilenirse yalnızca bu blok değişir.
 - **Boş bölümler kendiliğinden gizlenir:** Çekiliş kapalıysa, sponsor yoksa ya da geçmiş yıl yoksa ilgili bölüm ve header pusulasındaki karşılığı kaybolur. Program ve konuşmacılar boşken "Yakında" kartı gösterir.
 - **Etkinlik evresi tarihlerden hesaplanır:** geri sayım, canlı ve bitti. Hero paneli ve kayıt butonu buna göre değişir; kimsenin elle bir şey açıp kapatması gerekmez.
@@ -58,12 +58,16 @@ public/img/     Kulüp ve iş birliği logoları.
 
 Eski site, devir teslimde bu bilgi kaybolduğu için iki yıl güncellenmedi. Her yıl bu listeyi baştan sona uygulayın:
 
-1. **Edisyon kaydı** (`src/content/edition.ts`): yıl, edisyon numarası, başlangıç ve bitiş tarihleri (`+03:00` ile), mekân, kayıt formu bağlantısı (`registrationUrl`), sertifika bağlantısı, program notu.
-2. **Tema:** Yeni tema paketini `src/themes/<yıl>/` altına ekleyin ve `src/themes/index.ts` içindeki `ACTIVE_THEME` değerini değiştirin. Paket hazır değilse `ACTIVE_THEME = "notr"` ile başlayın; site maskotsuz ve motifsiz hâliyle eksiksiz çalışır.
-3. **Slogan** (opsiyonel): `edition.slogan`. Boş bırakılırsa hero'da "Yapay Zeka Zirvesi" yazar.
-4. **Duyurular:** Konuşmacılar, program, sponsorlar ve çekiliş duyuruldukça ilgili dosyaya girilir. Konuşmacılar ve sponsorlar tek seferde duyurulur; o güne kadar bölümler "Yakında" ya da gizli kalır.
-5. **Geçmiş yıllar:** Biten edisyonu `pastEditions` listesine ekleyin, varsa afişini ya da fotoğraflarını `cover` / `gallery` olarak verin.
-6. **Paylaşım:** Paylaşım kartı ve açıklama edisyon kaydından otomatik üretilir. Derledikten sonra `/opengraph-image` adresine bakıp doğrulayın.
+İçerik CMS panelinden girilir; kod değişikliği yalnızca tema için gerekir.
+
+1. **Edisyon** (panelde `edisyon.*`): yıl, edisyon numarası, başlangıç ve bitiş, kayıt formu ve sertifika bağlantıları, tema. Mekân `mekan.*`, iletişim `iletisim.*` altında.
+2. **Tema:** Yeni tema paketini `src/themes/<yıl>/` altına ekleyin, `src/themes/index.ts`'e kaydedin ve `edisyon.tema` seçeneklerine ekleyin (`src/components/cms/CmsFields.tsx`). Paket hazır değilse panelden `notr` seçin; site maskotsuz ve motifsiz hâliyle eksiksiz çalışır.
+3. **Slogan:** Hero'daki slogana tıklayıp yerinde değiştirin (`hero.slogan`).
+4. **Duyurular:** Konuşmacılar (`konusmacilar.liste`), program (`program.oturumlar`; gün numarası ve "10:30" biçiminde saat), destekçiler (`destekciler.liste`) ve çekiliş ödülleri (`cekilis.oduller`) duyuruldukça girilir. Konuşmacıların oturumlara bağlanması için oturumun `konusmacilar` alanına konuşmacı kimliklerini virgülle yazın. Bölümler `bolumler.*` anahtarlarıyla tamamen gizlenebilir.
+5. **Geçmiş yıllar:** Biten edisyonun fotoğraflarını `arsiv.kareler`'e yıl ve tarih etiketiyle ekleyin.
+6. **Paylaşım:** Paylaşım kartı ve açıklama edisyon bilgilerinden otomatik üretilir; `/opengraph-image` adresinden doğrulayın.
+
+Kodda yeni bir alan tanımlandığında (`EditableRegion`, `EditableList`, `useCmsBlock`) CMS'e kaydedilmesi için `cms-sync` çalıştırılmalıdır; sandbox ve production'da bunu altyapı ekibi yapar. `npm run cms-sync -- --dry-run` neyin kaydedileceğini gösterir.
 
 ## Tema paketi
 
@@ -83,11 +87,8 @@ Bir yılın bütün yaratıcı malzemesi tek klasördedir (örnek: `src/themes/2
 
 ## Önizleme ve test
 
-- `/onizleme/notr`: Nötr tema, slogansız.
-- `/onizleme/bos`: Hiçbir şey duyurulmamış edisyon; bütün boş hâller tek sayfada.
 - `?saat=21` (ya da `?saat=18.5`): Hero gökyüzünü o saate zorlar. Varsayılan olarak gökyüzü Davutpaşa'daki gerçek saati izler.
-
-Önizleme sayfaları arama motorlarına kapalıdır.
+- İçeriğin boş hâlleri (program ve konuşmacılar "hazırlanıyor", gizlenen bölümler) CMS'te listeleri boşaltarak ya da `bolumler` anahtarlarını kapatarak sandbox'ta denenir.
 
 ## Hero hakkında
 

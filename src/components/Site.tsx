@@ -1,4 +1,5 @@
 import type { Content } from "@/content";
+import { CmsFields } from "@/components/cms/CmsFields";
 import { Footer } from "@/components/footer/Footer";
 import { Header } from "@/components/header/Header";
 import { EventSchema } from "@/components/EventSchema";
@@ -24,15 +25,16 @@ export function Site({ content, theme, intro = true }: Props) {
 
   return (
     <ActiveSectionProvider sections={sections}>
+      <CmsFields />
       <EventSchema content={content} />
       {intro && <Intro theme={theme} />}
       <Header edition={content.edition} theme={theme} serverNow={content.fetchedAt} />
       <main>
         <Hero content={content} theme={theme} />
         <Why content={content} theme={theme} />
-        <Faq content={content} theme={theme} />
-        <Program content={content} theme={theme} />
-        <Speakers content={content} theme={theme} />
+        {shown.has("sss") && <Faq content={content} theme={theme} />}
+        {shown.has("program") && <Program content={content} theme={theme} />}
+        {shown.has("konusmacilar") && <Speakers content={content} theme={theme} />}
         {shown.has("cekilis") && <Raffle content={content} theme={theme} />}
         {shown.has("fuaye") && <Foyer content={content} theme={theme} />}
         {shown.has("arsiv") && <Archive content={content} theme={theme} />}

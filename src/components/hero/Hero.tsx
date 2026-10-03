@@ -13,6 +13,7 @@ import { MiniMap } from "./MiniMap";
 import { PhaseButton } from "./PhaseButton";
 import { PhasePanel, PhaseStrip } from "./PhasePanel";
 import "./hero.css";
+import { EditableRegion } from "inscribed";
 
 function CalendarIcon() {
   return (
@@ -84,7 +85,7 @@ export function Hero({ content, theme }: Props) {
             {edition.number}. EDİSYON · YAPAY ZEKA ZİRVESİ
           </span>
           <p className="enter font-display text-[26px] leading-[1.15] font-semibold md:text-[40px] md:leading-[1.1]" style={order(4)}>
-            {edition.slogan ?? "Yapay Zeka Zirvesi"}
+            <EditableRegion blockPath="hero.slogan" blockType="ShortText" defaultValue="Kozadan geleceğe." />
           </p>
           <div className="enter flex flex-wrap gap-x-7 gap-y-2 text-sm text-ink/80 md:text-base" style={order(5)}>
             <span className="flex items-center gap-2">
