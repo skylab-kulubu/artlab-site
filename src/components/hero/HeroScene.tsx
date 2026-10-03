@@ -350,10 +350,15 @@ function Back({ layout, theme, serverNow }: Omit<Props, "part" | "className">) {
 
       <Layer layout={layout} depth={0.4} isolate>
         {particle ? (
-          <g className="hero-wordmark" opacity="0.95">
-            <Letters layout={layout} fill={`url(#${dots})`} mask={`url(#${dots}-rim)`} sampled />
-            <Letters layout={layout} fill={`url(#${dots}-inner)`} mask={`url(#${dots}-inside)`} />
-          </g>
+          <>
+            {/* What the particles sample their dots from: laid out, never painted and unmasked, so it can
+                stay while the masked copies below leave the render tree once the canvas has the wordmark. */}
+            <Letters layout={layout} fill="none" visibility="hidden" sampled />
+            <g className="hero-wordmark" opacity="0.95">
+              <Letters layout={layout} fill={`url(#${dots})`} mask={`url(#${dots}-rim)`} />
+              <Letters layout={layout} fill={`url(#${dots}-inner)`} mask={`url(#${dots}-inside)`} />
+            </g>
+          </>
         ) : (
           <g className="hero-wordmark" opacity="0.95">
             <Letters layout={layout} fill="none" stroke="var(--color-amber)" strokeWidth={wordmark.stroke} />
