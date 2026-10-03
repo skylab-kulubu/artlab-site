@@ -60,16 +60,44 @@ export function Compass() {
   );
 }
 
+// The phone version: one major tick per section on a short ruler, the needle sliding to
+// the current one, so the page's length and the reader's place in it stay visible.
 export function CompactCompass() {
   const { sections, index } = useActiveSection();
+  const last = Math.max(1, sections.length - 1);
+  const at = (i: number) => `${(i / last) * 100}%`;
 
   return (
     <div className="relative flex h-[50px] min-w-0 flex-1 items-start justify-center pt-2 xl:hidden">
       <span aria-live="polite" className={`truncate font-bold text-cyan ${labelClass}`}>
         {sections[index].label}
       </span>
-      <div aria-hidden="true" className="absolute inset-x-6 bottom-1.5 h-px bg-ink/15" />
-      <Needle />
+      <div aria-hidden="true" className="absolute inset-x-5 bottom-1.5 h-3.5">
+        {sections.map((s, i) => (
+          <span key={s.id}>
+            <span
+              className="absolute bottom-0 h-3 w-px -translate-x-1/2 bg-ink transition-opacity duration-500"
+              style={{ left: at(i), opacity: i <= index ? 0.75 : 0.3 }}
+            />
+            {i < last &&
+              [1, 2].map((k) => (
+                <span
+                  key={k}
+                  className="absolute bottom-0 h-1.5 w-px -translate-x-1/2 bg-ink transition-opacity duration-500"
+                  style={{ left: at(i + k / 3), opacity: i < index ? 0.45 : 0.15 }}
+                />
+              ))}
+          </span>
+        ))}
+        <span
+          className="absolute -bottom-[9px] -translate-x-1/2 transition-[left] duration-500 ease-out"
+          style={{ left: at(index) }}
+        >
+          <svg width="12" height="8" viewBox="0 0 12 8" className="block">
+            <path d="M0 8 L6 0 L12 8 Z" fill="var(--color-amber)" />
+          </svg>
+        </span>
+      </div>
     </div>
   );
 }
