@@ -17,15 +17,16 @@ Next.js (App Router), React, Tailwind CSS 4, TypeScript. Sayfa statik üretilir 
 
 ## Yayın
 
-`main`'e her push'ta GitHub Actions bir Docker imajı derleyip `ghcr.io/skylab-kulubu/artlab-site` adresine gönderir (`.github/workflows/image.yml`). Etiketler: `latest` (main), commit'in kısa SHA'sı (`sha-…`) ve `v1.2.3` gibi bir git etiketi push'lanırsa `1.2.3`.
+GitHub Actions her push'ta bir Docker imajı derleyip `ghcr.io/skylab-kulubu/artlab-site`'a gönderir ve ilgili Dokploy uygulamasını yeniden başlatır (`.github/workflows/image.yml`):
 
-İmaj Next.js'in standalone çıktısını Node 22 üzerinde, root olmayan bir kullanıcıyla 3000 portunda çalıştırır:
+| Dal | İmaj etiketi | Ortam |
+| --- | --- | --- |
+| `main` | `sandbox` | sandbox-artlab.yildizskylab.com |
+| `production` | `production` | artlab.yildizskylab.com |
 
-```bash
-docker run -p 3000:3000 ghcr.io/skylab-kulubu/artlab-site:latest
-```
+Her imaj ayrıca commit'in kısa SHA'sıyla (`sha-…`) etiketlenir. Dokploy'u tetikleyen kancalar repo secret'larıdır: `DOKPLOY_SANDBOX_DEPLOY_HOOK`, `DOKPLOY_DEPLOY_HOOK`. Canlıya çıkmak, `production` dalını `main`'e ilerletmektir.
 
-Paket gizliyse sunucunun GHCR'ye `read:packages` yetkili bir token'la giriş yapması gerekir.
+İmaj Next.js'in standalone çıktısını Node 22 üzerinde, root olmayan bir kullanıcıyla 3000 portunda çalıştırır. İmaja secret girmez; ortam değişkenleri çalışma anında Dokploy'dan gelir.
 
 ## Dizinler
 

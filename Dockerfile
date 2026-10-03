@@ -7,7 +7,9 @@ FROM node:22-alpine AS build
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-ENV NEXT_TELEMETRY_DISABLED=1
+# Core's origin for the CMS image bridge, fixed per environment at build time.
+ARG API_BASE_URL=""
+ENV NEXT_TELEMETRY_DISABLED=1 API_BASE_URL=$API_BASE_URL
 RUN npm run build
 
 FROM node:22-alpine AS run
