@@ -55,15 +55,23 @@ export function HeroPointer() {
       if ((e.target as Element).closest("a, button, [role=tab]")) hide();
       else show(x, y);
     };
+    // On touch there is no pointer to frame: the robot only glances at the tap, then looks back.
+    let rest: ReturnType<typeof setTimeout> | undefined;
     const tap = (e: PointerEvent) => {
       if (e.pointerType === "mouse") return;
       const r = root.getBoundingClientRect();
-      show(e.clientX - r.left, e.clientY - r.top);
       look(e.clientX - r.left, e.clientY - r.top, r.width, r.height);
     };
     const leave = (e: PointerEvent) => {
-      if (e.pointerType === "mouse") hide();
-      for (const eye of eyes) eye.style.removeProperty("transform");
+      clearTimeout(rest);
+      if (e.pointerType === "mouse") {
+        hide();
+        for (const eye of eyes) eye.style.removeProperty("transform");
+      } else {
+        rest = setTimeout(() => {
+          for (const eye of eyes) eye.style.removeProperty("transform");
+        }, 1200);
+      }
     };
 
     root.addEventListener("pointermove", move);
@@ -73,6 +81,7 @@ export function HeroPointer() {
       root.removeEventListener("pointermove", move);
       root.removeEventListener("pointerdown", tap);
       root.removeEventListener("pointerleave", leave);
+      clearTimeout(rest);
     };
   }, []);
 
