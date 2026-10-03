@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
+import { useCmsPanelSwitch } from "@/components/cms/ArtlabCmsProvider";
 import { useActiveSection } from "@/components/nav/ActiveSection";
 
 type Menu = { open: boolean; setOpen: (open: boolean | ((o: boolean) => boolean)) => void };
@@ -46,6 +47,7 @@ export function MenuRoot({ children, className }: { children: ReactNode; classNa
 }
 
 export function MenuButton() {
+  const { canEdit } = useCmsPanelSwitch();
   const { open, setOpen } = useMenu();
 
   return (
@@ -55,7 +57,7 @@ export function MenuButton() {
       aria-controls="mobil-menu"
       aria-label={open ? "Menüyü kapat" : "Menüyü aç"}
       onClick={() => setOpen((o) => !o)}
-      className="grid size-11 shrink-0 place-items-center text-ink xl:hidden"
+      className={`grid size-11 shrink-0 place-items-center text-ink ${canEdit ? "" : "xl:hidden"}`}
     >
       <span aria-hidden="true" className="relative block h-3 w-[18px]">
         <span className={`${bar} top-0 ${open ? "translate-y-[5.2px] rotate-45" : ""}`} />
@@ -66,16 +68,43 @@ export function MenuButton() {
   );
 }
 
+// Shown to signed-in editors only: puts the editing panel away to see the page as visitors do.
+function PanelSwitch() {
+  const { hidden, setHidden } = useCmsPanelSwitch();
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={!hidden}
+      onClick={() => setHidden(!hidden)}
+      className="flex h-12 w-full items-center justify-between gap-4 px-6 text-sm font-semibold tracking-[0.1em] text-ink uppercase hover:text-cyan"
+    >
+      Düzenleme paneli
+      <span
+        aria-hidden="true"
+        className={`relative h-5 w-9 rounded-full border transition-colors ${hidden ? "border-line bg-surface" : "border-amber bg-amber/20"}`}
+      >
+        <span
+          className={`absolute top-1/2 size-3 -translate-y-1/2 rounded-full transition-[left,background-color] duration-200 ${
+            hidden ? "left-1 bg-ink-3" : "left-[19px] bg-amber"
+          }`}
+        />
+      </span>
+    </button>
+  );
+}
+
 export function MenuPanel() {
   const { sections, active } = useActiveSection();
   const { open, setOpen } = useMenu();
+  const { canEdit } = useCmsPanelSwitch();
 
   return (
     <nav
       id="mobil-menu"
       aria-label="Bölümler"
       inert={!open}
-      className={`cho absolute inset-x-0 top-full mt-2 bg-ink/18 p-px transition-[opacity,translate,visibility] duration-300 ease-out xl:hidden ${
+      className={`cho absolute inset-x-0 top-full mt-2 bg-ink/18 p-px transition-[opacity,translate,visibility] duration-300 ease-out ${canEdit ? "xl:left-auto xl:w-80" : "xl:hidden"} ${
         open ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0"
       }`}
     >
@@ -83,7 +112,7 @@ export function MenuPanel() {
         {sections.map((s, i) => (
           <li
             key={s.id}
-            className={`transition-[opacity,translate] duration-300 ease-out ${open ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0"}`}
+            className={`transition-[opacity,translate] duration-300 ease-out xl:hidden ${open ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0"}`}
             style={{ transitionDelay: open ? `${60 + i * 30}ms` : "0ms" }}
           >
             <a
@@ -98,6 +127,11 @@ export function MenuPanel() {
             </a>
           </li>
         ))}
+        {canEdit && (
+          <li className="mt-1 border-t border-line pt-1 xl:mt-0 xl:border-t-0 xl:pt-0">
+            <PanelSwitch />
+          </li>
+        )}
       </ul>
     </nav>
   );
