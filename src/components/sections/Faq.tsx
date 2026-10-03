@@ -5,6 +5,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { StopGlyph } from "@/components/ui/StopGlyph";
 import { VenueMap } from "@/components/map/VenueMap";
 import { sectionArt, type Theme } from "@/themes";
+import { EditableRegion } from "inscribed";
 
 function Toggle() {
   return (
@@ -46,7 +47,7 @@ export function Faq({ content, theme }: { content: Content; theme: Theme }) {
 
   return (
     <Section id="sss">
-      <SectionHeader section="sss" title="Sık sorulanlar" illustration={Pose && <Pose />} />
+      <SectionHeader section="sss" title={<EditableRegion scope="global" blockPath="sss.baslik" blockType="ShortText" defaultValue="Sık sorulanlar" />} illustration={Pose && <Pose />} />
       <div className="reveal-group grid gap-12 lg:grid-cols-2 lg:gap-16">
         <div className="flex flex-col border-t border-line">
           {faqs.length ? (

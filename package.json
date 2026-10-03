@@ -6,11 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "cms-sync": "cms-sync --app-root src/app"
   },
   "dependencies": {
+    "@skylab-kulubu/inscribed-auth": "^0.3.1",
+    "inscribed": "^5.0.2",
     "motion": "^13.4.2",
     "next": "16.3.6",
+    "next-auth": "^4.24.15",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },

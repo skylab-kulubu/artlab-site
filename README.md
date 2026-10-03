@@ -15,6 +15,15 @@ npm run lint
 
 Next.js (App Router), React, Tailwind CSS 4, TypeScript. Sayfa statik üretilir ve saatte bir yeniden üretilir (`revalidate = 3600`).
 
+## İçerik yönetimi
+
+Metinler ve görseller [inscribed](https://www.npmjs.com/package/inscribed) ile yönetilir; içerik Skylab'in CMS'inde, sitenin Keycloak istemcisi (`frontend-artlab`) adına tutulur.
+
+- Ziyaretçiler yayınlanmış içeriği token'sız okur. Düzenleme yetkisi olan kişi (`cms:access`) `/api/signin` ile ya da core üzerinden giriş yapınca düzenleme panelleri görünür.
+- Düzenlenebilir alanlar JSX içinde `EditableRegion` ile tanımlanır. `npm run cms-sync` bunları bulup CMS'e kaydeder; `defaultValue` yalnızca ilk kaydı tohumlar.
+- Ortam değişkenleri `.env.example`'da. `CMS_URL` verilmezse site sandbox CMS'ini okur.
+- Görsel yüklemeleri `/api/cms-media` üzerinden core'a gider.
+
 ## Yayın
 
 GitHub Actions her push'ta bir Docker imajı derleyip `ghcr.io/skylab-kulubu/artlab-site`'a gönderir ve ilgili Dokploy uygulamasını yeniden başlatır (`.github/workflows/image.yml`):

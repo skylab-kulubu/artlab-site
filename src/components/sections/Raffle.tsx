@@ -6,6 +6,7 @@ import { dayNumber, formatDayMonth, formatTime } from "@/lib/format";
 import { conditionNote, conditionText, sessionStrip, type Dot } from "@/lib/raffle";
 import type { Prize } from "@/lib/types";
 import { sectionArt, type Theme } from "@/themes";
+import { EditableRegion } from "inscribed";
 
 const dots: Record<Dot, string> = {
   required: "bg-amber",
@@ -117,8 +118,8 @@ export function Raffle({ content, theme }: { content: Content; theme: Theme }) {
     <Section id="cekilis" motif={Motif && <Motif />}>
       <SectionHeader
         section="cekilis"
-        title="Çekiliş"
-        lead="Her ödülün kendi katılım şartı var. Hangisine uyuyorsan onun çekilişine girersin."
+        title={<EditableRegion scope="global" blockPath="cekilis.baslik" blockType="ShortText" defaultValue="Çekiliş" />}
+        lead={<EditableRegion scope="global" blockPath="cekilis.aciklama" blockType="LongText" defaultValue="Her ödülün kendi katılım şartı var. Hangisine uyuyorsan onun çekilişine girersin." />}
         illustration={Pose && <Pose />}
         aside={
           <span className="cut inline-flex items-center gap-2 bg-surface-2 px-3.5 py-2.5 text-[13px] font-bold text-cyan">

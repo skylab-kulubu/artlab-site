@@ -5,6 +5,7 @@ import { SoonCard } from "@/components/ui/SoonCard";
 import { speakerSession } from "@/lib/program";
 import { sectionArt, type Theme } from "@/themes";
 import { SpeakerCard } from "./SpeakerCard";
+import { EditableRegion } from "inscribed";
 
 export function Speakers({ content, theme }: { content: Content; theme: Theme }) {
   const { speakers, sessions, edition } = content;
@@ -13,7 +14,7 @@ export function Speakers({ content, theme }: { content: Content; theme: Theme })
 
   return (
     <Section id="konusmacilar" className="gap-8">
-      <SectionHeader section="konusmacilar" title="Konuşmacılar" illustration={Pose && <Pose />} />
+      <SectionHeader section="konusmacilar" title={<EditableRegion scope="global" blockPath="konusmacilar.baslik" blockType="ShortText" defaultValue="Konuşmacılar" />} illustration={Pose && <Pose />} />
       {speakers.length ? (
         <div className="reveal-group grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-5">
           {speakers.map((speaker, i) => (

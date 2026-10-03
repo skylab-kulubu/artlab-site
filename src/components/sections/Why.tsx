@@ -3,6 +3,7 @@ import { Chamfer } from "@/components/ui/Chamfer";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { sectionArt, type Theme } from "@/themes";
+import { EditableRegion } from "inscribed";
 
 type Icon = Content["why"]["items"][number]["icon"];
 
@@ -42,7 +43,7 @@ export function Why({ content, theme }: { content: Content; theme: Theme }) {
 
   return (
     <Section id="neden" motif={Motif && <Motif />}>
-      <SectionHeader section="neden" title="Neden ARTLAB" lead={content.why.lead} illustration={Pose && <Pose />} />
+      <SectionHeader section="neden" title={<EditableRegion scope="global" blockPath="neden.baslik" blockType="ShortText" defaultValue="Neden ARTLAB" />} lead={<EditableRegion scope="global" blockPath="neden.aciklama" blockType="LongText" defaultValue="Yapay zekânın bugününü ve yarınını, onu inşa edenlerden dinle." />} illustration={Pose && <Pose />} />
       <div className="reveal-group grid gap-6 md:grid-cols-3">
         {content.why.items.map((item, i) => (
           <Chamfer key={item.icon} border={i === 0 ? "amber" : "line"} surface="bg" innerClassName="flex flex-col gap-3.5 p-8">

@@ -3,6 +3,7 @@ import { Manrope, Unbounded } from "next/font/google";
 import { introScript } from "@/components/Intro";
 import { MotionProvider } from "@/components/MotionProvider";
 import { getContent } from "@/content";
+import { CmsPage } from "@/lib/cms";
 import { SITE_URL, siteDescription, siteTitle } from "@/lib/site";
 import "./globals.css";
 
@@ -54,7 +55,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: clockScript + ";" + introScript }} />
       </head>
       <body className="min-h-dvh">
-        <MotionProvider>{children}</MotionProvider>
+        <CmsPage>
+          <MotionProvider>{children}</MotionProvider>
+        </CmsPage>
       </body>
     </html>
   );

@@ -4,7 +4,7 @@ import { PathStop } from "./PathStop";
 
 type Props = {
   section: SectionId;
-  title: string;
+  title: ReactNode;
   lead?: ReactNode;
   illustration?: ReactNode;
   aside?: ReactNode;

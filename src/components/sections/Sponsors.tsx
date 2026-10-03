@@ -4,6 +4,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { logoSize, tierSlot } from "@/lib/logo";
 import type { Sponsor, SponsorTier } from "@/lib/types";
 import { sectionArt, type Theme } from "@/themes";
+import { EditableRegion } from "inscribed";
 
 const cells: Record<SponsorTier["size"], string> = {
   lg: "basis-full md:basis-[calc(50%-1px)] h-[200px] md:h-[270px]",
@@ -99,8 +100,8 @@ export function Sponsors({ content, theme }: { content: Content; theme: Theme })
     <Section id="destekciler" className="gap-11">
       <SectionHeader
         section="destekciler"
-        title="Destekçiler"
-        lead="ARTLAB'i mümkün kılanlar. Çoğunu fuayede de bulabilirsin."
+        title={<EditableRegion scope="global" blockPath="destekciler.baslik" blockType="ShortText" defaultValue="Destekçiler" />}
+        lead={<EditableRegion scope="global" blockPath="destekciler.aciklama" blockType="LongText" defaultValue="ARTLAB'i mümkün kılanlar. Çoğunu fuayede de bulabilirsin." />}
         illustration={Pose && <Pose />}
       />
       <div className="flex flex-col gap-px border border-line bg-line">
