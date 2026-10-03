@@ -11,13 +11,14 @@ export const speakers: Speaker[] = [
 ];
 
 export const sessions: Session[] = [
-  { id: "d1-kapi", day: 1, startsAt: "2026-11-25T12:00:00+03:00", endsAt: "2026-11-25T12:30:00+03:00", title: "Kapı açılışı ve kayıt", kind: "ara", room: "Fuaye", speakerIds: [] },
-  { id: "d1-acilis", day: 1, startsAt: "2026-11-25T12:30:00+03:00", endsAt: "2026-11-25T13:00:00+03:00", title: "Açılış konuşması", kind: "acilis", speakerIds: [], byline: "[Konuşmacı]" },
-  { id: "d1-s1", day: 1, startsAt: "2026-11-25T13:00:00+03:00", endsAt: "2026-11-25T13:45:00+03:00", title: "[Oturum başlığı]", kind: "seminer", speakerIds: ["s1"] },
-  { id: "d1-s2", day: 1, startsAt: "2026-11-25T13:45:00+03:00", endsAt: "2026-11-25T14:30:00+03:00", title: "[Oturum başlığı]", kind: "seminer", speakerIds: ["s2"] },
-  { id: "d1-panel", day: 1, startsAt: "2026-11-25T14:30:00+03:00", endsAt: "2026-11-25T15:15:00+03:00", title: "[Panel başlığı]", kind: "panel", speakerIds: ["s3"] },
-  { id: "d1-s3", day: 1, startsAt: "2026-11-25T15:15:00+03:00", endsAt: "2026-11-25T16:00:00+03:00", title: "[Oturum başlığı]", kind: "seminer", speakerIds: ["s4"] },
-  { id: "d2-s1", day: 2, startsAt: "2026-11-26T11:00:00+03:00", endsAt: "2026-11-26T11:45:00+03:00", title: "[Oturum başlığı]", kind: "seminer", speakerIds: ["s5"] },
-  { id: "d2-s2", day: 2, startsAt: "2026-11-26T11:45:00+03:00", endsAt: "2026-11-26T12:30:00+03:00", title: "[Oturum başlığı]", kind: "seminer", speakerIds: ["s6"] },
-  { id: "d2-ws", day: 2, startsAt: "2026-11-26T16:00:00+03:00", endsAt: "2026-11-26T18:00:00+03:00", title: "[Workshop başlığı]", kind: "workshop", room: "[Salon]", speakerIds: ["s7"] },
+  { id: "kapi", day: 1, startsAt: "2026-11-27T10:00:00+03:00", endsAt: "2026-11-27T10:30:00+03:00", title: "Kapı açılışı ve kayıt", kind: "ara", room: "Fuaye", speakerIds: [] },
+  { id: "acilis", day: 1, startsAt: "2026-11-27T10:30:00+03:00", endsAt: "2026-11-27T11:00:00+03:00", title: "Açılış konuşması", kind: "acilis", speakerIds: [], byline: "[Konuşmacı]" },
+  { id: "s1", day: 1, startsAt: "2026-11-27T11:00:00+03:00", endsAt: "2026-11-27T11:45:00+03:00", title: "[Oturum başlığı]", kind: "seminer", speakerIds: ["s1"] },
+  { id: "s2", day: 1, startsAt: "2026-11-27T11:45:00+03:00", endsAt: "2026-11-27T12:30:00+03:00", title: "[Oturum başlığı]", kind: "seminer", speakerIds: ["s2"] },
+  { id: "ogle", day: 1, startsAt: "2026-11-27T12:30:00+03:00", endsAt: "2026-11-27T13:30:00+03:00", title: "Öğle arası", kind: "ara", room: "Fuaye", speakerIds: [] },
+  { id: "panel", day: 1, startsAt: "2026-11-27T13:30:00+03:00", endsAt: "2026-11-27T14:15:00+03:00", title: "[Panel başlığı]", kind: "panel", speakerIds: ["s3"] },
+  { id: "s3", day: 1, startsAt: "2026-11-27T14:15:00+03:00", endsAt: "2026-11-27T15:00:00+03:00", title: "[Oturum başlığı]", kind: "seminer", speakerIds: ["s4"] },
+  { id: "s4", day: 1, startsAt: "2026-11-27T15:00:00+03:00", endsAt: "2026-11-27T15:45:00+03:00", title: "[Oturum başlığı]", kind: "seminer", speakerIds: ["s5"] },
+  { id: "s5", day: 1, startsAt: "2026-11-27T15:45:00+03:00", endsAt: "2026-11-27T16:30:00+03:00", title: "[Oturum başlığı]", kind: "seminer", speakerIds: ["s6"] },
+  { id: "ws", day: 1, startsAt: "2026-11-27T16:30:00+03:00", endsAt: "2026-11-27T18:00:00+03:00", title: "[Workshop başlığı]", kind: "workshop", room: "[Salon]", speakerIds: ["s7"] },
 ];

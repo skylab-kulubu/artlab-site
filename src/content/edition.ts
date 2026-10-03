@@ -4,8 +4,8 @@ export const edition: Edition = {
   year: 2026,
   number: 8,
   slogan: "Kozadan geleceğe.",
-  startsAt: "2026-11-25T12:00:00+03:00",
-  endsAt: "2026-11-26T18:00:00+03:00",
+  startsAt: "2026-11-27T10:00:00+03:00",
+  endsAt: "2026-11-27T18:00:00+03:00",
   venue: {
     name: "Tarihi Hamam",
     campus: "YTÜ Davutpaşa",

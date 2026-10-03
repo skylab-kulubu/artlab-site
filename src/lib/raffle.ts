@@ -2,10 +2,10 @@ import type { Condition, Prize, Session } from "./types";
 
 export type Dot = "required" | "optional" | "none";
 
-export function conditionText(c: Condition) {
+export function conditionText(c: Condition, days: number) {
   switch (c.type) {
     case "full_day":
-      return `${c.day}. günün tüm oturumlarına katıl`;
+      return days > 1 ? `${c.day}. günün tüm oturumlarına katıl` : "Tüm oturumlara katıl";
     case "min_sessions":
       return `Etkinlik boyunca en az ${c.count} oturuma katıl`;
     case "custom":

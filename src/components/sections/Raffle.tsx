@@ -40,7 +40,9 @@ function CalendarIcon() {
 function PrizeCard({ prize, content }: { prize: Prize; content: Content }) {
   const sponsor = content.sponsors.find((s) => s.id === prize.sponsorId);
   const strip = sessionStrip(prize, content.sessions);
-  const firstDay = content.edition.startsAt;
+  const { startsAt, endsAt } = content.edition;
+  // Days are only worth naming when the edition spans more than one.
+  const firstDay = startsAt && endsAt && dayNumber(startsAt, endsAt) > 1 ? startsAt : undefined;
 
   return (
     <Chamfer border={prize.featured ? "amber" : "line"} innerClassName="flex flex-col">
@@ -70,14 +72,16 @@ function PrizeCard({ prize, content }: { prize: Prize; content: Content }) {
             <span className="text-[10px] font-bold tracking-[0.18em] text-amber">KATILIM ŞARTI</span>
             {prize.conditions.map((c, i) => (
               <span key={i} className="text-base leading-snug font-semibold">
-                {conditionText(c)}
+                {conditionText(c, strip.days.length)}
               </span>
             ))}
             {strip.hasStrip && (
               <div className="flex flex-col gap-2 bg-surface-2 px-4 py-3.5">
                 {strip.days.map((d) => (
                   <div key={d.day} className="flex items-center gap-3">
-                    <span className={`w-11 text-xs font-bold ${d.active ? "text-ink/80" : "text-ink-3"}`}>Gün {d.day}</span>
+                    {strip.days.length > 1 && (
+                      <span className={`w-11 text-xs font-bold ${d.active ? "text-ink/80" : "text-ink-3"}`}>Gün {d.day}</span>
+                    )}
                     <span className="flex flex-wrap gap-[7px]">
                       {d.dots.map((kind, i) => (
                         <SessionDot key={i} kind={kind} />

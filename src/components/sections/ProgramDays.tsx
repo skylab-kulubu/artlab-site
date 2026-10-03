@@ -52,6 +52,9 @@ export function DayTabs() {
 
   const slot = slots?.[days.indexOf(day)];
 
+  // A single-day programme has nothing to switch between.
+  if (days.length < 2) return null;
+
   return (
     <div ref={list} role="tablist" aria-label="Program günleri" className="relative flex flex-wrap gap-2.5">
       {slot && (
