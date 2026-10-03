@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type CSSProperties } from "react";
+import { useEffect, useRef, useSyncExternalStore, type CSSProperties } from "react";
 import { getTheme } from "@/themes";
 import { Diffusion, hud, sampleMorph, sampleWordmark, STEPS, type Palette, type Shape } from "./diffusion";
 import { EDGE_BAND, type SceneLayout } from "./layouts";
@@ -15,15 +15,32 @@ const INTRO_LIFT_MS = 1100;
 
 type Spark = { t: number; life: number; tx: number; ty: number; wobble: number };
 
+// The particles run from 768px up, the width the stage is shown from. Followed rather than read
+// once, so a page loaded narrow and then widened (Split View, a resized window) still hands the
+// wordmark to the canvas instead of leaving the masked SVG copy on screen.
+const WIDE = "(min-width: 768px)";
+const subscribeWide = (onChange: () => void) => {
+  const media = window.matchMedia(WIDE);
+  media.addEventListener("change", onChange);
+  return () => media.removeEventListener("change", onChange);
+};
+const useWide = () =>
+  useSyncExternalStore(
+    subscribeWide,
+    () => window.matchMedia(WIDE).matches,
+    () => false,
+  );
+
 export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeId: string }) {
   const canvas = useRef<HTMLCanvasElement>(null);
+  const wide = useWide();
 
   useEffect(() => {
     const el = canvas.current;
     const root = el?.closest<HTMLElement>(".hero-sky");
     const stage = el?.closest<HTMLElement>(".hero-stage");
     const text = stage?.querySelector<SVGTextElement>(".hero-letters");
-    if (!el || !root || !text || !window.matchMedia("(min-width: 768px)").matches) return;
+    if (!el || !root || !text || !wide) return;
     // With reduced motion the canvas still takes the wordmark over, drawn once and held still,
     // so the masked SVG copy, which WebKit rebuilds on every frame, can leave the render tree.
     const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -141,8 +158,14 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
         // The static wordmark only steps aside once the canvas has something on screen.
         if (!root.hasAttribute("data-particles")) root.setAttribute("data-particles", "");
       }
-      // In lite mode the canvas rests on the settled wordmark and asks for no more frames.
-      if (lite && !moving && now > awakeUntil) return;
+      // In lite mode the canvas rests on the settled wordmark and asks for no more frames,
+      // after one last frame that reads the sky's colours where they came to rest.
+      if (lite && !moving && now > awakeUntil) {
+        if (!awakeUntil) return;
+        awakeUntil = 0;
+        lastPalette = 0;
+        lastDraw = 0;
+      }
       frame = requestAnimationFrame(tick);
     };
 
@@ -200,7 +223,7 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
     };
 
     const observer = new ResizeObserver(resize);
-    const paused = new MutationObserver((records) => {
+    const watch = new MutationObserver((records) => {
       if (records.some((r) => r.attributeName === "style")) {
         awakeUntil = performance.now() + 2000;
         lastPalette = 0;
@@ -215,7 +238,7 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
       shapes = [rest, ...morphs.map((m) => sampleMorph(m, rest.x.length, w, h, MORPH_CENTER.x, MORPH_CENTER.y))];
       readPalette();
       observer.observe(el);
-      paused.observe(root, { attributes: true, attributeFilter: ["data-paused", "data-lite", "style"] });
+      watch.observe(root, { attributes: true, attributeFilter: ["data-paused", "data-lite", "style"] });
       // Held still: no repelling, no sparks, no morphs on click.
       if (!calm) {
         root.addEventListener("pointermove", move);
@@ -239,14 +262,14 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
       cancelAnimationFrame(frame);
       timers.forEach(clearTimeout);
       observer.disconnect();
-      paused.disconnect();
+      watch.disconnect();
       root.removeEventListener("pointermove", move);
       root.removeEventListener("pointerleave", leave);
       root.removeEventListener("click", click);
       // data-particles stays: a remount (strict mode, hot reload) takes over at once, and dropping
       // it here would flash the static wordmark back in between the two.
     };
-  }, [layout, themeId]);
+  }, [layout, themeId, wide]);
 
   return (
     <div className="hero-layer absolute inset-0" style={{ "--depth": 0.4 } as CSSProperties}>
