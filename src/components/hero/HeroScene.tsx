@@ -34,7 +34,7 @@ function city({ w, horizon, city }: SceneLayout) {
   const buildings: { x: number; y: number; w: number; h: number; antenna: boolean }[] = [];
   const windows: { x: number; y: number; opacity: number; lamp?: Loop }[] = [];
 
-  for (let x = -EDGE; x < w + EDGE; ) {
+  for (let x = -EDGE; x < w + EDGE;) {
     const bw = pick(city.widths);
     const bh = Math.round(city.minH + rand() ** 1.6 * (city.maxH - city.minH));
     const y = horizon - bh;
@@ -95,7 +95,10 @@ function Flower({ x, y, size }: { x: number; y: number; size: number }) {
   const ry = 3.5 * size;
   const base = y + 15 * size;
   return (
-    <g className="sky-loop sky-sway" style={loop({ duration: 5 + (x % 7) / 2, phase: (x % 11) / 11, origin: `${x}px ${base}px` })}>
+    <g
+      className="sky-loop sky-sway"
+      style={loop({ duration: 5 + (x % 7) / 2, phase: (x % 11) / 11, origin: `${x}px ${base}px` })}
+    >
       <line x1={x} y1={y} x2={x} y2={base} stroke={STEM} strokeWidth="1.6" />
       {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
         <ellipse
@@ -192,11 +195,31 @@ function Letters({ layout, sampled, className, ...rest }: LettersProps) {
   );
 }
 
-function Layer({ depth, children }: { depth: number; children: ReactNode }) {
+// Every depth gets its own SVG in its own box: the parallax then moves boxes instead of
+// SVG groups, and an animation in one layer never repaints the others. WebKit repaints a
+// whole SVG for any change inside it, which with the wordmark's masks was the slow part.
+function Layer({
+  layout,
+  depth,
+  isolate,
+  children,
+}: {
+  layout: SceneLayout;
+  depth: number;
+  isolate?: boolean;
+  children: ReactNode;
+}) {
   return (
-    <g className="hero-layer" style={{ "--depth": depth } as CSSProperties}>
-      {children}
-    </g>
+    <div className={`hero-layer absolute inset-0 ${isolate ? "hero-isolate" : ""}`} data-depth={depth}>
+      <svg
+        viewBox={`0 0 ${layout.w} ${layout.h}`}
+        preserveAspectRatio="xMidYMax slice"
+        aria-hidden="true"
+        className="absolute inset-0 size-full overflow-visible"
+      >
+        {children}
+      </svg>
+    </div>
   );
 }
 
@@ -209,48 +232,50 @@ function Back({ layout, theme, serverNow }: Omit<Props, "part" | "className">) {
 
   return (
     <>
-      <defs>
-        <pattern id={dots} width="6" height="6" patternUnits="userSpaceOnUse">
-          <circle cx="3" cy="3" r="1.45" fill="var(--color-amber)" />
-        </pattern>
-        <pattern id={`${dots}-inner`} width="6" height="6" patternUnits="userSpaceOnUse">
-          <circle cx="3" cy="3" r="1.45" fill="var(--mark)" />
-        </pattern>
-        <filter id={`${dots}-erode`} x="-5%" y="-20%" width="110%" height="140%">
-          <feMorphology operator="erode" radius={EDGE_BAND} />
-        </filter>
-        <filter id={`${dots}-grow`} x="-5%" y="-20%" width="110%" height="140%">
-          <feMorphology operator="dilate" radius="2.5" />
-        </filter>
-        <pattern id={`${dots}-centres`} width="6" height="6" patternUnits="userSpaceOnUse">
-          <rect x="2" y="2" width="2" height="2" fill="white" />
-        </pattern>
-        <mask id={`${dots}-at-centres`} maskUnits="userSpaceOnUse" x={0} y={0} width={w} height={h}>
-          <rect width={w} height={h} fill={`url(#${dots}-centres)`} />
-        </mask>
-        {/* Each dot is judged by its centre alone, then the verdict is grown back over the whole dot, so the mask never splits one. */}
-        <mask id={`${dots}-inside`} maskUnits="userSpaceOnUse" x={0} y={0} width={w} height={h}>
-          <g filter={`url(#${dots}-grow)`}>
-            <g mask={`url(#${dots}-at-centres)`}>
-              <Letters layout={layout} fill="white" filter={`url(#${dots}-erode)`} />
+      <svg width="0" height="0" aria-hidden="true" className="absolute">
+        <defs>
+          <pattern id={dots} width="6" height="6" patternUnits="userSpaceOnUse">
+            <circle cx="3" cy="3" r="1.45" fill="var(--color-amber)" />
+          </pattern>
+          <pattern id={`${dots}-inner`} width="6" height="6" patternUnits="userSpaceOnUse">
+            <circle cx="3" cy="3" r="1.45" fill="var(--mark)" />
+          </pattern>
+          <filter id={`${dots}-erode`} x="-5%" y="-20%" width="110%" height="140%">
+            <feMorphology operator="erode" radius={EDGE_BAND} />
+          </filter>
+          <filter id={`${dots}-grow`} x="-5%" y="-20%" width="110%" height="140%">
+            <feMorphology operator="dilate" radius="2.5" />
+          </filter>
+          <pattern id={`${dots}-centres`} width="6" height="6" patternUnits="userSpaceOnUse">
+            <rect x="2" y="2" width="2" height="2" fill="white" />
+          </pattern>
+          <mask id={`${dots}-at-centres`} maskUnits="userSpaceOnUse" x={0} y={0} width={w} height={h}>
+            <rect width={w} height={h} fill={`url(#${dots}-centres)`} />
+          </mask>
+          {/* Each dot is judged by its centre alone, then the verdict is grown back over the whole dot, so the mask never splits one. */}
+          <mask id={`${dots}-inside`} maskUnits="userSpaceOnUse" x={0} y={0} width={w} height={h}>
+            <g filter={`url(#${dots}-grow)`}>
+              <g mask={`url(#${dots}-at-centres)`}>
+                <Letters layout={layout} fill="white" filter={`url(#${dots}-erode)`} />
+              </g>
             </g>
-          </g>
-        </mask>
-        <mask id={`${dots}-rim`} maskUnits="userSpaceOnUse" x={0} y={0} width={w} height={h}>
-          <rect width={w} height={h} fill="white" />
-          <g filter={`url(#${dots}-grow)`}>
-            <g mask={`url(#${dots}-at-centres)`}>
-              <Letters layout={layout} fill="black" filter={`url(#${dots}-erode)`} />
+          </mask>
+          <mask id={`${dots}-rim`} maskUnits="userSpaceOnUse" x={0} y={0} width={w} height={h}>
+            <rect width={w} height={h} fill="white" />
+            <g filter={`url(#${dots}-grow)`}>
+              <g mask={`url(#${dots}-at-centres)`}>
+                <Letters layout={layout} fill="black" filter={`url(#${dots}-erode)`} />
+              </g>
             </g>
-          </g>
-        </mask>
-        <linearGradient id={meteor} x1="0" x2="1" y1="0" y2="0">
-          <stop offset="0" stopColor="var(--color-ink)" />
-          <stop offset="1" stopColor="var(--color-ink)" stopOpacity="0" />
-        </linearGradient>
-      </defs>
+          </mask>
+          <linearGradient id={meteor} x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stopColor="var(--color-ink)" />
+            <stop offset="1" stopColor="var(--color-ink)" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+      </svg>
 
-      <Layer depth={0}>
+      <Layer layout={layout} depth={0}>
         <rect x={-EDGE} y={-200} width={w + 2 * EDGE} height={h + 200} fill="var(--sky-1)" />
         {layout.bands.map((y, i) => (
           <rect key={y} x={-EDGE} y={y} width={w + 2 * EDGE} height={h - y} fill={`var(--sky-${i + 2})`} />
@@ -263,7 +288,7 @@ function Back({ layout, theme, serverNow }: Omit<Props, "part" | "className">) {
         {layout.meteor && <Meteor {...layout.meteor} gradient={meteor} />}
       </Layer>
 
-      <Layer depth={0.15}>
+      <Layer layout={layout} depth={0.15}>
         {layout.clouds.map((c) => (
           <rect
             key={`${c.x}-${c.y}`}
@@ -284,12 +309,17 @@ function Back({ layout, theme, serverNow }: Omit<Props, "part" | "className">) {
         ))}
         {layout.beams.map((b, i) => (
           <g key={b.points} opacity={b.opacity}>
-            <polygon className="sky-loop sky-beam" style={loop({ duration: 9 + i * 4 })} points={b.points} fill="var(--beam)" />
+            <polygon
+              className="sky-loop sky-beam"
+              style={loop({ duration: 9 + i * 4 })}
+              points={b.points}
+              fill="var(--beam)"
+            />
           </g>
         ))}
       </Layer>
 
-      <Layer depth={0.3}>
+      <Layer layout={layout} depth={0.3}>
         <rect x={-EDGE} y={layout.horizon - 2} width={w + 2 * EDGE} height={h - layout.horizon + 2} fill="var(--far)" />
         <g fill="var(--far-d)">
           {buildings.map((b) => (
@@ -318,7 +348,7 @@ function Back({ layout, theme, serverNow }: Omit<Props, "part" | "className">) {
         {layout.train && <Train {...layout.train} w={w} />}
       </Layer>
 
-      <Layer depth={0.4}>
+      <Layer layout={layout} depth={0.4} isolate>
         {particle ? (
           <g className="hero-wordmark" opacity="0.95">
             <Letters layout={layout} fill={`url(#${dots})`} mask={`url(#${dots}-rim)`} sampled />
@@ -340,13 +370,22 @@ function Front({ layout, theme }: Omit<Props, "part" | "className" | "serverNow"
 
   return (
     <>
-      <Layer depth={0.4}>
-        {layout.haze && <rect x={-EDGE} y={layout.haze.y} width={w + 2 * EDGE} height={layout.haze.h} fill="var(--far)" opacity="0.45" />}
+      <Layer layout={layout} depth={0.4}>
+        {layout.haze && (
+          <rect
+            x={-EDGE}
+            y={layout.haze.y}
+            width={w + 2 * EDGE}
+            height={layout.haze.h}
+            fill="var(--far)"
+            opacity="0.45"
+          />
+        )}
       </Layer>
-      <Layer depth={0.55}>
+      <Layer layout={layout} depth={0.55}>
         <path d={layout.mid} fill="var(--mid)" />
       </Layer>
-      <Layer depth={0.6}>
+      <Layer layout={layout} depth={0.6}>
         {layout.sparkles.map(([x, y, r, cyan, opacity], i) => (
           <g key={`${x}-${y}`} opacity={opacity}>
             <circle
@@ -360,7 +399,7 @@ function Front({ layout, theme }: Omit<Props, "part" | "className" | "serverNow"
           </g>
         ))}
       </Layer>
-      <Layer depth={0.8}>
+      <Layer layout={layout} depth={0.8}>
         <path d={layout.near} fill="var(--near)" />
         {layout.flowers.map(([x, y, size]) => (
           <Flower key={x} x={x} y={y} size={size} />
@@ -373,7 +412,7 @@ function Front({ layout, theme }: Omit<Props, "part" | "className" | "serverNow"
           </g>
         )}
       </Layer>
-      <Layer depth={1}>
+      <Layer layout={layout} depth={1}>
         <rect x={-EDGE} y={h - 20} width={w + 2 * EDGE} height={220} fill="var(--color-bg)" />
         <path d={layout.ground} fill="var(--color-bg)" />
       </Layer>
@@ -383,13 +422,12 @@ function Front({ layout, theme }: Omit<Props, "part" | "className" | "serverNow"
 
 export function HeroScene({ layout, theme, serverNow, part, className }: Props) {
   return (
-    <svg
-      viewBox={`0 0 ${layout.w} ${layout.h}`}
-      preserveAspectRatio="xMidYMax slice"
-      aria-hidden="true"
-      className={`absolute inset-0 size-full overflow-visible ${className ?? ""}`}
-    >
-      {part === "back" ? <Back layout={layout} theme={theme} serverNow={serverNow} /> : <Front layout={layout} theme={theme} />}
-    </svg>
+    <div className={`absolute inset-0 ${className ?? ""}`}>
+      {part === "back" ? (
+        <Back layout={layout} theme={theme} serverNow={serverNow} />
+      ) : (
+        <Front layout={layout} theme={theme} />
+      )}
+    </div>
   );
 }

@@ -34,14 +34,16 @@ export function HeroPointer() {
     const hide = () => {
       el.style.opacity = "0";
     };
+    // The eye is moved directly: an inherited property on the hero would restyle the whole scene.
+    const eyes = [...root.querySelectorAll<SVGElement>(".hero-eye")];
     const look = (x: number, y: number, width: number, height: number) => {
       const [ex, ey] = eyeOnScreen(width, height);
       const dx = x - ex;
       const dy = y - ey;
       const d = Math.hypot(dx, dy) || 1;
       const k = Math.min(1, d / 320);
-      root.style.setProperty("--eye-x", ((dx / d) * k).toFixed(3));
-      root.style.setProperty("--eye-y", ((dy / d) * k).toFixed(3));
+      const transform = `translate(${((dx / d) * k * 3.4).toFixed(2)}px, ${((dy / d) * k * 2.8).toFixed(2)}px)`;
+      for (const eye of eyes) eye.style.transform = transform;
     };
 
     const move = (e: PointerEvent) => {
@@ -61,8 +63,7 @@ export function HeroPointer() {
     };
     const leave = (e: PointerEvent) => {
       if (e.pointerType === "mouse") hide();
-      root.style.removeProperty("--eye-x");
-      root.style.removeProperty("--eye-y");
+      for (const eye of eyes) eye.style.removeProperty("transform");
     };
 
     root.addEventListener("pointermove", move);

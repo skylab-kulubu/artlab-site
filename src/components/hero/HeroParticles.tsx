@@ -38,6 +38,9 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
     let frame = 0;
     let lastDraw = 0;
     let lastPalette = 0;
+    // The settled wordmark drawn once, so a resting frame is a copy plus the sparks.
+    const still = document.createElement("canvas");
+    let stillKey = "";
     let busy = false;
     const timers: ReturnType<typeof setTimeout>[] = [];
     let cancelled = false;
@@ -54,6 +57,7 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
       const { width, height } = el.getBoundingClientRect();
       el.width = Math.round(width * dpr);
       el.height = Math.round(height * dpr);
+      stillKey = "";
       g.setTransform(dpr, 0, 0, dpr, 0, 0);
       map.s = Math.max(width / w, height / h);
       map.ox = (width - w * map.s) / 2;
@@ -64,7 +68,13 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
     const spark = (): Spark => {
       const target = shapes[0];
       const i = Math.floor(Math.random() * target.x.length);
-      return { t: 0, life: 1800 + Math.random() * 1400, tx: target.x[i], ty: target.y[i], wobble: Math.random() * Math.PI * 2 };
+      return {
+        t: 0,
+        life: 1800 + Math.random() * 1400,
+        tx: target.x[i],
+        ty: target.y[i],
+        wobble: Math.random() * Math.PI * 2,
+      };
     };
 
     // The robot's palm keeps sending a few dots up into the letters, so in
@@ -95,20 +105,40 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
     const tick = (now: number) => {
       frame = 0;
       if (!system || root.hasAttribute("data-paused")) return;
+      const lite = root.hasAttribute("data-lite");
       if (now - lastPalette > 500) {
         readPalette();
         lastPalette = now;
       }
-      const moving = system.update(now, pointer);
+      const moving = system.update(now, lite ? null : pointer);
       const dt = lastDraw ? Math.min(now - lastDraw, 64) : 16;
       if (moving || now - lastDraw > 33) {
         lastDraw = now;
         g.clearRect(0, 0, el.width, el.height);
-        system.draw(g, map, palette);
-        drawSparks(dt);
+        if (moving) {
+          system.draw(g, map, palette);
+          stillKey = "";
+        } else {
+          const key = palette.join();
+          if (stillKey !== key) {
+            still.width = el.width;
+            still.height = el.height;
+            const sg = still.getContext("2d")!;
+            sg.setTransform(g.getTransform());
+            system.draw(sg, map, palette);
+            stillKey = key;
+          }
+          g.save();
+          g.setTransform(1, 0, 0, 1, 0, 0);
+          g.drawImage(still, 0, 0);
+          g.restore();
+        }
+        if (!lite) drawSparks(dt);
         // The static wordmark only steps aside once the canvas has something on screen.
         if (!root.hasAttribute("data-particles")) root.setAttribute("data-particles", "");
       }
+      // In lite mode the canvas rests on the settled wordmark and asks for no more frames.
+      if (lite && !moving) return;
       frame = requestAnimationFrame(tick);
     };
 
@@ -142,7 +172,7 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
 
     const schedule = (ms: number) => {
       later(ms, () => {
-        if (!root.hasAttribute("data-paused")) cycle();
+        if (!root.hasAttribute("data-paused") && !root.hasAttribute("data-lite")) cycle();
         schedule(CYCLE_MS);
       });
     };
@@ -175,7 +205,7 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
       shapes = [rest, ...morphs.map((m) => sampleMorph(m, rest.x.length, w, h, MORPH_CENTER.x, MORPH_CENTER.y))];
       readPalette();
       observer.observe(el);
-      paused.observe(root, { attributes: true, attributeFilter: ["data-paused"] });
+      paused.observe(root, { attributes: true, attributeFilter: ["data-paused", "data-lite"] });
       root.addEventListener("pointermove", move);
       root.addEventListener("pointerleave", leave);
       root.addEventListener("click", click);
@@ -228,7 +258,10 @@ export function DiffusionHud() {
   }, []);
 
   return (
-    <div aria-hidden="true" className="flex items-center gap-2.5 text-[11px] font-bold tracking-[0.14em] text-(--hud) tabular">
+    <div
+      aria-hidden="true"
+      className="flex items-center gap-2.5 text-[11px] font-bold tracking-[0.14em] text-(--hud) tabular"
+    >
       <span ref={step}>DİFÜZYON · ADIM 50/50</span>
       <span className="h-[3px] w-[90px] bg-ink/25">
         <span ref={bar} className="block h-full origin-left bg-amber" />

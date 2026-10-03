@@ -234,55 +234,48 @@
   }
 }
 
-@property --sy {
-  syntax: "<number>";
-  inherits: true;
-  initial-value: 0;
-}
-
 /*
- * Depth parallax. --px/--py (-1…1) follow the pointer, eased in HeroSky; --sy
- * runs 0→1 as the hero scrolls away. Nearer layers answer the pointer more and
- * far ones lag behind the scroll, so the scene reads as depth without any layer
- * leaving its composition. Phones, touch and reduced motion get the flat scene.
+ * Depth parallax, driven from HeroSky: the pointer and the hero's scroll position are
+ * written straight onto each layer box and the stage as transforms, so nothing below
+ * them restyles on every frame. Nearer layers answer the pointer more and far ones lag
+ * behind the scroll. Phones, touch and reduced motion get the flat scene.
  */
 @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
-  .hero-layer {
-    transform: translate(
-      calc(var(--px, 0) * var(--depth) * -18px),
-      calc(var(--py, 0) * var(--depth) * -10px + var(--sy) * (1 - var(--depth)) * 160px)
-    );
+  .hero-sky:not([data-lite]) .hero-layer {
+    will-change: transform;
   }
 
   .hero-stage {
-    transform: perspective(1600px) rotateX(calc(var(--py, 0) * 1deg)) rotateY(calc(var(--px, 0) * -1.4deg)) scale(1.03);
+    transform: perspective(1600px) scale(1.03);
     transform-origin: 50% 60%;
-  }
-
-  @supports (animation-timeline: view()) {
-    .hero-sky {
-      animation: hero-scroll linear both;
-      animation-timeline: view();
-      animation-range: exit 0% exit 100%;
-    }
   }
 }
 
-@keyframes hero-scroll {
-  to {
-    --sy: 1;
-  }
+/* The masked wordmark is costly to paint, so it gets a layer of its own and is painted once. */
+.hero-isolate {
+  will-change: transform;
+}
+
+/* Lite mode, for devices that cannot keep up: the scene holds still. */
+.hero-sky[data-lite] .sky-loop,
+.hero-sky[data-lite] .sky-wing {
+  animation-play-state: paused;
 }
 
 .hero-wordmark {
   transition: opacity 0.4s ease-out;
 }
 
+/* Hidden, not only transparent, so it is no longer painted once the particles have it. */
 .hero-sky[data-particles] .hero-stage .hero-wordmark {
   opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.4s ease-out,
+    visibility 0s 0.4s;
 }
 
 .hero-eye {
-  transform: translate(calc(var(--eye-x, 0.5) * 3.4px), calc(var(--eye-y, -0.5) * 2.8px));
+  transform: translate(1.7px, -1.4px);
   transition: transform 0.18s ease-out;
 }
