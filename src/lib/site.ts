@@ -4,10 +4,11 @@ import { formatDateRange } from "./format";
 
 export const SITE_URL = "https://artlab.yildizskylab.com";
 
-// The sandbox deployment answers on a sandbox- host and must stay out of search results.
-// NEXTAUTH_URL is set per environment at runtime, so it tells the two apart.
+// The sandbox deployment answers on a host starting with sandbox (sandbox-artlab.…,
+// sandbox.…) and must stay out of search results. NEXTAUTH_URL is set per environment
+// at runtime, so it tells the two apart.
 export function isSandbox() {
-  return (process.env.NEXTAUTH_URL ?? "").includes("://sandbox-");
+  return /:\/\/sandbox[.-]/.test(process.env.NEXTAUTH_URL ?? "");
 }
 
 // Pages are indexed, the photos on them are not: they show attendees' faces.
