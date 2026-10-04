@@ -211,7 +211,7 @@ export function VenueMap({ venue, place, directions }: Props) {
         <div className="flex flex-col gap-5 border-t border-line p-6 md:p-8 lg:flex-row lg:items-center lg:gap-10 wide:flex-col wide:items-stretch wide:gap-4 wide:border-t-0 wide:border-l wide:p-6">
           <div className="flex flex-col gap-1.5 lg:w-[240px] lg:shrink-0 wide:w-auto">
             <span className="text-[11px] font-bold tracking-[0.18em] text-cyan">KONUM</span>
-            <h3 className="text-xl font-bold wide:text-lg">{place}</h3>
+            {place && <h3 className="text-xl font-bold wide:text-lg">{place}</h3>}
           </div>
           <ol className="flex flex-col gap-3 lg:grid lg:grow lg:grid-cols-2 lg:gap-x-8 wide:flex wide:gap-2">
             {steps.map((step, i) => (

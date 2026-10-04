@@ -1,5 +1,5 @@
 import type { Content } from "@/content";
-import { SITE_URL, siteDescription, siteTitle } from "@/lib/site";
+import { SITE_URL, siteDescription, siteTitle, venueLabel } from "@/lib/site";
 
 export function EventSchema({ content }: { content: Content }) {
   const { edition, speakers } = content;
@@ -20,7 +20,7 @@ export function EventSchema({ content }: { content: Content }) {
     inLanguage: "tr",
     location: {
       "@type": "Place",
-      name: `${edition.venue.campus} · ${edition.venue.name}`,
+      name: venueLabel(edition.venue),
       address: { "@type": "PostalAddress", addressLocality: "İstanbul", addressCountry: "TR" },
       geo: { "@type": "GeoCoordinates", latitude: edition.venue.lat, longitude: edition.venue.lng },
     },

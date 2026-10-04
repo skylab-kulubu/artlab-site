@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import type { Content } from "@/content";
 import { formatDateRange } from "@/lib/format";
+import { venueLabel } from "@/lib/site";
 import type { Theme } from "@/themes";
 import { Button } from "@/components/ui/Button";
 import { HeroScene } from "./HeroScene";
@@ -14,6 +15,7 @@ import { PhaseButton } from "./PhaseButton";
 import { PhasePanel, PhaseStrip } from "./PhasePanel";
 import "./hero.css";
 import { EditableRegion } from "inscribed";
+import { MAPPED_VENUE } from "@/components/map/route";
 
 function CalendarIcon() {
   return (
@@ -92,10 +94,12 @@ export function Hero({ content, theme }: Props) {
               <CalendarIcon />
               {date}
             </span>
-            <span className="flex items-center gap-2">
-              <PinIcon />
-              {venue.campus} · {venue.name}
-            </span>
+            {venueLabel(venue) && (
+              <span className="flex items-center gap-2">
+                <PinIcon />
+                {venueLabel(venue)}
+              </span>
+            )}
           </div>
           <div className="enter mt-1.5 flex gap-2.5 md:gap-3.5" style={order(6)}>
             <PhaseButton edition={edition} serverNow={fetchedAt} className="flex-1 md:flex-none" />
@@ -106,7 +110,7 @@ export function Hero({ content, theme }: Props) {
         </div>
 
         <div className="enter absolute right-20 bottom-16 hidden lg:block" style={order(7)}>
-          <MiniMap venue={venue.name} />
+          <MiniMap venue={venue.name || MAPPED_VENUE} />
         </div>
 
         <a

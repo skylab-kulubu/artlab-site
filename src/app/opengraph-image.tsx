@@ -2,6 +2,7 @@ import { ImageResponse } from "next/og";
 import { getContent } from "@/content";
 import { palettes } from "@/lib/env";
 import { formatDateRange } from "@/lib/format";
+import { venueLabel } from "@/lib/site";
 
 // Rendered per request: the edition comes from the CMS, which a build must not bake in.
 export const dynamic = "force-dynamic";
@@ -27,7 +28,7 @@ export default async function OpenGraphImage() {
   const sky = palettes.safak;
   const date = edition.startsAt && edition.endsAt ? formatDateRange(edition.startsAt, edition.endsAt) : "Tarih yakında";
   const line = `${edition.number}. EDİSYON · YAPAY ZEKA ZİRVESİ`;
-  const place = `${edition.venue.campus} · ${edition.venue.name}`;
+  const place = venueLabel(edition.venue);
   const [display, body] = await Promise.all([
     font("Unbounded", 800, `ARTLAB${edition.slogan ?? ""}`),
     font("Manrope", 700, `${line}${date}${place}`),

@@ -21,6 +21,9 @@ export const ringStops: { name: string; at: [number, number] }[] = [
   { name: "Sanat-Tasarım Fakültesi", at: [308, 470] },
 ];
 
+// The place the route map is drawn for; its name stands in while the venue is unnamed.
+export const MAPPED_VENUE = "Tarihi Hamam";
+
 export const metro: [number, number] = [1171.6, 860.8];
 export const pin: [number, number] = [445.7, 202.4];
 

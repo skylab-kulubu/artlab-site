@@ -4,7 +4,7 @@ import { introScript } from "@/components/Intro";
 import { MotionProvider } from "@/components/MotionProvider";
 import { getContent } from "@/content";
 import { CmsPage } from "@/lib/cms";
-import { SITE_URL, siteDescription, siteTitle } from "@/lib/site";
+import { SITE_URL, robotsFor, siteDescription, siteTitle } from "@/lib/site";
 import "./globals.css";
 
 const unbounded = Unbounded({
@@ -44,7 +44,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description,
     },
     twitter: { card: "summary_large_image", title, description, site: "@skylabkulubu" },
-    robots: { index: true, follow: true },
+    robots: robotsFor(),
   };
 }
 
