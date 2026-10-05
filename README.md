@@ -22,6 +22,7 @@ Metinler ve görseller [inscribed](https://www.npmjs.com/package/inscribed) ile 
 - Ziyaretçiler yayınlanmış içeriği token'sız okur. Düzenleme yetkisi olan kişi (`cms:access`) `/api/signin` ile ya da core üzerinden giriş yapınca düzenleme panelleri görünür.
 - Düzenlenebilir alanlar JSX içinde `EditableRegion` ile tanımlanır. `npm run cms-sync` bunları bulup CMS'e kaydeder; `defaultValue` yalnızca ilk kaydı tohumlar.
 - Ortam değişkenleri `.env.example`'da. `CMS_URL` verilmezse site sandbox CMS'ini okur.
+- Yerel geliştirme sandbox'a karşıdır. `.env.example`'daki `CMS_URL=http://localhost:3000/sandbox-api/api` ile tarayıcıdaki editör yalnız localhost'la konuşur; `npm run dev` `/sandbox-api/*` isteklerini sandbox API'sine iletir (`next.config.ts`, yalnız `next dev`; derlenen imaj bu yönlendirmeyi içermez). Kulübün kenarı `http://localhost:3000`'in kulüp adlarına çapraz kökenli istek atmasına izin vermez. Sandbox istemcisi `frontend-artlab` localhost dönüş adresini kabul etmediği için editör girişi sandbox sitesinde denenir.
 - Görsel yüklemeleri `/api/cms-media` üzerinden core'a gider.
 
 ## Yayın
