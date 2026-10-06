@@ -124,16 +124,32 @@ function Lists() {
       </EditableList>
 
       <EditableList
+        blockPath="destekciler.kademeler"
+        noInlineAdd
+        itemSchema={{
+          kimlik: { blockType: "ShortText", defaultValue: "" },
+          ad: { blockType: "ShortText", defaultValue: "" },
+          sira: { blockType: "Number", defaultValue: 1 },
+          boyut: { blockType: "Select", defaultValue: "md", source: { kind: "static", values: ["lg", "md", "sm"] } },
+        }}
+        defaultValue={[
+          { kimlik: "altin", ad: "Altın", sira: 1, boyut: "lg" },
+          { kimlik: "gumus", ad: "Gümüş", sira: 2, boyut: "md" },
+          { kimlik: "fuaye", ad: "Fuaye ve ürün", sira: 3, boyut: "sm" },
+        ]}
+      >
+        {none}
+      </EditableList>
+
+      <EditableList
         blockPath="destekciler.liste"
         noInlineAdd
         itemSchema={{
           kimlik: { blockType: "ShortText", defaultValue: "" },
           ad: { blockType: "ShortText", defaultValue: "" },
-          kademe: {
-            blockType: "Select",
-            defaultValue: "gumus",
-            source: { kind: "static", values: ["altin", "gumus", "fuaye"] },
-          },
+          // The kimlik of one of destekciler.kademeler. A list row's Select only takes a fixed
+          // list or a backend collection, not another block, so the category is typed by id.
+          kademe: { blockType: "ShortText", defaultValue: "gumus" },
           logo: { blockType: "Image", defaultValue: { src: "", alt: "" } },
           tekRenkLogo: { blockType: "Image", defaultValue: { src: "", alt: "" } },
           baglanti: { blockType: "Url", defaultValue: "" },

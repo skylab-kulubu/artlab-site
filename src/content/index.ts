@@ -21,11 +21,29 @@ import type {
 // The venue's position is part of the map, which stays in code.
 const VENUE_POSITION = { lat: 41.0275, lng: 28.89 };
 
-export const sponsorTiers: SponsorTier[] = [
+// Used while destekciler.kademeler is empty or cannot be read; the ids match the seed.
+const DEFAULT_SPONSOR_TIERS: SponsorTier[] = [
   { id: "altin", name: "Altın", order: 1, size: "lg" },
   { id: "gumus", name: "Gümüş", order: 2, size: "md" },
   { id: "fuaye", name: "Fuaye ve ürün", order: 3, size: "sm" },
 ];
+
+const TIER_SIZES: SponsorTier["size"][] = ["lg", "md", "sm"];
+
+// Categories in their order, the first of a repeated id winning; an empty list keeps the defaults.
+function readTiers(value: unknown): SponsorTier[] {
+  const seen = new Set<string>();
+  const tiers = rows(value).flatMap((r): SponsorTier[] => {
+    const id = text(r.kimlik);
+    const size = TIER_SIZES.find((s) => s === text(r.boyut)) ?? "md";
+    if (!id || !text(r.ad) || seen.has(id)) return [];
+    seen.add(id);
+    return [{ id, name: text(r.ad), order: number(r.sira) ?? Number.MAX_SAFE_INTEGER, size }];
+  });
+  if (!tiers.length) return DEFAULT_SPONSOR_TIERS;
+  // Stable, so categories sharing a number keep their list order.
+  return tiers.sort((a, b) => a.order - b.order);
+}
 
 export type WhyItem = { icon: "dinle" | "ag" | "sertifika"; title: string; text: string };
 export type SectionSwitches = Record<
@@ -153,11 +171,15 @@ export const getContent = cache(async () => {
     })
     .sort((a, b) => a.startsAt.localeCompare(b.startsAt));
 
+  const sponsorTiers = readTiers(get("destekciler.kademeler"));
+  // A supporter whose category is missing or mistyped stays on the page, in the last category.
+  const tierOf = (id: string) => (sponsorTiers.some((t) => t.id === id) ? id : sponsorTiers[sponsorTiers.length - 1].id);
+
   const sponsors: Sponsor[] = (
     await Promise.all(
       rows(get("destekciler.liste")).map(async (r, i): Promise<Sponsor | null> => {
-        const tierId = text(r.kademe);
-        if (!text(r.ad) || !sponsorTiers.some((t) => t.id === tierId)) return null;
+        const tierId = tierOf(text(r.kademe));
+        if (!text(r.ad)) return null;
         const logo = image(r.logo);
         return {
           id: text(r.kimlik) || `d${i + 1}`,
