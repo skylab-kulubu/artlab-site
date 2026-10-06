@@ -8,8 +8,9 @@ import { EditableRegion } from "inscribed";
 
 const cells: Record<SponsorTier["size"], string> = {
   lg: "basis-full md:basis-[calc(50%-1px)] h-[200px] md:h-[270px]",
-  md: "basis-[calc(50%-1px)] lg:basis-[calc(25%-1px)] h-[130px] md:h-[170px]",
-  sm: "basis-[calc(33.333%-1px)] lg:basis-[calc(16.666%-1px)] h-[100px] md:h-[124px]",
+  // On phones the small cells leave the tier label room above the logo, in every cell so a row stays level.
+  md: "basis-[calc(50%-1px)] lg:basis-[calc(25%-1px)] h-[130px] md:h-[170px] max-md:pt-6",
+  sm: "basis-[calc(33.333%-1px)] lg:basis-[calc(16.666%-1px)] h-[100px] md:h-[124px] max-md:pt-6",
 };
 
 const labels: Record<SponsorTier["size"], string> = {
@@ -62,18 +63,23 @@ function Cell({ sponsor, tier, first }: { sponsor: Sponsor; tier: SponsorTier; f
   const logo = <Logo sponsor={sponsor} tier={tier} />;
 
   return (
-    <div className={`group relative flex grow flex-col bg-bg ${cells[tier.size]}`}>
+    <div className={`group relative flex min-w-0 grow flex-col bg-bg ${cells[tier.size]}`}>
       {first && (
         <span className={`absolute top-3.5 left-4 text-[11px] font-bold tracking-[0.16em] uppercase ${labels[tier.size]}`}>
           {tier.name}
         </span>
       )}
       {sponsor.url ? (
-        <a href={sponsor.url} target="_blank" rel="noopener noreferrer" className="flex grow items-center justify-center">
+        <a
+          href={sponsor.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex min-h-0 w-full grow items-center justify-center"
+        >
           {logo}
         </a>
       ) : (
-        <div className="flex grow items-center justify-center">{logo}</div>
+        <div className="flex min-h-0 w-full grow items-center justify-center">{logo}</div>
       )}
       {tier.size === "lg" && sponsor.foyerNote && (
         <div className="flex items-center justify-between gap-4 border-t border-line-2 px-5 py-3.5 text-sm text-ink-2">
