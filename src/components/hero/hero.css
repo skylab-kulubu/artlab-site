@@ -281,3 +281,75 @@
   transform: translate(1.7px, -1.4px);
   transition: transform 0.18s ease-out;
 }
+
+/*
+ * The mascot's two worlds. A meridian's width swings from full to nothing and back, which
+ * reads as the globe turning; the orbits rock gently and the network's nodes glint.
+ */
+.globe-meridian,
+.globe-orbits {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.globe-meridian {
+  animation: globe-turn 7.2s ease-in-out infinite alternate;
+}
+
+.globe-orbits {
+  animation: globe-orbit 9s ease-in-out infinite alternate;
+}
+
+.globe-node {
+  animation: globe-glint 3.3s ease-in-out infinite;
+}
+
+@keyframes globe-turn {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(-1);
+  }
+}
+
+@keyframes globe-orbit {
+  from {
+    rotate: -9deg;
+  }
+  to {
+    rotate: 9deg;
+  }
+}
+
+@keyframes globe-glint {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .globe-meridian,
+  .globe-orbits,
+  .globe-node {
+    animation: none;
+  }
+
+  /* Still, the meridians fan out instead of lying on top of each other */
+  .globe-meridian:nth-child(7) {
+    transform: scaleX(0.55);
+  }
+  .globe-meridian:nth-child(8) {
+    transform: scaleX(0.12);
+  }
+}
+
+.hero-sky[data-lite] .globe-meridian,
+.hero-sky[data-lite] .globe-orbits,
+.hero-sky[data-lite] .globe-node {
+  animation-play-state: paused;
+}

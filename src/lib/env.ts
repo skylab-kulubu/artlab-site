@@ -31,8 +31,9 @@ export const palettes: Record<EnvName, EnvPalette> = {
     win: "#DCE6F2", mark: "#3A2A0A", bird: "#14264A", hud: "#F2F6FB",
   },
   alacakaranlik: {
-    sky1: "#0B1524", sky2: "#112036", sky3: "#1C2D48", sky4: "#34405A", sky5: "#76606A", sky6: "#C98A5C",
-    sun: "#F5B82E", beam: "#F5B82E", far: "#34405A", farD: "#27314A", mid: "#1A2130", near: "#12161F",
+    // The poster's sunset: indigo overhead burning to orange at the skyline, the city dark against it
+    sky1: "#0C1222", sky2: "#161A33", sky3: "#2A2546", sky4: "#58324F", sky5: "#A9493A", sky6: "#E2763A",
+    sun: "#FFB547", beam: "#F5B82E", far: "#2B2235", farD: "#1F1A2B", mid: "#171624", near: "#11121B",
     win: "#F5B82E", mark: "#F5B82E66", bird: "#E9EDF2", hud: "#8A95A5",
   },
   gece: {

@@ -82,23 +82,54 @@ function wing(
   });
 }
 
-export const koza: Morph = {
-  name: "koza",
-  draw(g, cx, cy, { amber, cyan }) {
-    g.fillStyle = amber;
+// The poster's world: a globe of parallels and meridians with a network across its face,
+// circled by two tilted orbits. Amber lines and cyan nodes, as the dots read the colours.
+const NET: Pt[] = [[-52, -48], [-15, -74], [34, -50], [70, -5], [20, 18], [-42, 12], [-8, 68], [48, 58]];
+const NET_LINKS: [number, number][] = [[0, 1], [1, 2], [2, 3], [2, 4], [4, 5], [5, 0], [4, 6], [6, 7], [7, 3], [5, 6]];
+
+export const dunya: Morph = {
+  name: "dunya",
+  draw(g, cx, cy0, { amber, cyan }) {
+    // Raised a little, so the hills in front leave the whole globe in view
+    const cy = cy0 - 44;
+    const r = 100;
+    g.strokeStyle = amber;
+    g.lineWidth = 3.4;
     g.beginPath();
-    g.ellipse(cx, cy, 52, 100, 0, 0, Math.PI * 2);
-    g.fill();
-    g.globalCompositeOperation = "destination-out";
-    g.lineWidth = 6;
-    for (let k = -3; k <= 3; k++) {
+    g.arc(cx, cy, r, 0, Math.PI * 2);
+    g.stroke();
+    g.lineWidth = 2;
+    for (const k of [-0.66, -0.33, 0, 0.33, 0.66]) {
+      const half = Math.sqrt(1 - k * k) * r;
       g.beginPath();
-      g.ellipse(cx, cy + k * 26, 54, 11, 0, 0, Math.PI);
+      g.ellipse(cx, cy + k * r, half, half * 0.16, 0, 0, Math.PI * 2);
       g.stroke();
     }
-    g.globalCompositeOperation = "source-over";
+    for (const k of [0.2, 0.62]) {
+      g.beginPath();
+      g.ellipse(cx, cy, r * k, r, 0, 0, Math.PI * 2);
+      g.stroke();
+    }
+    g.lineWidth = 1.8;
+    for (const [a, b] of NET_LINKS) {
+      g.beginPath();
+      g.moveTo(cx + NET[a][0], cy + NET[a][1]);
+      g.lineTo(cx + NET[b][0], cy + NET[b][1]);
+      g.stroke();
+    }
+    g.strokeStyle = cyan;
+    g.lineWidth = 3;
+    for (const [rx, ry, turn] of [[178, 46, -0.3], [158, 38, 0.42]]) {
+      g.beginPath();
+      g.ellipse(cx, cy, rx, ry, turn, 0, Math.PI * 2);
+      g.stroke();
+    }
     g.fillStyle = cyan;
-    g.fillRect(cx - 2, cy - 136, 4, 36);
+    for (const [x, y] of NET) {
+      g.beginPath();
+      g.arc(cx + x, cy + y, 6, 0, Math.PI * 2);
+      g.fill();
+    }
   },
 };
 

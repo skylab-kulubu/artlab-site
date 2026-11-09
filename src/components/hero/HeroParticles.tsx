@@ -5,7 +5,11 @@ import { getTheme } from "@/themes";
 import { Diffusion, hud, sampleMorph, sampleWordmark, STEPS, type Palette, type Shape } from "./diffusion";
 import { EDGE_BAND, type SceneLayout } from "./layouts";
 
-const HAND = { x: 1044, y: 366 };
+// The tops of the mascot's two worlds, orange and blue; the dots that write the wordmark rise from them.
+const HANDS = [
+  { x: 896, y: 364, colour: 1 },
+  { x: 1064, y: 364, colour: 2 },
+] as const;
 const MORPH_CENTER = { x: 720, y: 360 };
 const FIRST_CYCLE_MS = 6000;
 const CYCLE_MS = 14000;
@@ -13,7 +17,7 @@ const HOLD_MS = [2400, 3200];
 const SPARKS = 18;
 const INTRO_LIFT_MS = 1100;
 
-type Spark = { t: number; life: number; tx: number; ty: number; wobble: number };
+type Spark = { t: number; life: number; tx: number; ty: number; wobble: number; hand: number };
 
 // The particles run from 768px up, the width the stage is shown from. Followed rather than read
 // once, so a page loaded narrow and then widened (Split View, a resized window) still hands the
@@ -95,15 +99,15 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
         tx: target.x[i],
         ty: target.y[i],
         wobble: Math.random() * Math.PI * 2,
+        hand: Math.random() < 0.5 ? 0 : 1,
       };
     };
 
-    // The robot's palm keeps sending a few dots up into the letters, so in
+    // The robot's two worlds keep sending a few dots up into the letters, so in
     // particle mode it reads as the one writing the wordmark.
     const drawSparks = (dt: number) => {
       if (!shapes.length || system?.shape !== "artlab") return;
       while (sparks.length < SPARKS) sparks.push({ ...spark(), t: -Math.random() * 2400 });
-      g.fillStyle = palette[1];
       for (const p of sparks) {
         p.t += dt;
         if (p.t < 0) continue;
@@ -113,8 +117,10 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
           continue;
         }
         const ease = k * k * (3 - 2 * k);
-        const x = HAND.x + (p.tx - HAND.x) * ease + Math.sin(p.wobble + k * 6) * 10 * (1 - k);
-        const y = HAND.y + (p.ty - HAND.y) * ease;
+        const from = HANDS[p.hand];
+        const x = from.x + (p.tx - from.x) * ease + Math.sin(p.wobble + k * 6) * 10 * (1 - k);
+        const y = from.y + (p.ty - from.y) * ease;
+        g.fillStyle = palette[from.colour];
         g.globalAlpha = Math.sin(Math.PI * k) * 0.9;
         g.beginPath();
         g.arc(map.ox + x * map.s, map.oy + y * map.s, 1.3 * map.s, 0, Math.PI * 2);
@@ -180,7 +186,7 @@ export function HeroParticles({ layout, themeId }: { layout: SceneLayout; themeI
       check();
     };
 
-    // ARTLAB → koza → kelebek → ARTLAB; resting is always the wordmark.
+    // ARTLAB → dünya → kelebek → ARTLAB; resting is always the wordmark.
     const cycle = () => {
       if (busy || !system) return;
       busy = true;
