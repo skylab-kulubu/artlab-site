@@ -34,26 +34,39 @@ function Logo({ sponsor, tier }: { sponsor: Sponsor; tier: SponsorTier }) {
     );
   }
 
+  if (sponsor.logoMono) {
+    return (
+      <span style={box} className="relative block">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={sponsor.logoMono.src}
+          alt={sponsor.name}
+          width={width}
+          height={height}
+          className="absolute inset-0 size-full object-contain transition-opacity duration-500 group-hover:opacity-0"
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={sponsor.logo.src}
+          alt=""
+          aria-hidden="true"
+          width={width}
+          height={height}
+          className="absolute inset-0 size-full object-contain opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        />
+      </span>
+    );
+  }
+
   return (
     <span style={box} className="relative block">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={(sponsor.logoMono ?? sponsor.logo).src}
+        src={sponsor.logo.src}
         alt={sponsor.name}
         width={width}
         height={height}
-        className={`absolute inset-0 size-full object-contain group-hover:opacity-0 ${
-          sponsor.logoMono ? "" : "brightness-0 invert"
-        }`}
-      />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={sponsor.logo.src}
-        alt=""
-        aria-hidden="true"
-        width={width}
-        height={height}
-        className="absolute inset-0 size-full object-contain opacity-0 group-hover:opacity-100"
+        className="size-full object-contain grayscale transition-[filter] duration-500 group-hover:grayscale-0"
       />
     </span>
   );
