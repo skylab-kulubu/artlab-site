@@ -85,7 +85,8 @@ const readBlocks = cache(async () => {
   try {
     const site = await getCmsSiteContent(cmsConfig);
     const all = [...(site.pages.find((p) => p.slug === "/")?.blocks ?? []), ...site.global.flatMap((g) => g.blocks)];
-    return new Map(all.map((b) => [b.blockPath, b.value as unknown]));
+    // The CMS stores block paths in lower case, while the fields are declared in camelCase
+    return new Map(all.map((b) => [b.blockPath.toLowerCase(), b.value as unknown]));
   } catch (error) {
     unstable_rethrow(error);
     console.error("[cms] site content could not be read", error);
@@ -95,7 +96,7 @@ const readBlocks = cache(async () => {
 
 export const getContent = cache(async () => {
   const blocks = await readBlocks();
-  const get = (path: string) => blocks.get(path);
+  const get = (path: string) => blocks.get(path.toLowerCase());
   const on = (path: string) => get(path) !== false;
 
   const startsAt = optional(get("edisyon.baslangic"));
@@ -147,6 +148,19 @@ export const getContent = cache(async () => {
       : [],
   );
 
+  // Editors write a speaker's kimlik or name; a name with no card yet is still shown as written
+  const fold = (s: string) => s.toLocaleLowerCase("tr-TR").replace(/\s+/g, " ").trim();
+  const whoSpeaks = (entries: string[]) => {
+    const speakerIds: string[] = [];
+    const guests: string[] = [];
+    for (const entry of entries) {
+      const match = speakers.find((s) => fold(s.id) === fold(entry) || fold(s.name) === fold(entry));
+      if (match) speakerIds.push(match.id);
+      else guests.push(entry);
+    }
+    return { speakerIds, guests };
+  };
+
   const kinds: SessionKind[] = ["acilis", "seminer", "panel", "workshop", "ara"];
   const sessions: Session[] = rows(get("program.oturumlar"))
     .flatMap((r, i): Session[] => {
@@ -164,7 +178,7 @@ export const getContent = cache(async () => {
           title: text(r.baslik),
           kind,
           room: optional(r.salon),
-          speakerIds: list(r.konusmacilar),
+          ...whoSpeaks(list(r.konusmacilar)),
           byline: optional(r.altSatir),
         },
       ];

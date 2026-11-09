@@ -98,7 +98,7 @@ function Tag({ session }: { session: Session }) {
   const label =
     session.kind === "ara"
       ? (session.room ?? kindLabel.ara)
-      : [kindLabel[session.kind], workshop && session.room].filter(Boolean).join(" · ");
+      : [kindLabel[session.kind], session.room].filter(Boolean).join(" · ");
   return (
     <span
       className={`cut px-3 py-[7px] text-[13px] ${
@@ -122,11 +122,12 @@ function Avatar({ speaker, live, stacked }: { speaker: Speaker; live: boolean; s
 
 function People({ session, speakers, live }: { session: Session; speakers: Speaker[]; live: boolean }) {
   const people = session.speakerIds.map((id) => speakers.find((s) => s.id === id)).filter((s) => s !== undefined);
+  const names = [...people.map((p) => p.name), ...session.guests];
   const line =
-    people.length === 1
+    people.length === 1 && session.guests.length === 0
       ? [people[0].name, people[0].company].filter(Boolean).join(" · ")
-      : people.length > 1
-        ? people.map((p) => p.name).join(", ")
+      : names.length > 0
+        ? names.join(", ")
         : session.byline;
 
   if (!line) return <span className="text-ink-3 max-lg:hidden">—</span>;
@@ -174,6 +175,7 @@ export function SessionList({ speakers }: { speakers: Speaker[] }) {
                 }`}
               >
                 {formatTime(s.startsAt)}
+                <span className="font-normal text-ink-2">–{formatTime(s.endsAt)}</span>
               </span>
               <span
                 className={`order-3 col-span-2 text-lg lg:order-none lg:col-span-1 ${live ? "font-semibold" : ""} ${

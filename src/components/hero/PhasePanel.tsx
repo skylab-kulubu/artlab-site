@@ -21,7 +21,8 @@ function byline(session: Session, speakers: Speaker[]) {
   const names = session.speakerIds
     .map((id) => speakers.find((s) => s.id === id))
     .filter((s) => s !== undefined)
-    .map((s) => (s.company ? `${s.name} · ${s.company}` : s.name));
+    .map((s) => (s.company ? `${s.name} · ${s.company}` : s.name))
+    .concat(session.guests);
   return names.length ? names.join(", ") : session.byline;
 }
 

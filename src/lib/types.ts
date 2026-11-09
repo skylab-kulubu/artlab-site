@@ -38,6 +38,8 @@ export type Session = {
   kind: SessionKind;
   room?: string;
   speakerIds: string[];
+  /** Speakers named in the programme who have no card on the page. */
+  guests: string[];
   byline?: string;
 };
 
