@@ -44,13 +44,13 @@ export function SpeakerCard({ speaker, n, session, multiDay }: Props) {
   return (
     <Chamfer className="group" innerClassName="flex flex-col">
       <article className="flex h-full flex-col">
-        <div className="relative aspect-4/5 overflow-hidden bg-amber">
+        <div className="relative aspect-4/5 overflow-hidden bg-surface">
           {speaker.photo ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={speaker.photo.src}
               alt={speaker.photo.alt || speaker.name}
-              className="size-full object-cover mix-blend-multiply grayscale transition duration-500 group-hover:mix-blend-normal group-hover:grayscale-0"
+              className="size-full object-cover grayscale transition-[filter] duration-500 group-hover:grayscale-0"
             />
           ) : (
             <div className="absolute inset-0 bg-bg/85">

@@ -42,7 +42,7 @@ function Logo({ sponsor, tier }: { sponsor: Sponsor; tier: SponsorTier }) {
         alt={sponsor.name}
         width={width}
         height={height}
-        className={`absolute inset-0 size-full object-contain transition-opacity duration-300 group-hover:opacity-0 ${
+        className={`absolute inset-0 size-full object-contain group-hover:opacity-0 ${
           sponsor.logoMono ? "" : "brightness-0 invert"
         }`}
       />
@@ -53,7 +53,7 @@ function Logo({ sponsor, tier }: { sponsor: Sponsor; tier: SponsorTier }) {
         aria-hidden="true"
         width={width}
         height={height}
-        className="absolute inset-0 size-full object-contain opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        className="absolute inset-0 size-full object-contain opacity-0 group-hover:opacity-100"
       />
     </span>
   );
