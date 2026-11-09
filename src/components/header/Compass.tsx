@@ -38,7 +38,7 @@ export function Compass() {
             href={`#${s.id}`}
             aria-current={offset === 0 ? "location" : undefined}
             tabIndex={distance > 2 ? -1 : undefined}
-            className={`absolute top-0.5 -translate-x-1/2 transition-[left,opacity,color] duration-500 ease-out ${labelClass} ${
+            className={`absolute top-0.5 whitespace-nowrap -translate-x-1/2 transition-[left,opacity,color] duration-500 ease-out ${labelClass} ${
               offset === 0 ? "font-bold text-cyan hover:text-cyan" : "text-ink hover:text-cyan"
             } ${distance > 2 ? "pointer-events-none" : ""}`}
             style={{
