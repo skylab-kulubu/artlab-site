@@ -123,12 +123,13 @@ function Avatar({ speaker, live, stacked }: { speaker: Speaker; live: boolean; s
 function People({ session, speakers, live }: { session: Session; speakers: Speaker[]; live: boolean }) {
   const people = session.speakerIds.map((id) => speakers.find((s) => s.id === id)).filter((s) => s !== undefined);
   const names = [...people.map((p) => p.name), ...session.guests];
-  const line =
+  const who =
     people.length === 1 && session.guests.length === 0
       ? [people[0].name, people[0].company].filter(Boolean).join(" · ")
-      : names.length > 0
-        ? names.join(", ")
-        : session.byline;
+      : names.join(", ");
+  // The byline sits under the speakers, or stands alone when there are none
+  const line = who || session.byline;
+  const sub = who ? session.byline : undefined;
 
   if (!line) return <span className="text-ink-3 max-lg:hidden">—</span>;
 
@@ -141,7 +142,10 @@ function People({ session, speakers, live }: { session: Session; speakers: Speak
           ))}
         </span>
       )}
-      <span className="truncate">{line}</span>
+      <span className="flex min-w-0 flex-col">
+        <span className="truncate">{line}</span>
+        {sub && <span className="truncate text-[13px] text-ink-2">{sub}</span>}
+      </span>
     </span>
   );
 }
