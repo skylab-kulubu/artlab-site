@@ -7,7 +7,7 @@ import { VenueMap } from "@/components/map/VenueMap";
 import { sectionArt, type Theme } from "@/themes";
 import { EditableRegion } from "inscribed";
 import { venueLabel } from "@/lib/site";
-import { MAPPED_VENUE } from "@/components/map/route";
+import { DEFAULT_ROUTE } from "@/components/map/route";
 
 function Toggle() {
   return (
@@ -108,7 +108,7 @@ export function Faq({ content, theme }: { content: Content; theme: Theme }) {
         </Chamfer>
       </div>
       <Chamfer id="konum" className="reveal mt-12 scroll-mt-24 lg:mt-16">
-        <VenueMap venue={venue.name || MAPPED_VENUE} place={venueLabel(venue, " Kampüsü")} directions={directions} />
+        <VenueMap venue={venue.name || DEFAULT_ROUTE.venue} place={venueLabel(venue, " Kampüsü")} directions={directions} />
       </Chamfer>
     </Section>
   );

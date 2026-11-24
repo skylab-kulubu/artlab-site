@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 import { MapChrome } from "./MapChrome";
-import { clampView, Diamond, FULL, MapStack, PinGlyph, type View } from "./MapStack";
-import { MAP_H, MAP_W, steps } from "./route";
+import { clampView, Diamond, MapStack, PinGlyph, type View } from "./MapStack";
+import { MAP_H, MAP_W, routeFor, type Route } from "./route";
 import { WIDE_METERS_PER_UNIT, WIDE_NORTH, WIDE_W, WideMap } from "./WideMap";
 
 function LegSample({ kind }: { kind: "walk" | "ride" }) {
@@ -41,8 +41,9 @@ function IconButton({ label, onClick, children }: { label: string; onClick: () =
   );
 }
 
-function Frame({ venue }: { venue: string }) {
-  const [view, setView] = useState<View>(FULL);
+function Frame({ venue, route }: { venue: string; route: Route }) {
+  const { steps } = route;
+  const [view, setView] = useState<View>(route.overview);
   const [active, setActive] = useState<number | null>(null);
   const [dragging, setDragging] = useState(false);
   const frame = useRef<HTMLDivElement>(null);
@@ -50,7 +51,7 @@ function Frame({ venue }: { venue: string }) {
 
   const pick = (i: number | null) => {
     setActive(i);
-    setView(i === null ? FULL : steps[i].focus);
+    setView(i === null ? route.overview : steps[i].focus);
   };
   const zoom = (by: number) => setView((v) => clampView({ ...v, scale: v.scale * by }));
 
@@ -107,7 +108,7 @@ function Frame({ venue }: { venue: string }) {
             view.scale > 1 ? (dragging ? "cursor-grabbing touch-none" : "cursor-grab touch-none") : ""
           }`}
         >
-          <MapStack view={view} active={active} dragging={dragging} onStep={pick} venue={venue} />
+          <MapStack route={route} view={view} active={active} dragging={dragging} onStep={pick} venue={venue} />
           <MapChrome scale={clampView(view).scale} />
         </div>
         <div className="absolute top-3 right-3 flex flex-col gap-1.5">
@@ -117,7 +118,7 @@ function Frame({ venue }: { venue: string }) {
           <IconButton label="Uzaklaştır" onClick={() => zoom(1 / 1.5)}>
             <path d="M2 7 H12" />
           </IconButton>
-          <IconButton label="Tüm haritayı göster" onClick={() => pick(null)}>
+          <IconButton label="Tüm rotayı göster" onClick={() => pick(null)}>
             <path d="M1.5 5 V1.5 H5 M9 1.5 H12.5 V5 M12.5 9 V12.5 H9 M5 12.5 H1.5 V9" />
           </IconButton>
         </div>
@@ -161,6 +162,8 @@ function Frame({ venue }: { venue: string }) {
 type Props = { venue: string; place: string; directions: string };
 
 export function VenueMap({ venue, place, directions }: Props) {
+  const route = routeFor(venue);
+  const { steps } = route;
   const dialog = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
 
@@ -183,16 +186,22 @@ export function VenueMap({ venue, place, directions }: Props) {
               tablets, the horizontal one from lg up. The frames are shaped so that covering
               never crops the route itself. */}
           <span className="absolute inset-x-0 top-1/2 block aspect-[1200/1023] -translate-y-[52.1%] lg:hidden">
-            <MapStack venue={venue} />
+            <MapStack route={route} venue={venue} view={route.overview} />
           </span>
           <span className="lg:hidden">
-            <MapChrome />
+            <MapChrome scale={clampView(route.overview).scale} />
           </span>
           <span className="max-lg:hidden">
             <span className="absolute top-1/2 left-1/2 block aspect-[1360/500] w-[max(100cqw,100cqh*1360/469)] -translate-x-1/2 -translate-y-[47%]">
-              <WideMap />
+              <WideMap route={route} />
             </span>
-            <MapChrome units={WIDE_W} coverUnits={469} metersPerUnit={WIDE_METERS_PER_UNIT} north={WIDE_NORTH} />
+            <MapChrome
+              scale={Math.max(route.wide.view.scale, 1)}
+              units={WIDE_W}
+              coverUnits={469}
+              metersPerUnit={WIDE_METERS_PER_UNIT}
+              north={WIDE_NORTH}
+            />
           </span>
           <span className="absolute top-3 right-3 grid size-10 place-items-center border border-line bg-bg-deep/90 text-ink transition-colors group-hover/map:border-cyan">
             <svg
@@ -249,7 +258,7 @@ export function VenueMap({ venue, place, directions }: Props) {
 
       <dialog
         ref={dialog}
-        aria-label="Metrodan Tarihi Hamam'a yol tarifi"
+        aria-label={`Metrodan ${venue} için yol tarifi`}
         onClose={() => setOpen(false)}
         onClick={(e) => e.target === e.currentTarget && dialog.current?.close()}
         className="m-auto max-h-dvh w-full max-w-none bg-bg p-0 text-ink backdrop:bg-bg-deep/85 backdrop:backdrop-blur-sm max-lg:h-dvh lg:max-h-[calc(100dvh-2rem)] lg:w-[min(1280px,94vw)] lg:border lg:border-line"
@@ -257,8 +266,8 @@ export function VenueMap({ venue, place, directions }: Props) {
         <div className="p-4 lg:p-7">
           <div className="flex items-start justify-between gap-4 pb-4">
             <div className="flex flex-col gap-1">
-              <span className="text-[11px] font-bold tracking-[0.18em] text-amber">ULAŞIM</span>
-              <span className="font-display text-xl font-semibold lg:text-2xl">Metrodan {venue}&apos;a</span>
+              <span className="text-[11px] font-bold tracking-[0.18em] text-amber">METRODAN ULAŞIM</span>
+              <span className="font-display text-xl font-semibold lg:text-2xl">{venue}</span>
             </div>
             <div className="flex items-center gap-4">
               <a
@@ -288,7 +297,7 @@ export function VenueMap({ venue, place, directions }: Props) {
               </button>
             </div>
           </div>
-          {open && <Frame venue={venue} />}
+          {open && <Frame venue={venue} route={route} />}
           <a
             href={directions}
             target="_blank"

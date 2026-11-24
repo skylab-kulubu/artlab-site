@@ -15,7 +15,7 @@ import { PhaseButton } from "./PhaseButton";
 import { PhasePanel, PhaseStrip } from "./PhasePanel";
 import "./hero.css";
 import { EditableRegion } from "inscribed";
-import { MAPPED_VENUE } from "@/components/map/route";
+import { DEFAULT_ROUTE } from "@/components/map/route";
 
 function CalendarIcon() {
   return (
@@ -110,7 +110,7 @@ export function Hero({ content, theme }: Props) {
         </div>
 
         <div className="enter absolute right-20 bottom-16 hidden lg:block" style={order(7)}>
-          <MiniMap venue={venue.name || MAPPED_VENUE} />
+          <MiniMap venue={venue.name || DEFAULT_ROUTE.venue} />
         </div>
 
         <a
