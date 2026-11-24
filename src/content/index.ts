@@ -17,7 +17,9 @@ import type {
   Sponsor,
   SponsorTier,
 } from "@/lib/types";
-import { routeFor } from "@/components/map/route";
+
+// The venue's position is part of the map, which stays in code.
+const VENUE_POSITION = { lat: 41.0275, lng: 28.89 };
 
 // Used while destekciler.kademeler is empty or cannot be read; the ids match the seed.
 const DEFAULT_SPONSOR_TIERS: SponsorTier[] = [
@@ -108,10 +110,9 @@ export const getContent = cache(async () => {
     endsAt,
     venue: {
       name: text(get("mekan.ad")),
-      // The position is part of the map, which stays in code and follows the venue's name.
-      ...routeFor(text(get("mekan.ad"))).position,
       campus: text(get("mekan.kampus")),
       area: text(get("mekan.semt")),
+      ...VENUE_POSITION,
       mapUrl: optional(get("mekan.haritaBaglantisi")),
       transport: [],
     },

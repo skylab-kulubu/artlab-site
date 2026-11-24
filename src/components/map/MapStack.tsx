@@ -1,8 +1,8 @@
 import type { CSSProperties } from "react";
-import { MAP_H, MAP_W, metro, type Route, type View } from "./route";
+import { hamam, legs, MAP_H, MAP_W, metro, pin, ringStops, steps, type Leg } from "./route";
 import "./map.css";
 
-export type { View };
+export type View = { x: number; y: number; scale: number };
 
 export const FULL: View = { x: MAP_W / 2, y: MAP_H / 2, scale: 1 };
 
@@ -65,7 +65,6 @@ export function PinGlyph({ className }: { className?: string }) {
 }
 
 type Props = {
-  route: Route;
   view?: View;
   active?: number | null;
   dragging?: boolean;
@@ -74,12 +73,9 @@ type Props = {
   venue: string;
 };
 
-export function MapStack({ route, view = FULL, active = null, dragging, onStep, steps: numbered = true, venue }: Props) {
-  const { steps } = route;
-  const focusLeg = active === null ? null : steps[active].leg;
-  const dim = (leg: string) => focusLeg !== null && focusLeg !== leg;
-  // The building stays lit along the walk that ends at it.
-  const lastLeg = route.lines[route.lines.length - 1].id;
+export function MapStack({ view = FULL, active = null, dragging, onStep, steps: numbered = true, venue }: Props) {
+  const focusLeg: Leg | null = active === null ? null : steps[active].leg;
+  const dim = (leg: Leg) => focusLeg !== null && focusLeg !== leg;
   const Marker = onStep ? "button" : "span";
 
   return (
@@ -95,37 +91,28 @@ export function MapStack({ route, view = FULL, active = null, dragging, onStep, 
       />
       <svg viewBox={`0 0 ${MAP_W} ${MAP_H}`} aria-hidden="true" className="absolute inset-0 size-full" fill="none">
         <g stroke="var(--color-amber)" strokeLinecap="round" strokeLinejoin="round">
-          {route.lines
-            .filter((l) => l.kind === "ride")
-            .map((l) => (
-              <g key={l.id}>
-                <path
-                  d={l.d}
-                  className="map-line"
-                  style={{
-                    ...line(9, dim(l.id)),
-                    opacity: dim(l.id) ? 0.06 : 0.18,
-                  }}
-                />
-                <path d={l.d} className="map-line" style={line(4.5, dim(l.id))} />
-              </g>
-            ))}
           <path
-            d={route.building}
+            d={legs.ring}
+            className="map-line"
+            style={{
+              ...line(9, dim("ring")),
+              opacity: dim("ring") ? 0.06 : 0.18,
+            }}
+          />
+          <path d={legs.ring} className="map-line" style={line(4.5, dim("ring"))} />
+          <path
+            d={hamam}
             className="map-line"
             fill="var(--color-amber)"
             fillOpacity="0.35"
-            style={line(2, dim("building") && dim(lastLeg))}
+            style={line(2, dim("hamam") && dim("hamamWalk"))}
           />
         </g>
         <g stroke="var(--color-cyan)" strokeLinecap="round" strokeLinejoin="round">
-          {route.lines
-            .filter((l) => l.kind === "walk")
-            .map((l) => (
-              <path key={l.id} d={l.d} className="map-line map-dots" style={line(3.6, dim(l.id))} />
-            ))}
+          <path d={legs.metroWalk} className="map-line map-dots" style={line(3.6, dim("metroWalk"))} />
+          <path d={legs.hamamWalk} className="map-line map-dots" style={line(3.6, dim("hamamWalk"))} />
         </g>
-        {route.stops.map(({ at: [x, y] }) => (
+        {ringStops.map(({ at: [x, y] }) => (
           <circle
             key={x}
             cx={x}
@@ -139,7 +126,7 @@ export function MapStack({ route, view = FULL, active = null, dragging, onStep, 
         ))}
       </svg>
 
-      {route.stops.map(({ name, at: point }) => (
+      {ringStops.map(({ name, at: point }) => (
         <span key={name} className="map-marker absolute size-0" style={at(point)}>
           <span
             className="absolute top-[9px] -translate-x-1/2 bg-bg-deep/88 px-1.5 py-0.5 text-[10px] font-medium whitespace-nowrap text-ink-2 transition-opacity"
@@ -154,7 +141,7 @@ export function MapStack({ route, view = FULL, active = null, dragging, onStep, 
           M
         </span>
       </span>
-      <span className="map-marker absolute size-0" style={at(route.pin)}>
+      <span className="map-marker absolute size-0" style={at(pin)}>
         <PinGlyph className="absolute -top-[36px] -left-3 drop-shadow-[0_2px_4px_rgb(0_0_0/0.5)]" />
         <span className="absolute -top-[31px] left-[18px] bg-bg-deep/90 px-2 py-1 text-[12px] font-bold whitespace-nowrap text-ink">
           {venue}
@@ -162,7 +149,7 @@ export function MapStack({ route, view = FULL, active = null, dragging, onStep, 
       </span>
       {numbered &&
         steps.map((step, i) => {
-          // The metro and the venue already have their own glyph, so their numbers sit beside it.
+          // Metro and hamam already have their own glyph, so their numbers sit beside it.
           const offset = i === 0 ? [-30, -20] : i === steps.length - 1 ? [-28, -22] : [0, 0];
           return (
             <span key={step.title} className="map-marker absolute size-0" style={at(step.at)}>

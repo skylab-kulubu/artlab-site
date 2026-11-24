@@ -32,13 +32,13 @@ function Settings() {
   useCmsBlock("bolumler.destekciler", { blockType: "Bool", defaultValue: true });
   useCmsBlock("bolumler.sss", { blockType: "Bool", defaultValue: true });
 
-  useCmsBlock("mekan.ad", { blockType: "ShortText", defaultValue: "Kongre Merkezi" });
+  useCmsBlock("mekan.ad", { blockType: "ShortText", defaultValue: "Tarihi Hamam" });
   useCmsBlock("mekan.kampus", { blockType: "ShortText", defaultValue: "YTÜ Davutpaşa" });
   useCmsBlock("mekan.semt", { blockType: "ShortText", defaultValue: "Davutpaşa" });
   useCmsBlock("mekan.haritaBaglantisi", {
     blockType: "Url",
     defaultValue:
-      "https://www.google.com/maps/place/Y%C4%B1ld%C4%B1z+Teknik+%C3%9Cniversitesi,+Davutpa%C5%9Fa+Kongre+Merkezi/@41.0234099,28.895162,18z/data=!4m6!3m5!1s0x14cabafb3b428da7:0x5b363b390761b4b0!8m2!3d41.023318!4d28.8956685!16s%2Fg%2F11cp5r8jnz",
+      "https://www.google.com/maps/place/Y%C4%B1ld%C4%B1z+Teknik+%C3%9Cniversitesi+Tarihi+Hamam/@41.0276248,28.8875133,18z/data=!4m6!3m5!1s0x14cabb133f838f69:0xcb444d1e45bc3b33!8m2!3d41.0275075!4d28.8899995!16s%2Fg%2F11r_tg6rcf",
   });
 
   useCmsBlock("iletisim.eposta", { blockType: "ShortText", defaultValue: "info@yildizskylab.com" });
