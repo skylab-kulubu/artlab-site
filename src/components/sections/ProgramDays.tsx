@@ -114,7 +114,7 @@ function Avatar({ speaker, live, stacked }: { speaker: Speaker; live: boolean; s
   const className = `size-8 shrink-0 rounded-full border ${live ? "border-amber" : "border-amber/40"} ${stacked ? "-ml-2.5" : ""}`;
   return speaker.photo ? (
     // eslint-disable-next-line @next/next/no-img-element
-    <img src={speaker.photo.src} alt="" className={`${className} object-cover grayscale`} />
+    <img src={speaker.photo.src} alt="" className={`${className} object-cover pointer-fine:grayscale`} />
   ) : (
     <span className={`${className} bg-amber/12`} />
   );

@@ -50,7 +50,7 @@ export function SpeakerCard({ speaker, n, session, multiDay }: Props) {
             <img
               src={speaker.photo.src}
               alt={speaker.photo.alt || speaker.name}
-              className="size-full object-cover grayscale transition-[filter] duration-500 group-hover:grayscale-0"
+              className="size-full object-cover transition-[filter] duration-500 pointer-fine:grayscale pointer-fine:group-hover:grayscale-0"
             />
           ) : (
             <div className="absolute inset-0 bg-bg/85">

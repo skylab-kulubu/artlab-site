@@ -45,7 +45,7 @@ function Logo({ sponsor, tier }: { sponsor: Sponsor; tier: SponsorTier }) {
           crop={sponsor.monoCrop}
           ratio={sponsor.monoRatio ?? sponsor.ratio}
           boxRatio={sponsor.ratio}
-          className="transition-opacity duration-500 group-hover:opacity-0"
+          className="transition-opacity duration-500 group-hover:opacity-0 pointer-coarse:opacity-0"
         />
         <Shown
           src={sponsor.logo.src}
@@ -53,7 +53,7 @@ function Logo({ sponsor, tier }: { sponsor: Sponsor; tier: SponsorTier }) {
           crop={sponsor.crop}
           ratio={sponsor.ratio}
           boxRatio={sponsor.ratio}
-          className="opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          className="opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-coarse:opacity-100"
         />
       </span>
     );
@@ -67,7 +67,7 @@ function Logo({ sponsor, tier }: { sponsor: Sponsor; tier: SponsorTier }) {
         crop={sponsor.crop}
         ratio={sponsor.ratio}
         boxRatio={sponsor.ratio}
-        className="grayscale transition-[filter] duration-500 group-hover:grayscale-0"
+        className="transition-[filter] duration-500 pointer-fine:grayscale pointer-fine:group-hover:grayscale-0"
       />
     </span>
   );
