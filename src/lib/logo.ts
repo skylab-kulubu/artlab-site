@@ -1,9 +1,9 @@
 import type { SponsorTier } from "./types";
 
 export const tierSlot: Record<SponsorTier["size"], { area: number; maxW: number; maxH: number }> = {
-  lg: { area: 150 ** 2, maxW: 300, maxH: 130 },
-  md: { area: 95 ** 2, maxW: 220, maxH: 80 },
-  sm: { area: 66 ** 2, maxW: 150, maxH: 58 },
+  lg: { area: 230 ** 2, maxW: 460, maxH: 160 },
+  md: { area: 125 ** 2, maxW: 250, maxH: 90 },
+  sm: { area: 90 ** 2, maxW: 200, maxH: 66 },
 };
 
 // Sizes a logo by the area it covers rather than its width, so square marks and long wordmarks weigh the same in a tier.

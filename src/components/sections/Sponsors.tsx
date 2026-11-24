@@ -11,7 +11,7 @@ import { EditableRegion } from "inscribed";
 const cells: Record<SponsorTier["size"], string> = {
   lg: "basis-full md:basis-[calc(50%-1px)] h-[200px] md:h-[270px]",
   // On phones the small cells leave the tier label room above the logo, in every cell so a row stays level.
-  md: "basis-[calc(50%-1px)] lg:basis-[calc(25%-1px)] h-[130px] md:h-[170px] max-md:pt-6",
+  md: "basis-[calc(50%-1px)] lg:basis-[calc(20%-1px)] h-[130px] md:h-[170px] max-md:pt-6",
   sm: "basis-[calc(33.333%-1px)] lg:basis-[calc(16.666%-1px)] h-[100px] md:h-[124px] max-md:pt-6",
 };
 
