@@ -2,6 +2,8 @@ import type { Content } from "@/content";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { logoSize, tierSlot } from "@/lib/logo";
+import type { CSSProperties } from "react";
+import type { Crop } from "@/lib/image-ratio";
 import type { Sponsor, SponsorTier } from "@/lib/types";
 import { sectionArt, type Theme } from "@/themes";
 import { EditableRegion } from "inscribed";
@@ -20,7 +22,7 @@ const labels: Record<SponsorTier["size"], string> = {
 };
 
 function Logo({ sponsor, tier }: { sponsor: Sponsor; tier: SponsorTier }) {
-  const { width, height } = logoSize(sponsor.ratio, tierSlot[tier.size], sponsor.scale);
+  const { width } = logoSize(sponsor.ratio, tierSlot[tier.size], sponsor.scale);
   const box = { width, maxWidth: "85%", aspectRatio: sponsor.ratio };
 
   if (!sponsor.logo) {
@@ -37,22 +39,21 @@ function Logo({ sponsor, tier }: { sponsor: Sponsor; tier: SponsorTier }) {
   if (sponsor.logoMono) {
     return (
       <span style={box} className="relative block">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Shown
           src={sponsor.logoMono.src}
           alt={sponsor.name}
-          width={width}
-          height={height}
-          className="absolute inset-0 size-full object-contain transition-opacity duration-500 group-hover:opacity-0"
+          crop={sponsor.monoCrop}
+          ratio={sponsor.monoRatio ?? sponsor.ratio}
+          boxRatio={sponsor.ratio}
+          className="transition-opacity duration-500 group-hover:opacity-0"
         />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Shown
           src={sponsor.logo.src}
           alt=""
-          aria-hidden="true"
-          width={width}
-          height={height}
-          className="absolute inset-0 size-full object-contain opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          crop={sponsor.crop}
+          ratio={sponsor.ratio}
+          boxRatio={sponsor.ratio}
+          className="opacity-0 transition-opacity duration-500 group-hover:opacity-100"
         />
       </span>
     );
@@ -60,14 +61,49 @@ function Logo({ sponsor, tier }: { sponsor: Sponsor; tier: SponsorTier }) {
 
   return (
     <span style={box} className="relative block">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Shown
         src={sponsor.logo.src}
         alt={sponsor.name}
-        width={width}
-        height={height}
-        className="size-full object-contain grayscale transition-[filter] duration-500 group-hover:grayscale-0"
+        crop={sponsor.crop}
+        ratio={sponsor.ratio}
+        boxRatio={sponsor.ratio}
+        className="grayscale transition-[filter] duration-500 group-hover:grayscale-0"
       />
+    </span>
+  );
+}
+
+// An image fitted inside its box by the part that shows: a frame of that part's ratio is centred
+// in the box, and the image inside it is scaled and shifted so its transparent margins fall outside.
+function Shown({
+  src,
+  alt,
+  crop,
+  ratio,
+  boxRatio,
+  className,
+}: {
+  src: string;
+  alt: string;
+  crop?: Crop;
+  ratio: number;
+  boxRatio: number;
+  className?: string;
+}) {
+  const frame: CSSProperties = ratio >= boxRatio ? { width: "100%", aspectRatio: ratio } : { height: "100%", aspectRatio: ratio };
+  const image: CSSProperties = crop
+    ? {
+        width: `${100 / crop.w}%`,
+        height: `${100 / crop.h}%`,
+        left: `${(-crop.x / crop.w) * 100}%`,
+        top: `${(-crop.y / crop.h) * 100}%`,
+        maxWidth: "none",
+      }
+    : { inset: 0, width: "100%", height: "100%" };
+  return (
+    <span style={frame} className={`absolute inset-0 m-auto block overflow-hidden ${className ?? ""}`}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt={alt} style={image} className="absolute object-contain" />
     </span>
   );
 }

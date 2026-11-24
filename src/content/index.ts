@@ -2,7 +2,7 @@ import { cache } from "react";
 import { unstable_rethrow } from "next/navigation";
 import { getCmsSiteContent } from "inscribed/server";
 import { cmsConfig } from "@/lib/cms-config";
-import { imageRatio } from "@/lib/image-ratio";
+import { imageBox } from "@/lib/image-ratio";
 import type {
   Asset,
   Condition,
@@ -195,13 +195,18 @@ export const getContent = cache(async () => {
         const tierId = tierOf(text(r.kademe));
         if (!text(r.ad)) return null;
         const logo = image(r.logo);
+        const logoMono = image(r.tekRenkLogo);
+        const [box, monoBox] = await Promise.all([logo && imageBox(logo.src), logoMono && imageBox(logoMono.src)]);
         return {
           id: text(r.kimlik) || `d${i + 1}`,
           name: text(r.ad),
           tierId,
           logo,
-          logoMono: image(r.tekRenkLogo),
-          ratio: (logo && (await imageRatio(logo.src))) ?? 2,
+          logoMono,
+          ratio: box?.ratio ?? 2,
+          crop: box?.crop,
+          monoCrop: monoBox?.crop,
+          monoRatio: monoBox?.ratio,
           url: optional(r.baglanti),
           foyerNote: optional(r.fuayeNotu),
         };

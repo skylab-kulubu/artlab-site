@@ -1,3 +1,5 @@
+import type { Crop } from "./image-ratio";
+
 export type Asset = {
   src: string;
   alt: string;
@@ -67,7 +69,11 @@ export type Sponsor = {
   tierId: string;
   logo?: Asset;
   logoMono?: Asset;
+  // The ratio and margins of what the logo shows, its transparent margins left out.
   ratio: number;
+  crop?: Crop;
+  monoCrop?: Crop;
+  monoRatio?: number;
   scale?: number;
   foyerNote?: string;
   url?: string;
