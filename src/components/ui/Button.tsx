@@ -15,13 +15,18 @@ const sizes: Record<Size, string> = {
 
 type Props = ComponentProps<"a"> & { variant?: Variant; size?: Size };
 
+// The look alone, for a <button> that should read as one of these (an error page's "Yeniden dene").
+export function buttonClass(variant: Variant = "primary", size: Size = "md", className = "") {
+  return `inline-flex items-center justify-center gap-2.5 whitespace-nowrap transition-[color,background-color,border-color,filter,translate] active:translate-y-px ${variants[variant]} ${sizes[size]} ${className}`;
+}
+
 export function Button({ variant = "primary", size = "md", className = "", ...props }: Props) {
   const external = props.href?.startsWith("http");
   return (
     <a
       {...(external && { target: "_blank", rel: "noopener noreferrer" })}
       {...props}
-      className={`inline-flex items-center justify-center gap-2.5 whitespace-nowrap transition-[color,background-color,border-color,filter,translate] active:translate-y-px ${variants[variant]} ${sizes[size]} ${className}`}
+      className={buttonClass(variant, size, className)}
     />
   );
 }
