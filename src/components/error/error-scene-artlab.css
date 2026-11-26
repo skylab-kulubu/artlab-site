@@ -1,0 +1,22 @@
+/*
+ * The error scenes in ARTLAB's poster palette (the ticket and the e-mails use it too):
+ * the dark blue ground, orange and blue. The page takes the ground, and the scenes fill
+ * their shapes with it so the lines behind them stay hidden.
+ */
+.artlab-error {
+  --artlab-ground: #0a1222;
+  --artlab-orange: #ff8a1f;
+  --artlab-blue: #3aa0ff;
+  --skylcn-scene-backdrop: var(--artlab-ground);
+  background-color: var(--artlab-ground);
+}
+
+.artlab-error .skylcn-scene {
+  --skylcn-scene-ink: var(--ink);
+  --skylcn-scene-soft: var(--ink-2);
+  --skylcn-scene-faint: var(--ink-3);
+  --skylcn-scene-brand: var(--artlab-orange);
+  --skylcn-scene-on-brand: var(--artlab-ground);
+  --skylcn-scene-warm: var(--artlab-orange);
+  --skylcn-scene-cool: var(--artlab-blue);
+}
